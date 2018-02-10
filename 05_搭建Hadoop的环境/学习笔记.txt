@@ -1,0 +1,120 @@
+
+
+第五课：搭建Hadoop的环境
+
+	准备实验的环境：
+	1、安装Linux、JDK
+	2、配置主机名、免密码登录
+	3、约定：安装目录：/root/training
+
+	安装：
+	1、解压 : tar -zxvf hadoop-2.4.1.tar.gz -C /root/training/
+	2、设置环境变量： vi ~/.bash_profile
+			HADOOP_HOME=/root/training/hadoop-2.4.1
+			export HADOOP_HOME
+
+			PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
+			export PATH
+			
+		生效环境变量： source ~/.bash_profile
+	
+	
+	第一节：Hadoop的目录结构
+
+	第二节：Hadoop的本地模式
+		1、特点：不具备HDFS，只能测试MapReduce程序
+		2、修改hadoop-env.sh
+		
+		   修改第27行：export JAVA_HOME=/root/training/jdk1.7.0_75
+		   
+		3、演示Demo: $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.4.1.jar
+			命令：hadoop jar hadoop-mapreduce-examples-2.4.1.jar wordcount /root/data/input/data.txt  /root/data/output/wc
+			日志：17/08/04 23:28:38 INFO mapreduce.Job:  map 100% reduce 100%
+		
+			注意：MR有一个默认的排序规则
+
+	第三节：Hadoop的伪分布模式
+		1、特点：具备Hadoop的所有功能，在单机上模拟一个分布式的环境
+		         （1）HDFS：主：NameNode，数据节点：DataNode
+				 （2）Yarn：容器，运行MapReduce程序
+				            主节点：ResourceManager
+							从节点：NodeManager
+							
+		2、步骤：
+		（1）hdfs-site.xml
+			<!--配置HDFS的冗余度-->
+			<property>
+			  <name>dfs.replication</name>
+			  <value>1</value>
+			</property>
+
+			<!--配置是否检查权限-->
+			<property>
+			  <name>dfs.permissions</name>
+			  <value>false</value>
+			</property>	
+
+		（2）core-site.xml
+			<!--配置HDFS的NameNode-->
+			<property>
+			  <name>fs.defaultFS</name>
+			  <value>hdfs://192.168.88.11:9000</value>
+			</property>
+
+			<!--配置DataNode保存数据的位置-->
+			<property>
+			  <name>hadoop.tmp.dir</name>
+			  <value>/root/training/hadoop-2.4.1/tmp</value>
+			</property>		
+			
+			
+		(3) mapred-site.xml
+			<!--配置MR运行的框架-->
+			<property>
+			  <name>mapreduce.framework.name</name>
+			  <value>yarn</value>
+			</property>		
+			
+		(4) yarn-site.xml
+			<!--配置ResourceManager的地址-->
+			<property>
+			  <name>yarn.resourcemanager.hostname</name>
+			  <value>192.168.88.11</value>
+			</property>
+
+			<!--配置NodeManager执行任务的方式-->
+			<property>
+			  <name>yarn.nodemanager.aux-services</name>
+			  <value>mapreduce_shuffle</value>
+			</property>		
+			
+		(5) 格式化NameNode
+		    hdfs namenode -format
+			日志：Storage directory /root/training/hadoop-2.4.1/tmp/dfs/name has been successfully formatted.
+			
+			
+		(6) 启动：start-all.sh
+		           (*) HDFS: 存储数据
+				   (*) Yarn：执行计算
+				   
+		(7) 访问：（*）命令行
+		          （*）Java API
+				  （*）Web Console：
+						HDFS：http://192.168.88.11:50070
+						Yarn：http://192.168.88.11:8088
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
