@@ -1,7 +1,7 @@
 # Big Data
 
 ### 学习路线：
-1. Java基础和Linux基础
+1. *Java*基础和*Linux*基础
 2. Hadoop的学习：体系结构、原理、编程
 	* 第一阶段：HDFS（文件系统）、MapReduce（java程序）、HBase（NoSQL数据库）
 	* 第二阶段：数据分析引擎 ---> Hive、Pig
@@ -15,8 +15,12 @@
 	* 第三个阶段：Spark SQL -----> 类似Oracle中的SQL语句
 	* 第四个阶段：Spark Streaming ---> 进行实时计算（流式计算）：比如：自来水厂
 			
-4. Apache Storm：类似Spark Streaming ---> 进行实时计算（流式计算）：比如：自来水厂
+4. Apache Storm：类似Spark Streaming ---> 进行实时计算（流式计算）：比如：自来水厂 
 	* NoSQL：Redis基于内存的数据库
+
+更多精彩内容，可以访问[曲健磊的博客] [1]
+
+[1]: http://blog.csdn.net/a909301740 "曲健磊的博客"
 
 
 
