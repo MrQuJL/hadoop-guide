@@ -1,0 +1,34 @@
+第六讲：HDFS的基本操作
+
+第一节：HDFS的相关命令
+	-mkdir            在HDFS创建目录    hdfs dfs -mkdir /data
+	-ls               查看当前目录      hdfs dfs -ls /
+	-ls -R            查看目录与子目录
+	-put              上传一个文件      hdfs dfs -put data.txt /data/input
+	-moveFromLocal    上传一个文件，会删除本地文件：ctrl + X
+	-copyFromLocal    上传一个文件，与put一样
+	-copyToLocal      下载文件  hdfs dfs -copyToLocal /data/input/data.txt 
+	-get              下载文件  hdfs dfs -get /data/input/data.txt 
+	-rm               删除文件  hdfs dfs -rm /data/input/data.txt 
+	-getmerge         将目录所有的文件先合并，再下载
+	-cp               拷贝： hdfs dfs -cp /data/input/data.txt  /data/input/data01.txt 
+	-mv               移动： hdfs dfs -mv /data/input/data.txt  /data/input/data02.txt 
+	-count            统计目录下的文件个数
+	-text、-cat       查看文件的内容  hdfs dfs -cat /data/input/data.txt 
+	-balancer         平衡操作
+
+第二节：HDFS的Java API
+	（*）在HDFS上创建一个目录:
+		依赖的jar包：
+		/root/training/hadoop-2.4.1/share/hadoop/common/lib
+		/root/training/hadoop-2.4.1/share/hadoop/common/
+		
+		/root/training/hadoop-2.4.1/share/hadoop/hdfs/lib
+		/root/training/hadoop-2.4.1/share/hadoop/hdfs/
+
+
+
+
+
+
+ 

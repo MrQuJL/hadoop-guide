@@ -1,4 +1,4 @@
-# Head-First-In-Hadoop
+# Big Data
 
 ## 学习路线：
 1. Java基础和Linux基础
@@ -8,7 +8,7 @@
 	       数据采集引擎 ---> Sqoop、Flume
 	（*）第三阶段：HUE：Web管理工具
 	       ZooKeeper：实现Hadoop的HA
-        Oozie：    工作流引擎
+               Oozie： 工作流引擎
 3. Spark的学习
 	（*）第一个阶段：Scala编程语言
 	（*）第二个阶段：Spark Core-----> 基于内存，数据的计算
