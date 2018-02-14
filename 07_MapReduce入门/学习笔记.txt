@@ -1,0 +1,14 @@
+第七讲：MapReduce入门
+
+
+	第一节：回顾：MapReduce的编程模型
+
+	第二节：WordCount的流程分析
+		1、伪分布环境运行WordCount
+		   hadoop jar hadoop-mapreduce-examples-2.4.1.jar wordcount /data/input/data.txt /data/output/wc
+			日志：
+				17/08/05 01:12:24 INFO mapreduce.Job:  map 0% reduce 0%
+				17/08/05 01:12:30 INFO mapreduce.Job:  map 100% reduce 0%
+				17/08/05 01:12:35 INFO mapreduce.Job:  map 100% reduce 100%
+		
+		2、分析的数据流动的过程（重要）: 运行原理和机制
