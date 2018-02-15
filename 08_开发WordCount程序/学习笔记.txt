@@ -1,0 +1,12 @@
+
+
+
+第八课：开发WordCount程序
+	依赖jar：
+	/root/training/hadoop-2.4.1/share/hadoop/common/lib
+	/root/training/hadoop-2.4.1/share/hadoop/common/
+	
+	/root/training/hadoop-2.4.1/share/hadoop/mapreduce/lib
+	/root/training/hadoop-2.4.1/share/hadoop/mapreduce/
+
+
