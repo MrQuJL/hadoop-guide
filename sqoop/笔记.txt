@@ -1,0 +1,85 @@
+数据采集引擎
+
+Sqoop
+Flume
+Kettle: http://www.kettle.net.cn/
+
+--------------------------------------
+一、搭建实验环境：Oracle数据库
+	  测试数据：用户sh   表：sales（订单表） ----> 自带大概92万条订单数据
+
+二、Sqoop: 采集关系型数据库中数据
+	项目：每天晚上12点，采集Oracle数据库中的数据
+		（1）写一个sqoop命令脚本: mysqoop.sh
+		     sqoop import --connect jdbc:oracle:thin:@192.168.157.163:1521/orcl --username SCOTT --password tiger --table EMP --target-dir /sqoop/import/emp1
+			 
+		（2）crontab是linux定时器（定时任务）
+
+
+	1、采集关系型数据库中数据，一般Sqoop用于离线计算（批量）
+	2、数据交换：Oracle <---> Sqoop <---> HDFS、HBase、Hive
+	3、基于JDBC
+	4、安装配置
+		tar -zxvf sqoop-1.4.5.bin__hadoop-0.23.tar.gz -C ~/training/
+		设置环境变量  
+			SQOOP_HOME=/root/training/sqoop-1.4.5.bin__hadoop-0.23
+			export SQOOP_HOME
+
+			PATH=$SQOOP_HOME/bin:$PATH
+			export PATH
+	
+		将oracle的驱动jar放到sqoop的lib目录
+	
+	5、注意：如果是Oracle，大写：用户名、表名、列名
+	6、使用sqoop
+	（*）codegen            Generate code to interact with database records
+		根据数据块中的表结构生成对应的Java Bean
+			sqoop codegen --connect jdbc:oracle:thin:@192.168.157.163:1521/orcl --username SCOTT --password tiger --table EMP --outdir /root/sqoop
+	
+	（*）create-hive-table  Import a table definition into Hive
+		根据Oracle的表结构创建Hive的表结构
+	
+	（*）eval               Evaluate a SQL statement and display the results
+		在Sqoop执行SQL
+			sqoop eval --connect jdbc:oracle:thin:@192.168.157.163:1521/orcl --username SCOTT --password tiger --query 'select * from emp where deptno=10'
+	
+	（*）export             Export an HDFS directory to a database table
+	（*）help               List available commands
+	
+	
+	（*）import             Import a table from a database to HDFS
+	     sqoop import --help   ----> 本质是：就是MR程序
+		 导入数据到HDFS
+		（1）导入EMP表 员工表
+			sqoop import --connect jdbc:oracle:thin:@192.168.157.163:1521/orcl --username SCOTT --password tiger --table EMP --target-dir /sqoop/import/emp1
+			
+			
+		（2）导入EMP表，指定导入列
+			sqoop import --connect jdbc:oracle:thin:@192.168.157.163:1521/orcl --username SCOTT --password tiger --table EMP --columns ENAME,SAL --target-dir /sqoop/import/emp2
+			
+		（3）导入订单表：sh用户 sales表（订单表：92万）
+			sqoop import --connect jdbc:oracle:thin:@192.168.157.163:1521/orcl --username SH --password sh --table SALES --target-dir /sqoop/import/sales -m 1
+			
+			错误
+			ERROR tool.ImportTool: Error during import: No primary key could be found for table SALES. Please specify one with --split-by or perform a sequential import with '-m 1'
+		
+	（*）import-all-tables  Import tables from a database to HDFS
+		 导入某个用户下所有的表 ----> 默认导入到: /user/root
+		 sqoop import-all-tables --connect jdbc:oracle:thin:@192.168.157.163:1521/orcl --username SCOTT --password tiger 
+	
+	
+	（*）job                Work with saved jobs
+	（*）list-databases     List available databases on a server
+		（1）针对Oracle：当前数据库中所有的用户名
+		（2）针对MySQL： 所有的数据库的名字
+		
+		sqoop list-databases --connect jdbc:oracle:thin:@192.168.157.163:1521/orcl --username SYSTEM --password password
+	
+	
+	（*）list-tables        List available tables in a database
+	（*）merge              Merge results of incremental imports
+	（*）metastore          Run a standalone Sqoop metastore
+	（*）version            Display version information
+
+	将数据导入HBase（需要事先将表创建）
+	sqoop import --connect jdbc:oracle:thin:@192.168.137.129:1521:orcl --username SCOTT --password tiger --table EMP --columns empno,ename,sal,deptno --hbase-table emp --hbase-row-key empno --column-family empinfo 
