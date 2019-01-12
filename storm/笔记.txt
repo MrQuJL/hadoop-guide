@@ -1,0 +1,117 @@
+一、大数据实时计算框架
+	1、什么是实时计算？流式计算？
+		举例：自来水厂处理自来水
+		
+	2、对比：离线计算和流式计算
+		（*）离线计算：MapReduce和Spark Core，  数据的批量处理（Sqoop-->HDFS-->MR(SparkCore)--->HDFS）
+		（*）流式计算：Storm和Spark Streaming， 数据的实时性  （Flume-->Kafka-->Storm(SparkStreaming)-->Redis ）
+		
+	3、常见的实时计算系统
+		（*）Apache Storm
+		（*）Spark Streaming
+		（*）阿里巴巴JStorm：Alibaba JStorm is an enterprise fast and stable streaming process engine.
+		（*）Apache Flink：第三代大数据处理引擎，既可以进行离线计算，也可以进行流式计算
+
+
+二、Apache Storm体系结构
+	1、Storm也是主从结构，存在单点故障问题  ----> 实现HA（借助ZooKeeper）
+
+三、安装和配置Apache Storm
+	前提：安装ZooKeeper
+	tar -zxvf apache-storm-1.0.3.tar.gz -C ~/training/
+	设置环境变量：vi ~/.bash_profile
+		STORM_HOME=/root/training/apache-storm-1.0.3
+		export STORM_HOME
+
+		PATH=$STORM_HOME/bin:$PATH
+		export PATH
+		
+	核心配置文件：conf/storm.yaml
+	注意：- 后面有一个空格
+	      : 后面有一个空格
+	1、伪分布环境：一台 bigdata111
+		 18 storm.zookeeper.servers:
+		 19      - "bigdata111"
+		 20 
+
+		 主节点的地址
+		 24 nimbus.seeds: ["bigdata111"]
+ 
+         任务提交给nimbus后，将任务的jar文件上传到该目录
+		 该目录是保存客户端提交的jar文件（任务）
+		 storm.local.dir: "/root/training/apache-storm-1.0.3/tmp"
+		 
+		 每个从节点上，worker的个数
+		 28 supervisor.slots.ports:
+		 29      - 6700
+		 30      - 6701
+		 31      - 6702
+		 32      - 6703
+		 
+		 启动: 主节点 storm nimbus &
+		       从节点 storm supervisor &
+			   UI网页 storm ui &  地址:  http://ip:8080
+	
+	2、全分布环境：三台
+		（*）在bigdata112上搭建
+			 18 storm.zookeeper.servers:
+			 19      - "bigdata112"
+			 20      - "bigdata113"
+			         - "bigdata114"
+
+			 主节点的地址
+			 24 nimbus.seeds: ["bigdata112"]
+	 
+			 任务提交给nimbus后，将任务的jar文件上传到该目录
+			 该目录是保存客户端提交的jar文件（任务）
+			 storm.local.dir: "/root/training/apache-storm-1.0.3/tmp"
+			 
+			 每个从节点上，worker的个数
+			 28 supervisor.slots.ports:
+			 29      - 6700
+			 30      - 6701
+			 31      - 6702
+			 32      - 6703
+			 
+		（*）将配置好的storm复制到其他节点
+		（*）在每个节点上启动			 
+			 启动: 主节点bigdata112： storm nimbus &
+			                          UI网页 storm ui &  地址:  http://ip:8080	
+									  
+				   从节点bigdata113和 bigdata114： storm supervisor &
+				   	
+	3、实现Storm的HA和Demo演示
+		（*）每台机器都需要修改
+				增加一个主节点
+		     nimbus.seeds: ["bigdata112", "bigdata113"]
+			 
+			    启用Event Logger 可以查看处理的数据
+		     "topology.eventlogger.executors": 1
+
+		（*）在每个节点上启动			 
+			 启动: 主节点bigdata112： storm nimbus &
+			                          UI网页 storm ui &  地址:  http://ip:8080	
+									  storm logviewer &   启动日志查看器
+									  
+				    主节点bigdata113： storm nimbus &
+					                  UI网页 storm ui &  地址:  http://ip:8080	
+									  storm logviewer &   启动日志查看器
+									  
+				   从节点bigdata113和 bigdata114： storm supervisor &	
+                                                   storm logviewer &   启动日志查看器	
+												   
+		（*）Demo演示：WordCount 单词计数
+			Example位置：/root/training/apache-storm-1.0.3/examples/storm-starter/storm-starter-topologies-1.0.3.jar
+			查看readme文件
+			1. [ExclamationTopology](src/jvm/org/apache/storm/starter/ExclamationTopology.java):  Basic topology written in all Java
+			2. [WordCountTopology](src/jvm/org/apache/storm/starter/WordCountTopology.java):  Basic topology that makes use of multilang by
+			   implementing one bolt in Python
+			3. [ReachTopology](src/jvm/org/apache/storm/starter/ReachTopology.java): Example of complex DRPC on top of Storm
+				
+			运行：storm jar ***.jar 任务Topology的类 别名
+			storm jar storm-starter-topologies-1.0.3.jar org.apache.storm.starter.WordCountTopology MyWCTopology
+			
+			日志：
+			Start uploading file 'storm-starter-topologies-1.0.3.jar' to '/root/training/apache-storm-1.0.3/tmp/nimbus/inbox/stormjar-40ac7490-e694-4dbf-9316-a5349c0cf83b.jar' (73522925 bytes)
+			
+			查看处理的数据：启用Debug，不想看数据了，就Stop-debug
