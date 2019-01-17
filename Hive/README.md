@@ -12,7 +12,7 @@
 
 ### （二）Hive 的体系结构
 
-![image](https://github.com/MrQuJL/bigdata-guide/Hive/raw/master/imgs/hive-framework.png)
+![image](https://github.com/MrQuJL/bigdata-guide/tree/master/Hive/raw/master/imgs/hive-framework.png)
 
 ### （三）安装和配置
 
