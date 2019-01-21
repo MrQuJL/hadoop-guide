@@ -1,0 +1,197 @@
+一、Spark SQL基础
+	1、什么是Spark SQL？
+		参考官网
+	
+	2、核心概念：DataFrame（表）= Schema（表结构） + Data（表数据）
+					（*）就是表，是Spark SQL对结构化数据的抽象
+					（*）DataFrame表现形式就是：RDD
+	
+	             1.6后，新的概念：DataSet（类似DataFrame）
+				 
+	3、创建表：DataFrame
+		（*）测试数据：员工表emp.csv、部门表dept.csv
+			数据 ： 7654,MARTIN,SALESMAN,7698,1981/9/28,1250,1400,30
+			
+		（方式一）使用case class定义表
+			(1) 定义case class代表表的结构schema
+			case class Emp(empno:Int,ename:String,job:String,mgr:String,hiredate:String,sal:Int,comm:String,deptno:Int)
+		
+			(2) 导入emp.csv文件（导入数据）
+			val lines = sc.textFile("/root/temp/csv/emp.csv").map(_.split(","))
+			
+			(3) 生成表: DataFrame
+			val allEmp = lines.map(x=>Emp(x(0).toInt,x(1),x(2),x(3),x(4),x(5).toInt,x(6),x(7).toInt))
+			由allEmp直接生成表
+			val empDF = allEmp.toDF
+			
+			(4) 操作: DSL语句
+			     empDF.show         ---->  select * from emp
+				 empDF.printSchema  ---->  desc emp
+		
+		（方式二）使用SparkSession对象
+			(1) 什么是SparkSession？
+			    查看启动spark shell的日志：Spark session available as 'spark'
+				从2.0以后，Spark的新的访问接口：提供统一的访问方式
+				通过SparkSession可以访问Spark所有的模块
+				def createDataFrame(rowRDD: RDD[Row], schema: StructType): DataFrame 
+				
+			(2) 数据：val lines = sc.textFile("/root/temp/csv/emp.csv").map(_.split(","))
+			(3) schema：StructType
+			        import org.apache.spark.sql._
+					import org.apache.spark.sql.types._
+			
+					val myschema = StructType(List(StructField("empno", DataTypes.IntegerType), StructField("ename", DataTypes.StringType),StructField("job", DataTypes.StringType),StructField("mgr", DataTypes.StringType),StructField("hiredate", DataTypes.StringType),StructField("sal", DataTypes.IntegerType),StructField("comm", DataTypes.StringType),StructField("deptno", DataTypes.IntegerType)))
+			
+			(4)把读入的每一行数据映射成一个个Row 
+			    val rowRDD = lines.map(x=>Row(x(0).toInt,x(1),x(2),x(3),x(4),x(5).toInt,x(6),x(7).toInt))
+		
+			(5) 使用SparkSession.createDataFrame创建表
+			     val df = spark.createDataFrame(rowRDD,myschema)
+		
+		（方式三）直接读取一个带格式的文件（json文件） ---> 最简单
+				前提：数据文件本身一定具有格式
+				Spark Example提供测试数据：$SPARK_HOME/examples/src/main/resources
+					[root@bigdata111 resources]# more people.json 
+					{"name":"Michael"}
+					{"name":"Andy", "age":30}
+					{"name":"Justin", "age":19}
+				
+				(1) cp people.json ~/temp
+				(2) 使用SparkSession对象直接读取Json文件
+				     val peopleDF = spark.read.json("/root/temp/people.json")
+	
+	
+	4、操作表(DataFrame)：支持两种语言
+		以员工表为例，演示
+	
+		(1) DSL语句：不常用
+			 查看所有的员工信息： empDF.show
+			 查询所有的员工姓名   empDF.select("ename").show
+			                      empDF.select($"ename").show
+			 
+			 查询所有的员工姓名和薪水，并给薪水加100块钱
+					empDF.select($"ename",$"sal",$"sal"+100).show
+			 
+			 查询工资大于2000的员工
+					empDF.filter($"sal" > 2000).show
+			 
+			 分组: empDF.groupBy($"deptno").count.show
+		
+		(2) SQL语句: 前提条件：需要把DataFrame注册成是一个Table或者View
+			empDF.createOrReplaceTempView("emp")
+			
+			使用SparkSession执行从查询
+			spark.sql("select * from emp").show
+			spark.sql("select * from emp where deptno=10").show
+			
+			求每个部门的工资总额
+			spark.sql("select deptno,sum(sal) from emp group by deptno").show
+				
+	5、视图（虚表）: 
+		（1）回顾什么是视图：是一个虚表，简化复杂的查询
+		（2）Spark SQL有两种视图
+				（*）普通视图：empDF.createOrReplaceTempView("emp")
+				               只在当前会话中有效
+				
+				（*）全局视图：empDF.createGlobalTempView("empG")
+				               在全局（不同的会话中）有效
+							   注意：全局视图是创建在SparkSQL的一个全局“数据库”，前缀：global_temp
+							   
+				（*）Demo：
+						在当前会话中：
+							spark.sql("select * from emp").show
+							spark.sql("select * from global_temp.empG").show
+						
+						重新开启一个会话
+							spark.newSession.sql("select * from emp").show    ---> 出错
+							spark.newSession.sql("select * from global_temp.empG").show
+	
+	
+	6、（了解）DataSet
+
+二、在Spark SQL中使用数据源
+	1、两个函数：load、save
+		（*）加载数据：load函数
+			（1）默认的文件格式：Parquet文件(列式存储文件)
+			（2）自动生成DataFrame
+			（3）Demo：cp users.parquet  ~/temp/
+			           val userDF = spark.read.load("/root/temp/users.parquet")
+					   对比
+					   val peopleDF = spark.read.json("/root/temp/people.json")
+					   val peopleDF = spark.read.format("json").load("/root/temp/people.json")
+	
+		（*）保存数据：save函数
+			 （1）默认的文件格式：Parquet文件(列式存储文件)
+			 Demo：查询用户的名字和喜欢的颜色，并保存
+			         userDF.select($"name",$"favorite_color").write.save("/root/temp/result1")
+					 
+					 userDF.select($"name",$"favorite_color").write.format("csv").save("/root/temp/result2")
+					 userDF.select($"name",$"favorite_color").write.csv("/root/temp/result3")
+	
+	
+	2、数据源一：Parquet文件（列式存储文件，是Spark SQL默认的数据源）
+		（*）特点：列式存储文件
+		（*）把其他格式数据文件转换成Parquet文件
+			  val empjson = spark.read.json("/root/temp/emp.json")
+			  empjson.write.parquet("/root/temp/parquet")
+			  
+		（*）Parquet格式支持Schema的合并
+				第一个Parquet文件（把RDD转换成Parquet文件）
+					val df1 = sc.makeRDD(1 to 5).map(i=>(i,i*2)).toDF("single","double")
+					df1.write.parquet("/root/temp/test_table/key=1")
+				
+				第二个Parquet文件（把RDD转换成Parquet文件）
+					val df2 = sc.makeRDD(6 to 10).map(i=>(i,i*3)).toDF("single","triple")
+					df2.write.parquet("/root/temp/test_table/key=2")
+
+				合并上面生成Parquet文件
+				    val df3 = spark.read.option("mergeSchema","true").parquet("/root/temp/test_table/")
+			
+	3、数据源二：json文件
+			示例
+				val empjson = spark.read.json("/root/temp/emp.json")
+				另一种写法
+				val empjson1 = spark.read.format("json").load("/root/temp/emp.json")
+	
+	4、数据源三：JDBC直接读取Oracle中的数据，加载成一张表（DataFrame）
+		（*）一定注意：以Oracle数据库为例，10g和11g步骤不一样
+		（*）Oracle 10g：参考讲义P74
+		（*）Oracle 11g为例
+				bin/spark-shell --master spark://bigdata111:7077 --jars /root/temp/ojdbc6.jar --driver-class-path /root/temp/ojdbc6.jar
+				
+			(1) val oracleDF = spark.read.format("jdbc").option("url","jdbc:oracle:thin:@192.168.157.101:1521/orcl.example.com").option("dbtable","scott.emp").option("user","scott").option("password","tiger").load
+			
+			(2) 定义一个Properties对象保存参数
+				def jdbc(url: String, table: String, properties: Properties): DataFrame 
+				
+				import java.util.Properties
+				
+				val oracleProp = new Properties()
+				oracleProp.setProperty("user","scott")
+				oracleProp.setProperty("password","tiger")
+				
+				val oracleDF1 = spark.read.jdbc("jdbc:oracle:thin:@192.168.157.101:1521/orcl.example.com","scott.emp",oracleProp)
+	
+	5、数据源四：Hive Table
+		（*）复习Hive：Hive基于HDFS之上的数据仓库，支持SQL语句----> MapReduce任务
+		               Hive 2.x以后，推荐使用Spark作为执行的引擎
+					   
+		（*）把Hive作为Spark SQL的数据源，完全类似Oracle的数据源
+		（*）官方文档 http://spark.apache.org/docs/latest/sql-programming-guide.html#hive-tables
+		
+		（*）集成Hive和Spark
+			（1）安装好Hive
+			（2）把Hive的配置文件和Hadoop的配置文件  ----> $SPARK_HOME/conf
+					hive-site.xml
+					core-site.xml
+					hdfs-site.xml
+					
+			（3）启动Spark Shell的时候 加入MySQL的驱动
+					bin/spark-shell --master spark://bigdata111:7077 --jars /root/training/apache-hive-2.3.0-bin/lib/mysql-connector-java-5.1.43-bin.jar
+	
+			（4）使用Spark SQL操作Hive
+			     参考讲义
+				 
+		（*）区别	
+				（1）使用Spark SQL操作Hive
+				（2）Hive on Spark
