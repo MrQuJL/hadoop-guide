@@ -195,3 +195,44 @@
 		（*）区别	
 				（1）使用Spark SQL操作Hive
 				（2）Hive on Spark
+
+三、开发Spark SQL程序
+	注意：如果不希望在Spark执行中，打印过多的日志，可以使用下面的语句：
+	Logger.getLogger("org.apache.spark").setLevel(Level.ERROR)
+	Logger.getLogger("org.eclipse.jetty.server").setLevel(Level.OFF)
+
+	1、创建DataFrame的时候，指定schema
+	2、使用case class作为表的结构
+	3、把结果保存到数据库中：使用Spark SQL进行分析，可以把分析的结果保存到关系型数据库中
+		Oracle中：
+		set linesize 300      ------> 设置行宽，一行上最多显示300个字符
+		col stuName for a10   ------> 设置列宽，设置stuName列宽度是10个字符
+
+四、性能优化（了解）:缓存、参数
+
+	由于之前集成了Hive，从$SPARK_HOME/conf删除下面的文件
+					hive-site.xml
+					core-site.xml
+					hdfs-site.xml	
+
+	1、在Spark SQL中如何缓存数据
+		举例：读取Oracle数据库
+		（*）加载数据DataFrame
+		val oracleDF = spark.read.format("jdbc").option("url","jdbc:oracle:thin:@192.168.157.101:1521/orcl.example.com").option("dbtable","scott.emp").option("user","scott").option("password","tiger").load
+		
+		（*）注册成表：oracleDF.registerTempTable("emp")
+			 为什么不能使用view？必须是Table   -----> view不能缓存数据
+			 
+		（*）执行查询
+		     spark.sql("select * from emp").show
+			 
+			 缓存表的数据：使用SQLContext对象，可以通过SparkSession获取该对象
+			 spark.sqlContext.cacheTable("emp")
+			 
+			 再执行两次查询
+			 spark.sql("select * from emp").show  ----> 把结果缓存
+			 spark.sql("select * from emp").show  ----> 从缓存中读取数据
+			 
+		（*）清空缓存：
+			spark.sqlContext.cacheTable("emp")
+			spark.sqlContext.clearCache	 
