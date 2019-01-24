@@ -1,0 +1,95 @@
+流式计算：Spark Streaming
+---------------------------------------
+一、Spark Streaming基础
+	1、什么是Spark Streaming？特点
+		（*）参考官网
+	
+	2、Spark Streaming的内部结构：本质就是一个个RDD（RDD其实是离散的，不连续）
+		（*）问题：Spark Streaming如何处理连续的数据流
+	
+	3、Demo：NetworkWordCount 单词计数（实时计数）
+		http://spark.apache.org/docs/latest/streaming-programming-guide.html#a-quick-example
+	
+		一定注意一个问题！！！保证虚拟机的CPU的核数至少为2
+			原因：（1）一个接受数据
+			      （2）一个处理数据
+		网络发送一句话 ----> Spark Streaming ----> WordCount计算
+		使用工具：netcat
+		步骤：（1）启动netcat服务器
+		           nc -l -p 1234
+				   
+			 （2）启动Spark Streaming的客户端
+				bin/run-example streaming.NetworkWordCount localhost 1234
+		
+	4、开发自己的NetworkWordCount程序
+		注意：相对于Storm来说，Spark Streaming不能用于实时性要求很高的场景
+
+二、Spark Streaming进阶
+	1、核心对象：StreamingContext
+		（*）在Spark中，Spark Core-----> SparkContext    -----> 抽象：RDD
+		                Spark SQL -----> SQLContext      -----> 抽象：DataFrame
+						Spark Streaming--> StreamingContext --> 抽象：DStream
+		（*）方便管理和操作：统一的对象SparkSession
+		（*）StreamingContext创建的方式：2种
+				（1）通过SparkConf创建 
+					val sparkConf = new SparkConf().setAppName("MyNetworkWordCount").setMaster("local[2]")
+					val scc = new StreamingContext(sparkConf,Seconds(3)) //每隔3秒采集一次数据				
+				
+				（2）通过SparkContext对象sc来创建
+					import org.apache.spark.streaming.StreamingContext
+					import org.apache.spark.streaming.Seconds
+					
+					val ssc = new StreamingContext(sc,Seconds(3))
+		
+	2、核心概念（数据抽象）：DStream离散流----> RDD
+		（*）本质：就是把连续的数据流变成不连续的RDD----> DStream
+	
+	
+	3、DStream离散流的算子：Transformation和Action
+		（1）transform(func)
+			通过RDD-to-RDD函数作用于源DStream中的各个RDD，可以是任意的RDD操作，从而返回一个新的RDD
+			  相当于map
+			
+			举例：在NetworkWordCount中，也可以使用transform来生成元组对
+	
+		（2）updateStateByKey(func)  ----> 在原来的状态上进行更新，需要设置检查点
+				 updateStateByKey[S](updateFunc: (Seq[V], Option[S]) ⇒ Option[S])(implicit arg0: ClassTag[S]): DStream[(K, S)] 
+			
+			操作允许不断用新信息更新它的同时保持任意状态。
+			定义状态-状态可以是任何的数据类型
+			定义状态更新函数-怎样利用更新前的状态和从输入流里面获取的新值更新状态
+			
+			  举例：重写NetworkWordCount程序，累计每个单词出现的频率（注意：累计）
+			  注意：
+			  java.lang.IllegalArgumentException: requirement failed: The checkpoint directory has not been set. Please set it by StreamingContext.checkpoint().
+	
+	4、窗口操作
+		定义窗口：（1）窗口的长度  （2）滑动的距离  ----> Duration（秒）
+		举例：NetWorkwordCount，每隔8秒，把过去30秒产生的字符串进行单词计数
+				（1）窗口的长度  30秒
+				
+				（2）滑动的距离  8秒 ---> 3秒
+				（3）采样的数据间隔
+				
+				----> 出错
+				The slide duration of windowed DStream (8000 ms) must be a multiple of the slide duration of parent DStream (3000 ms)
+			     
+				 是：滑动的距离，必须是采样时间的整数倍
+	
+	5、输入：接收器（基本的数据源）
+		（1）Socket接收 
+				scc.socketTextStream("192.168.157.111", 5678, StorageLevel.MEMORY_AND_DISK_SER)
+		（2）文件流：监控一个目录，文件有变化 ----> 类似: Flume
+		（3）RDD队列流
+	
+	6、输出：跟RDD的输出是一样
+		参考讲义：P89
+		重点介绍: foreachRDD流式处理中最常见的输出操作
+				  注意：如果有需要序列化的操作，一定针对RDD的分区来进行
+		
+	
+	7、集成Spark SQL：使用SQL语句方式，处理流式数据
+		举例：WordCount
+	
+	8、缓存和持久化
+	9、支持检查点		
