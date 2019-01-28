@@ -92,4 +92,67 @@
 		举例：WordCount
 	
 	8、缓存和持久化
-	9、支持检查点		
+	9、支持检查点
+
+三、高级数据源：与外部系统的集成
+	1、Apache Flume：日志采集
+		Spark Streaming集成Flume
+		（1）基于Flume的Push模式：由Flume主动将数据推送给Spark Streaming
+			需要的Jar包
+				（*）Flume的jar包
+				（*）spark-streaming-flume_2.10-2.1.0.jar
+				
+			需要注意：先启动Spark Streaming程序，再启动Flume
+		
+		
+		（2）Pull模式（更常用）：由Spark Streaming主动到Flume的Sink中拉取数据
+		
+	2、Apache Kafka：消息系统
+		（1）复习：
+			（*）消息的类型
+					Topic：主题（广播）
+					Queue：队列（点对点）
+			（*）消息系统：
+					Kafka、Redis ---> 只支持Topic
+					Weblogic：支持JMS（Java Messaging Service）：Topic Queue
+			（*）角色：
+					生产者：产生消息
+					消费者：接收消息
+		（2）Kafka的体系结构
+		（3）Kafka的安装
+			（*）单机单Broker方式
+					解压 tar -zxvf kafka_2.9.2-0.8.1.1.tgz -C ~/training/
+					核心配置文件
+					config/server.properties
+						# The id of the broker. This must be set to a unique integer for each broker.
+						broker.id=0
+
+						############################# Socket Server Settings #############################
+
+						# The port the socket server listens on
+						port=9092
+						
+						log.dirs=/root/training/kafka_2.9.2-0.8.1.1/logs  日志
+						zookeeper.connect=qujianlei:2181
+						
+						启动 bin/kafka-server-start.sh config/server.properties &
+						Demo:
+						(1) 创建Topic
+							bin/kafka-topics.sh --create --zookeeper qujianlei:2181 -replication-factor 1 --partitions 3 --topic mydemo1
+						
+						(2) 发布消息
+							bin/kafka-console-producer.sh --broker-list qujianlei:9092 --topic mydemo1
+						
+						(3) 接收消息
+							bin/kafka-console-consumer.sh --zookeeper qujianlei:2181 --topic mydemo1
+			
+			（*）单机多Broker方式
+					config/server1.properties
+					config/server2.properties
+					config/server3.properties
+			
+			（*）多机多Broker方式 ----> 真正集群
+		
+		（4）集成Spark Streaming和Kakfa ----> 强烈建议使用Maven
+			（*）基于Receiver方式（用得比较少：效率不高）
+			（*）直接读取方式：定期从topic(partition)查询最新偏移量来读取数据
