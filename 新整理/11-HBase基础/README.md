@@ -128,47 +128,47 @@
 
 * 扫描表中的所有数据
 
-	```java
-	@Test
-	public void testScan() throws Exception {
-		// 配置信息
-		Configuration conf = new Configuration();
-		conf.set("hbase.zookeeper.quorum", "192.168.0.1");
+    ```java
+    @Test
+    public void testScan() throws Exception {
+        // 配置信息
+        Configuration conf = new Configuration();
+        conf.set("hbase.zookeeper.quorum", "192.168.0.1");
 
-		HTable table = new HTable(conf, "students");
-		// 创建一个Scan
-		Scan scan = new Scan();
+        HTable table = new HTable(conf, "students");
+        // 创建一个Scan
+        Scan scan = new Scan();
 
-		// 扫描表
-		ResultScanner result = table.getScanner(scan);
+        // 扫描表
+        ResultScanner result = table.getScanner(scan);
 
-		// 打印返回的值
-		for (Result r : result) {
-			System.out.println(Bytes.toString(r.getValue(Bytes.toBytes("info"), Bytes.toBytes("name"))));
-		}
-		table.close();
-	}
-	```
+        // 打印返回的值
+        for (Result r : result) {
+            System.out.println(Bytes.toString(r.getValue(Bytes.toBytes("info"), Bytes.toBytes("name"))));
+        }
+        table.close();
+    }
+    ```
 
 * 删除表
 
-	```java
-	@Test
-	public void testDropTable() throws Exception {
-		// 配置信息
-		Configuration conf = new Configuration();
-		conf.set("hbase.zookeeper.quorum", "192.168.0.1");
+    ```java
+    @Test
+    public void testDropTable() throws Exception {
+        // 配置信息
+        Configuration conf = new Configuration();
+        conf.set("hbase.zookeeper.quorum", "192.168.0.1");
 
-		// 创建客户端
-		HBaseAdmin admin = new HBaseAdmin(conf);
+        // 创建客户端
+        HBaseAdmin admin = new HBaseAdmin(conf);
 
-		// 先禁用这张表
-		admin.disableTable(Bytes.toBytes("students"));
-		// 删除表
-		admin.deleteTable(Bytes.toBytes("students"));
-		admin.close();
-	}
-	```
+        // 先禁用这张表
+        admin.disableTable(Bytes.toBytes("students"));
+        // 删除表
+        admin.deleteTable(Bytes.toBytes("students"));
+        admin.close();
+    }
+    ```
 
 ### （八）HBase上的过滤器
 
