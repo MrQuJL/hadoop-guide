@@ -172,6 +172,68 @@
 
 ### （八）HBase上的过滤器
 
+* 单一列值过滤器
+
+    类似：select * from students where name = 'Tom1';
+
+    ```java
+    @Test
+    public void testSingleColumnValueFilter() throws Exception {
+        // 配置信息
+        Configuration conf = new Configuration();
+        conf.set("hbase.zookeeper.quorum", "192.168.0.1");
+
+        // 创建客户端查询表
+        HTable table = new HTable(conf, "students");
+        // 创建一个Scann
+        Scan scan = new Scan();
+        // 创建一个Filter：SingleColumnValueFilter：姓名为Tom1的
+        SingleColumnValueFilter filter = new SingleColumnValueFilter(Bytes.toBytes("info"),
+                Bytes.toBytes("name"),
+                CompareFilter.CompareOp.EQUAL,
+                Bytes.toBytes("Tom1"));
+        // 使用创建的过滤器
+        scan.setFilter(filter);
+        // 查询数据
+        ResultScanner result = table.getScanner(scan);
+        for (Result r : result) {
+            // 打印输出
+            System.out.println(Bytes.toString(r.getValue(Bytes.toBytes("info"), Bytes.toBytes("name"))));
+        }
+        table.close();
+    }
+    ```
+
+* 列名前缀过滤器
+
+    类似：select name from students;
+
+    ```java
+    @Test
+    public void testColumnPrefixFilter() throws Exception {
+        // 配置信息
+        Configuration conf = new Configuration();
+        conf.set("hbase.zookeeper.quorum", "192.168.0.1");
+
+        // 创建HTable进行查询
+        HTable table = new HTable(conf, "students");
+        // 创建一个Scan
+        Scan scan = new Scan();
+
+        // 创建列名前缀过滤器
+        ColumnPrefixFilter filter = new ColumnPrefixFilter(Bytes.toBytes("nam"));
+        // ColumnPrefixFilter filter = new ColumnPrefixFilter(Bytes.toBytes("name"));
+        scan.setFilter(filter);
+
+        // 扫描表
+        ResultScanner result = table.getScanner(scan);
+        for (Result r : result) {
+            // 打印
+            System.out.println(Bytes.toString(r.getValue(Bytes.toBytes("info"), Bytes.toBytes("name"))));
+        }
+        table.close();
+    }
+    ```
 
 ### （九）HBase上的MapReduce
 
