@@ -24,9 +24,9 @@
 
 ```xml
 <dependency>
-	<groupId>org.apache.hbase</groupId>
-	<artifactId>hbase-client</artifactId>
-	<version>1.3.1</version>
+    <groupId>org.apache.hbase</groupId>
+    <artifactId>hbase-client</artifactId>
+    <version>1.3.1</version>
 </dependency>
 ```
 
@@ -35,24 +35,24 @@
 ```java
 @Test
 public void testCreateTable() throws Exception {
-	// 配置信息
-	Configuration conf = new Configuration();
-	conf.set("hbase.zookeeper.quorum", "192.168.0.1");
+    // 配置信息
+    Configuration conf = new Configuration();
+    conf.set("hbase.zookeeper.quorum", "192.168.0.1");
 
-	// 创建客户端
-	HBaseAdmin admin = new HBaseAdmin(conf);
-	// 创建表的描述信息
-	HTableDescriptor htd = new HTableDescriptor(TableName.valueOf("students"));
-	// 创建列族
-	HColumnDescriptor h1 = new HColumnDescriptor("info");
-	HColumnDescriptor h2 = new HColumnDescriptor("grade");
-	// 将列加入列族
-	htd.addFamily(h1);
-	htd.addFamily(h2);
+    // 创建客户端
+    HBaseAdmin admin = new HBaseAdmin(conf);
+    // 创建表的描述信息
+    HTableDescriptor htd = new HTableDescriptor(TableName.valueOf("students"));
+    // 创建列族
+    HColumnDescriptor h1 = new HColumnDescriptor("info");
+    HColumnDescriptor h2 = new HColumnDescriptor("grade");
+    // 将列加入列族
+    htd.addFamily(h1);
+    htd.addFamily(h2);
 
-	// 创建表
-	admin.createTable(htd);
-	admin.close();
+    // 创建表
+    admin.createTable(htd);
+    admin.close();
 }
 ```
 
