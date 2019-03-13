@@ -6,7 +6,33 @@
 
 ### （二）HBase的体系结构
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/11-HBase基础/imgs/hbasearc.png)
+* ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/11-HBase基础/imgs/hbasearc.png)
+
+* HMaster:
+
+	1. 管理用户对Table的增删改查操作。
+
+	2. 管理HRegionServer服务器之间的负载均衡，调整Region的分布。
+
+	3. 数据量过大导致Region分裂后，负责分配新的Region。
+
+	4. 在Region服务器停机后，负责失效Region服务器上Regiion的迁移。
+
+* HRegionServer:
+
+* Region:
+
+* Store:
+
+* sotre file:
+
+* HFile:
+
+* DFSClient:
+
+* DataNode:
+
+* zookeeper:
 
 ### （三）HBase的表结构
 
