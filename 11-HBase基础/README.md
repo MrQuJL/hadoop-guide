@@ -6,7 +6,7 @@
 
 ### （二）HBase的体系结构
 
-![image](https://github.com/MrQuJL/hadoop-guide/raw/master/imgs/hbasearc.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/11-HBase基础/imgs/hbasearc.png)
 
 ### （三）HBase的表结构
 
