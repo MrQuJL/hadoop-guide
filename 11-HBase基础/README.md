@@ -6,7 +6,7 @@
 
 ### （二）HBase的体系结构
 
-* ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/11-HBase基础/imgs/hbasearc.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/11-HBase基础/imgs/hbasearc.png)
 
 * HMaster:
 
@@ -18,21 +18,19 @@
 
 	4. 在Region服务器停机后，负责失效Region服务器上Regiion的迁移。
 
-* HRegionServer:
+* HRegionServer: 存储Region的服务器。
 
-* Region:
+* Region: Region是HBase数据存储和管理的基本单位。
 
-* Store:
+* Store: Region中由多个Store组成，每个Store对应表中的一个CF（列族）。Store由两部分组成：MemStore，StoreFie。
 
-* sotre file:
+* MemStore: 是一个写缓存，对表中数据的操作首先写WAL日志，然后才写入MemStore，MemStore满了之后会Flush成一个StoreFile（底层实现是HFile）
 
-* HFile:
+* Sotre file: 对HFile的一层封装。
 
-* DFSClient:
+* HFile: 真正用于存储HBase数据的文件。在HFile中的数据是按照RowKey，CF，Column排序。位于HDFS上。
 
-* DataNode:
-
-* zookeeper:
+* zookeeper: HBase的客户端首先需要访问zookeeper获取RegionServer的地址然后才能操作RegionServer。
 
 ### （三）HBase的表结构
 
