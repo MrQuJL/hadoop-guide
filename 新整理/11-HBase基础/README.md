@@ -275,7 +275,7 @@
 
     类似：select * from students where id = 1;
 
-    ```
+    ```java
     @Test
     public void testRowKeyFilter() throws Exception {
         // 配置信息
@@ -307,7 +307,7 @@
 
     类似：select name from students where id = 1;
 
-    ```
+    ```java
     @Test
     public void testFilter() throws Exception {
         // 配置信息
