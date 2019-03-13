@@ -235,6 +235,108 @@
     }
     ```
 
+* 多个列名前缀过滤器
+
+    类似 ：select name, gender from students;
+
+    ```java
+    @Test
+    public void testMultipleColumnPrefixFilter() throws Exception {
+        // 配置信息
+        Configuration conf = new Configuration();
+        conf.set("hbase.zookeeper.quorum", "192.168.0.1");
+
+        // 创建客户端查询表
+        HTable table = new HTable(conf, "students");
+        // 创建一个Scan
+        Scan scan = new Scan();
+
+        // 指定我们要查询的多个列
+        byte[][] prefixs = new byte[][]{Bytes.toBytes("name"), Bytes.toBytes("gender")};
+        // 创建一个MultipleColumnPrefixFilter
+        MultipleColumnPrefixFilter filter = new MultipleColumnPrefixFilter(prefixs);
+        // 设置Scan的过滤器
+        scan.setFilter(filter);
+
+        // 查询数据
+        ResultScanner result = table.getScanner(scan);
+        for (Result r : result) {
+            String name = Bytes.toString(r.getValue(Bytes.toBytes("info"), Bytes.toBytes("name")));
+            String gender = Bytes.toString(r.getValue(Bytes.toBytes("info"), Bytes.toBytes("gender")));
+            // 打印
+            System.out.println(name + "\t" + gender);
+        }
+        // 关闭客户端
+        table.close();
+    }
+    ```
+
+* 行键过滤器
+
+    类似：select * from students where id = 1;
+
+    ```
+    @Test
+    public void testRowKeyFilter() throws Exception {
+        // 配置信息
+        Configuration conf = new Configuration();
+        conf.set("hbase.zookeeper.quorum", "192.168.0.1");
+
+        // 创建客户端
+        HTable table = new HTable(conf, "students");
+        // 创建一个Scan
+        Scan scan = new Scan();
+        // 创建一个Rowkey过滤器
+        RowFilter filter = new RowFilter(CompareFilter.CompareOp.EQUAL, new RegexStringComparator("stu000"));
+        // 使用创建的过滤器
+        scan.setFilter(filter);
+        // 查询数据
+        ResultScanner result = table.getScanner(scan);
+        for (Result r : result) {
+            String name = Bytes.toString(r.getValue(Bytes.toBytes("info"), Bytes.toBytes("name")));
+            String gender = Bytes.toString(r.getValue(Bytes.toBytes("info"), Bytes.toBytes("gender")));
+            // 打印
+            System.out.println(name + "\t" + gender);
+        }
+        // 关闭客户端
+        table.close();
+    }
+    ```
+
+* 同时使用多个过滤器
+
+    类似：select name from students where id = 1;
+
+    ```
+    @Test
+    public void testFilter() throws Exception {
+        // 配置信息
+        Configuration conf = new Configuration();
+        conf.set("hbase.zookeeper.quorum", "192.168.0.1");
+
+        // 创建客户端
+        HTable table = new HTable(conf, "students");
+        // 创建Scan
+        Scan scan = new Scan();
+        // 第一个过滤器：rowkey过滤器
+        RowFilter rowFilter = new RowFilter(CompareFilter.CompareOp.EQUAL, new RegexStringComparator("stu002"));
+        // 第二个过滤器：列名前缀过滤器
+        ColumnPrefixFilter columnPrefixFilter = new ColumnPrefixFilter(Bytes.toBytes("name"));
+        // 创建Filter的List
+        FilterList filterList = new FilterList(FilterList.Operator.MUST_PASS_ALL);
+        filterList.addFilter(rowFilter);
+        filterList.addFilter(columnPrefixFilter);
+
+        scan.setFilter(filterList);
+        // 查询数据
+        ResultScanner result = table.getScanner(scan);
+        for (Result r : result) {
+            System.out.println(Bytes.toString(r.getValue(Bytes.toBytes("info"), Bytes.toBytes("name"))));
+        }
+        table.close();
+    }
+    ```
+
 ### （九）HBase上的MapReduce
 
 
