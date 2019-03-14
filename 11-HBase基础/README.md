@@ -34,6 +34,7 @@
 
 ### （三）HBase的表结构
 
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/11-HBase基础/imgs/hbasetable.png)
 
 ### （四）HBase的安装和部署
 
