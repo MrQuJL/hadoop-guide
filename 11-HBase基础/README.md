@@ -96,16 +96,44 @@
     </configuration>
     ```
 
+* 启动HDFS：```start-hdfs.sh```
+
 * 启动zookeeper：```zkServer.sh start```
 
 * 启动HBase：```start-hbase.sh```
 
 * 启动HBase Shell：```hbase shell```
 
+* 在web端查看HMaster和RegionServer的情况：localhost:16010
+
 ### （五）-ROOT-和.META.
+
+* HBase中有两张特殊的表，-ROOT- 和 .META.
+
+	* -ROOT-: 记录了.META.表的Region信息,-ROOT-只有一个region
+	
+	* .META.: 记录了用户创建表的Region信息，.META.可以有多个Region
+
+* zookeeper中记录了-ROOT-表的位置
+
+* Client访问用户数据之前需要首先访问zookeeper，获取-ROOT-表的位置，然后访问-ROOT-表，接着访问.META.表，最后才能找到用户数据的位置去访问。
+
 
 ### （六）HBase Shell
 
+* 命令格式如下：
+
+	名称 | 命令表达式
+	---|---
+	创建表 | create '表名称','列族名称1','列族名称2','列族名称N'
+	添加记录 | put '表名称','列族名称','列名称','值'
+	查看记录 | get '表名称','行键'
+	查看表中的记录数 | count '表名称'
+	删除记录 | delete '表名',"行键",'列族名称:列名称'
+	删除表 | 先要屏蔽该表，第一步 disable '表名称' 第二步 drop '表名称'
+	查看所有记录 | scan '表名称'
+	查看某个表某个列的所有数据 | scan 'students',{COLUMNS=>'列族名称:列名称'}
+	更新记录 | 就是重新put一遍进行覆盖
 
 ### （七）HBase的JavaAPI
 
