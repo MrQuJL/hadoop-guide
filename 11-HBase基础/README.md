@@ -10,13 +10,13 @@
 
 * HMaster:
 
-	1. 管理用户对Table的增删改查操作。
+    1. 管理用户对Table的增删改查操作。
 
-	2. 管理HRegionServer服务器之间的负载均衡，调整Region的分布。
+    2. 管理HRegionServer服务器之间的负载均衡，调整Region的分布。
 
-	3. 数据量过大导致Region分裂后，负责分配新的Region。
+    3. 数据量过大导致Region分裂后，负责分配新的Region。
 
-	4. 在Region服务器停机后，负责失效Region服务器上Regiion的迁移。
+    4. 在Region服务器停机后，负责失效Region服务器上Regiion的迁移。
 
 * HRegionServer: 存储Region的服务器。
 
@@ -44,36 +44,57 @@
 
 * 本地模式配置：
 
-	参数文件 | 配置参数 | 参考值
-	---|---|---
-	hbase-env.sh | JAVA_HOME | /root/training/jdk1.8.0_144
-	hbase-site.xml | hbase.rootdir | file:///root/training/hbase-1.3.1/data
+    参数文件 | 配置参数 | 参考值
+    ---|---|---
+    hbase-env.sh | JAVA_HOME | /root/training/jdk1.8.0_144
+    hbase-site.xml | hbase.rootdir | file:///root/training/hbase-1.3.1/data
 
 * 伪分布模式配置：
 
-	参数文件 | 配置参数 | 参考值
-	---|---|---
-	hbase-env.sh | JAVA_HOME | /root/training/jdk1.8.0_144
-	... | HBASE_MANAGES_ZK | true
-	hbase-site.xml | hbase.rootdir | file:///root/training/hbase-1.3.1/data
-	... | hbase.cluster.distributed | true
-	... | hbase.zookeeper.quorum | 192.168.157.111
-	... | dfs.replication | 1
-	regionservers | | 192.168.157.111
+    参数文件 | 配置参数 | 参考值
+    ---|---|---
+    hbase-env.sh | JAVA_HOME | /root/training/jdk1.8.0_144
+    ... | HBASE_MANAGES_ZK | true
+    hbase-site.xml | hbase.rootdir | file:///root/training/hbase-1.3.1/data
+    ... | hbase.cluster.distributed | true
+    ... | hbase.zookeeper.quorum | 192.168.157.111
+    ... | dfs.replication | 1
+    regionservers | | 192.168.157.111
 
 * 全分布模式配置：
 
-	参数文件 | 配置参数 | 参考值
-	---|---|---
-	hbase-env.sh | JAVA_HOME | /root/training/jdk1.8.0_144
-	... | HBASE_MANAGES_ZK | true
-	hbase-site.xml | hbase.rootdir | file:///root/training/hbase-1.3.1/data
-	... | hbase.cluster.distributed | true
-	... | hbase.zookeeper.quorum | 192.168.157.111
-	... | dfs.replication | 2
-	... | hbase.master.maxclockskew | 180000
-	regionservers | | 192.168.157.111
-	... | | 192.168.157.112
+    参数文件 | 配置参数 | 参考值
+    ---|---|---
+    hbase-env.sh | JAVA_HOME | /root/training/jdk1.8.0_144
+    ... | HBASE_MANAGES_ZK | true
+    hbase-site.xml | hbase.rootdir | file:///root/training/hbase-1.3.1/data
+    ... | hbase.cluster.distributed | true
+    ... | hbase.zookeeper.quorum | 192.168.157.111
+    ... | dfs.replication | 2
+    ... | hbase.master.maxclockskew | 180000
+    regionservers | | 192.168.157.111
+    ... | | 192.168.157.112
+
+* 配置xml文件的一般格式(仅供参考)：
+
+    ```xml
+    <?xml version="1.0"?>
+    <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+    <configuration>
+        <property>
+            <name>hbase.rootdir</name>
+            <value>file:///root/training/hbase-1.3.1/data</value>
+        </property>
+        <property>
+            <name>hbase.rootdir</name>
+            <value>file:///root/training/hbase-1.3.1/data</value>
+        </property>
+        <property>
+            <name>hbase.rootdir</name>
+            <value>file:///root/training/hbase-1.3.1/data</value>
+        </property>
+    </configuration>
+    ```
 
 * 启动zookeeper：```zkServer.sh start```
 
