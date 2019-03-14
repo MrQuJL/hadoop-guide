@@ -75,8 +75,13 @@
 	regionservers | | 192.168.157.111
 	... | | 192.168.157.112
 
-### （五）-ROOT-和.META.
+* 启动zookeeper：```zkServer.sh start```
 
+* 启动HBase：```start-hbase.sh```
+
+* 启动HBase Shell：```hbase shell```
+
+### （五）-ROOT-和.META.
 
 ### （六）HBase Shell
 
