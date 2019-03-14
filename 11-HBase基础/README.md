@@ -38,6 +38,42 @@
 
 ### （四）HBase的安装和部署
 
+* 下载HBase：https://hbase.apache.org/downloads.html
+
+* 解压到Linux上的指定目录，修改conf目录下的如下文件：
+
+* 本地模式配置：
+
+	参数文件 | 配置参数 | 参考值
+	---|---|---
+	hbase-env.sh | JAVA_HOME | /root/training/jdk1.8.0_144
+	hbase-site.xml | hbase.rootdir | file:///root/training/hbase-1.3.1/data
+
+* 伪分布模式配置：
+
+	参数文件 | 配置参数 | 参考值
+	---|---|---
+	hbase-env.sh | JAVA_HOME | /root/training/jdk1.8.0_144
+	hbase-env.sh | HBASE_MANAGES_ZK | true
+	hbase-site.xml | hbase.rootdir | file:///root/training/hbase-1.3.1/data
+	hbase-site.xml | hbase.cluster.distributed | true
+	hbase-site.xml | hbase.zookeeper.quorum | 192.168.157.111
+	hbase-site.xml | dfs.replication | 1
+	regionservers | | 192.168.157.111
+
+* 全分布模式配置：
+
+	参数文件 | 配置参数 | 参考值
+	---|---|---
+	hbase-env.sh | JAVA_HOME | /root/training/jdk1.8.0_144
+	hbase-env.sh | HBASE_MANAGES_ZK | true
+	hbase-site.xml | hbase.rootdir | file:///root/training/hbase-1.3.1/data
+	hbase-site.xml | hbase.cluster.distributed | true
+	hbase-site.xml | hbase.zookeeper.quorum | 192.168.157.111
+	hbase-site.xml | dfs.replication | 2
+	hbase-site.xml | hbase.master.maxclockskew | 180000
+	regionservers | | 192.168.157.111
+	regionservers | | 192.168.157.112
 
 ### （五）-ROOT-和.META.
 
