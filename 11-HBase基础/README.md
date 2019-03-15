@@ -605,14 +605,9 @@
 
 	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/11-HBase基础/imgs/arc.png)
 
-* 
+* 在一个RegionServer上单独启动一个HMaster
 
-
-
-
-
-
-
-
-
+	```
+	hbase-daemon.sh start master
+	```
 
