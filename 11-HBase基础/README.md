@@ -585,6 +585,27 @@
 
 * 打成jar包，上传到服务器上
 
+* 修改hadoop的hadoop-env.sh内容，追加如下内容：
+
+    ```
+    export HADOOP_CLASSPATH=$HBASE_HOME/lib/*:${HADOOP_CLASSPATH}
+    ```
+
+    > 注：需要先在 ```/etc/profile``` 文件里定义HBASE_HOME变量的值为HBase所在的Home目录。
+    
+* /etc/profile文件内容：
+
+    ```shell
+    HBASE_HOME=/root/training/hbase-1.3.1
+    export HBASE_HOME
+
+    PATH=$HBASE_HOME/bin:$PATH
+    export PATH
+    ```
+
+    > 注：修改完 ```/etc/profile``` 文件的内容后，需要执行 ```source /etc/profile``` 命令来更新环境变量。
+
+
 * 启动HDFS：start-hdfs.sh
 
 * 启动Yarn：start-yarn.sh
