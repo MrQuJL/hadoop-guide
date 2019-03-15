@@ -2,6 +2,8 @@
 
 ### （一）什么是HBase？
 
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/11-HBase基础/imgs/hbase-logo.png)
+
 一个底层存储依赖于HDFS，分布式依赖于zookeeper，面向列的开源NoSql数据库。
 
 ### （二）HBase的体系结构
