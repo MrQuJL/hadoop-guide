@@ -456,12 +456,156 @@
 
 ### （九）HBase上的MapReduce
 
+* pom依赖暂时没有找到，需要的jar包是hbase的lib目录下的所有jar包
 
+* 测试数据：
+
+	```shell
+	create 'word','content'
+	put 'word','1','content:info','I love Beijing'
+	put 'word','2','content:info','I love China'
+	put 'word','3','content:info','Beijing is the capital of China'
+
+	create 'stat','content'
+	```
+
+* Mapper：
+
+	```java
+	import org.apache.hadoop.hbase.client.Result;
+	import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
+	import org.apache.hadoop.hbase.mapreduce.TableMapper;
+	import org.apache.hadoop.hbase.util.Bytes;
+	import org.apache.hadoop.io.IntWritable;
+	import org.apache.hadoop.io.Text;
+
+	import java.io.IOException;
+
+	/**
+	 * @author 曲健磊
+	 * @date 2019-03-14 19:23:39
+	 */
+	public class MyMapper extends TableMapper<Text, IntWritable> {
+		@Override
+		protected void map(ImmutableBytesWritable key, Result value, Context context) throws IOException, InterruptedException {
+			// 读入的数据：HBase表中的数据--->word表
+			String words = Bytes.toString(value.getValue(Bytes.toBytes("content"), Bytes.toBytes("info")));
+
+			// 分词：I love Beijing
+			String[] itr = words.split(" ");
+
+			for (String w : itr) {
+				// 直接输出
+				Text w1 = new Text();
+				w1.set(w);
+				context.write(w1, new IntWritable(1));
+			}
+		}
+	}
+	```
+
+* Reducer：
+
+	```java
+	import org.apache.hadoop.hbase.client.Put;
+	import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
+	import org.apache.hadoop.hbase.mapreduce.TableReducer;
+	import org.apache.hadoop.hbase.util.Bytes;
+	import org.apache.hadoop.io.IntWritable;
+	import org.apache.hadoop.io.Text;
+
+	import java.io.IOException;
+
+	/**
+	 * @author 曲健磊
+	 * @date 2019-03-15 14:08:54
+	 */
+	public class MyReducer extends TableReducer<Text, IntWritable, ImmutableBytesWritable> {
+		@Override
+		protected void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+			// 求和
+			int sum = 0;
+			for (IntWritable val : values) {
+				sum += val.get();
+			}
+			// 输出---> HBase表
+			// 构造Put,可以使用key作为行键
+			Put put = new Put(Bytes.toBytes(key.toString()));
+
+			// 封装数据
+			put.add(Bytes.toBytes("content"), Bytes.toBytes("info"), Bytes.toBytes(String.valueOf(sum)));
+
+			// 写入HBase
+			context.write(new ImmutableBytesWritable(Bytes.toBytes(key.toString())), put);
+		}
+	}
+	```
+
+* Main:
+
+	```java
+	import org.apache.hadoop.conf.Configuration;
+	import org.apache.hadoop.hbase.client.Scan;
+	import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
+	import org.apache.hadoop.hbase.util.Bytes;
+	import org.apache.hadoop.io.IntWritable;
+	import org.apache.hadoop.io.Text;
+	import org.apache.hadoop.mapreduce.Job;
+
+	import java.io.IOException;
+
+	/**
+	 * @author 曲健磊
+	 * @date 2019-03-15 14:14:41
+	 */
+	public class MyDriver {
+		public static void main(String[] args) throws Exception {
+			Configuration conf = new Configuration();
+			conf.set("hbase.zookeeper.quorum", "127.0.0.1");
+
+			// 创建Job
+			Job job = Job.getInstance(conf);
+			job.setJarByClass(MyDriver.class);
+
+			// 创建Scan
+			Scan scan = new Scan();
+			// 可以指定查询的某一列
+			scan.addColumn(Bytes.toBytes("content"), Bytes.toBytes("info"));
+
+			// 指定查询HBase表的Mapper
+			TableMapReduceUtil.initTableMapperJob("word", scan, MyMapper.class, Text.class, IntWritable.class, job);
+
+			// 指定写入HBase表的Reducer
+			TableMapReduceUtil.initTableReducerJob("stat", MyReducer.class, job);
+
+			job.waitForCompletion(true);
+		}
+	}
+	```
+
+* 打成jar包，上传到服务器上
+
+* 启动HDFS：start-hdfs.sh
+
+* 启动Yarn：start-yarn.sh
+
+* 启动zookeeper：zkServer.sh start
+
+* 启动HBase：start-hbase.sh
+
+* 提交jar包到hadoop集群上运行：hadoop jar xxx.jar
+
+* 通过hbase shell查看运行结果：
+
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/11-HBase基础/imgs/hbasemapreduce.png)
 
 ### （十）HBase的HA
 
+* 架构：
 
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/11-HBase基础/imgs/arc.png)
 
+* 
 
 
 
