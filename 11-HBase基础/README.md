@@ -110,9 +110,9 @@
 
 * HBase中有两张特殊的表，-ROOT- 和 .META.
 
-	* -ROOT-: 记录了.META.表的Region信息,-ROOT-只有一个region
-	
-	* .META.: 记录了用户创建表的Region信息，.META.可以有多个Region
+    * -ROOT-: 记录了.META.表的Region信息,-ROOT-只有一个region
+    
+    * .META.: 记录了用户创建表的Region信息，.META.可以有多个Region
 
 * zookeeper中记录了-ROOT-表的位置
 
@@ -123,17 +123,17 @@
 
 * 命令格式如下：
 
-	名称 | 命令表达式
-	---|---
-	创建表 | create '表名称','列族名称1','列族名称2','列族名称N'
-	添加记录 | put '表名称','列族名称','列名称','值'
-	查看记录 | get '表名称','行键'
-	查看表中的记录数 | count '表名称'
-	删除记录 | delete '表名',"行键",'列族名称:列名称'
-	删除表 | 先要屏蔽该表，第一步 disable '表名称' 第二步 drop '表名称'
-	查看所有记录 | scan '表名称'
-	查看某个表某个列的所有数据 | scan 'students',{COLUMNS=>'列族名称:列名称'}
-	更新记录 | 就是重新put一遍进行覆盖
+    名称 | 命令表达式
+    ---|---
+    创建表 | create '表名称','列族名称1','列族名称2','列族名称N'
+    添加记录 | put '表名称','列族名称','列名称','值'
+    查看记录 | get '表名称','行键'
+    查看表中的记录数 | count '表名称'
+    删除记录 | delete '表名',"行键",'列族名称:列名称'
+    删除表 | 先要屏蔽该表，第一步 disable '表名称' 第二步 drop '表名称'
+    查看所有记录 | scan '表名称'
+    查看某个表某个列的所有数据 | scan 'students',{COLUMNS=>'列族名称:列名称'}
+    更新记录 | 就是重新put一遍进行覆盖
 
 ### （七）HBase的JavaAPI
 
@@ -460,128 +460,128 @@
 
 * 测试数据：
 
-	```shell
-	create 'word','content'
-	put 'word','1','content:info','I love Beijing'
-	put 'word','2','content:info','I love China'
-	put 'word','3','content:info','Beijing is the capital of China'
+    ```shell
+    create 'word','content'
+    put 'word','1','content:info','I love Beijing'
+    put 'word','2','content:info','I love China'
+    put 'word','3','content:info','Beijing is the capital of China'
 
-	create 'stat','content'
-	```
+    create 'stat','content'
+    ```
 
 * Mapper：
 
-	```java
-	import org.apache.hadoop.hbase.client.Result;
-	import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
-	import org.apache.hadoop.hbase.mapreduce.TableMapper;
-	import org.apache.hadoop.hbase.util.Bytes;
-	import org.apache.hadoop.io.IntWritable;
-	import org.apache.hadoop.io.Text;
+    ```java
+    import org.apache.hadoop.hbase.client.Result;
+    import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
+    import org.apache.hadoop.hbase.mapreduce.TableMapper;
+    import org.apache.hadoop.hbase.util.Bytes;
+    import org.apache.hadoop.io.IntWritable;
+    import org.apache.hadoop.io.Text;
 
-	import java.io.IOException;
+    import java.io.IOException;
 
-	/**
-	 * @author 曲健磊
-	 * @date 2019-03-14 19:23:39
-	 */
-	public class MyMapper extends TableMapper<Text, IntWritable> {
-		@Override
-		protected void map(ImmutableBytesWritable key, Result value, Context context) throws IOException, InterruptedException {
-			// 读入的数据：HBase表中的数据--->word表
-			String words = Bytes.toString(value.getValue(Bytes.toBytes("content"), Bytes.toBytes("info")));
+    /**
+     * @author 曲健磊
+     * @date 2019-03-14 19:23:39
+     */
+    public class MyMapper extends TableMapper<Text, IntWritable> {
+        @Override
+        protected void map(ImmutableBytesWritable key, Result value, Context context) throws IOException, InterruptedException {
+            // 读入的数据：HBase表中的数据--->word表
+            String words = Bytes.toString(value.getValue(Bytes.toBytes("content"), Bytes.toBytes("info")));
 
-			// 分词：I love Beijing
-			String[] itr = words.split(" ");
+            // 分词：I love Beijing
+            String[] itr = words.split(" ");
 
-			for (String w : itr) {
-				// 直接输出
-				Text w1 = new Text();
-				w1.set(w);
-				context.write(w1, new IntWritable(1));
-			}
-		}
-	}
-	```
+            for (String w : itr) {
+                // 直接输出
+                Text w1 = new Text();
+                w1.set(w);
+                context.write(w1, new IntWritable(1));
+            }
+        }
+    }
+    ```
 
 * Reducer：
 
-	```java
-	import org.apache.hadoop.hbase.client.Put;
-	import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
-	import org.apache.hadoop.hbase.mapreduce.TableReducer;
-	import org.apache.hadoop.hbase.util.Bytes;
-	import org.apache.hadoop.io.IntWritable;
-	import org.apache.hadoop.io.Text;
+    ```java
+    import org.apache.hadoop.hbase.client.Put;
+    import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
+    import org.apache.hadoop.hbase.mapreduce.TableReducer;
+    import org.apache.hadoop.hbase.util.Bytes;
+    import org.apache.hadoop.io.IntWritable;
+    import org.apache.hadoop.io.Text;
 
-	import java.io.IOException;
+    import java.io.IOException;
 
-	/**
-	 * @author 曲健磊
-	 * @date 2019-03-15 14:08:54
-	 */
-	public class MyReducer extends TableReducer<Text, IntWritable, ImmutableBytesWritable> {
-		@Override
-		protected void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
-			// 求和
-			int sum = 0;
-			for (IntWritable val : values) {
-				sum += val.get();
-			}
-			// 输出---> HBase表
-			// 构造Put,可以使用key作为行键
-			Put put = new Put(Bytes.toBytes(key.toString()));
+    /**
+     * @author 曲健磊
+     * @date 2019-03-15 14:08:54
+     */
+    public class MyReducer extends TableReducer<Text, IntWritable, ImmutableBytesWritable> {
+        @Override
+        protected void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+            // 求和
+            int sum = 0;
+            for (IntWritable val : values) {
+                sum += val.get();
+            }
+            // 输出---> HBase表
+            // 构造Put,可以使用key作为行键
+            Put put = new Put(Bytes.toBytes(key.toString()));
 
-			// 封装数据
-			put.add(Bytes.toBytes("content"), Bytes.toBytes("info"), Bytes.toBytes(String.valueOf(sum)));
+            // 封装数据
+            put.add(Bytes.toBytes("content"), Bytes.toBytes("info"), Bytes.toBytes(String.valueOf(sum)));
 
-			// 写入HBase
-			context.write(new ImmutableBytesWritable(Bytes.toBytes(key.toString())), put);
-		}
-	}
-	```
+            // 写入HBase
+            context.write(new ImmutableBytesWritable(Bytes.toBytes(key.toString())), put);
+        }
+    }
+    ```
 
 * Main:
 
-	```java
-	import org.apache.hadoop.conf.Configuration;
-	import org.apache.hadoop.hbase.client.Scan;
-	import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
-	import org.apache.hadoop.hbase.util.Bytes;
-	import org.apache.hadoop.io.IntWritable;
-	import org.apache.hadoop.io.Text;
-	import org.apache.hadoop.mapreduce.Job;
+    ```java
+    import org.apache.hadoop.conf.Configuration;
+    import org.apache.hadoop.hbase.client.Scan;
+    import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
+    import org.apache.hadoop.hbase.util.Bytes;
+    import org.apache.hadoop.io.IntWritable;
+    import org.apache.hadoop.io.Text;
+    import org.apache.hadoop.mapreduce.Job;
 
-	import java.io.IOException;
+    import java.io.IOException;
 
-	/**
-	 * @author 曲健磊
-	 * @date 2019-03-15 14:14:41
-	 */
-	public class MyDriver {
-		public static void main(String[] args) throws Exception {
-			Configuration conf = new Configuration();
-			conf.set("hbase.zookeeper.quorum", "127.0.0.1");
+    /**
+     * @author 曲健磊
+     * @date 2019-03-15 14:14:41
+     */
+    public class MyDriver {
+        public static void main(String[] args) throws Exception {
+            Configuration conf = new Configuration();
+            conf.set("hbase.zookeeper.quorum", "127.0.0.1");
 
-			// 创建Job
-			Job job = Job.getInstance(conf);
-			job.setJarByClass(MyDriver.class);
+            // 创建Job
+            Job job = Job.getInstance(conf);
+            job.setJarByClass(MyDriver.class);
 
-			// 创建Scan
-			Scan scan = new Scan();
-			// 可以指定查询的某一列
-			scan.addColumn(Bytes.toBytes("content"), Bytes.toBytes("info"));
+            // 创建Scan
+            Scan scan = new Scan();
+            // 可以指定查询的某一列
+            scan.addColumn(Bytes.toBytes("content"), Bytes.toBytes("info"));
 
-			// 指定查询HBase表的Mapper
-			TableMapReduceUtil.initTableMapperJob("word", scan, MyMapper.class, Text.class, IntWritable.class, job);
+            // 指定查询HBase表的Mapper
+            TableMapReduceUtil.initTableMapperJob("word", scan, MyMapper.class, Text.class, IntWritable.class, job);
 
-			// 指定写入HBase表的Reducer
-			TableMapReduceUtil.initTableReducerJob("stat", MyReducer.class, job);
+            // 指定写入HBase表的Reducer
+            TableMapReduceUtil.initTableReducerJob("stat", MyReducer.class, job);
 
-			job.waitForCompletion(true);
-		}
-	}
-	```
+            job.waitForCompletion(true);
+        }
+    }
+    ```
 
 * 打成jar包，上传到服务器上
 
@@ -597,17 +597,17 @@
 
 * 通过hbase shell查看运行结果：
 
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/11-HBase基础/imgs/hbasemapreduce.png)
+    ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/11-HBase基础/imgs/hbasemapreduce.png)
 
 ### （十）HBase的HA
 
 * 架构：
 
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/11-HBase基础/imgs/arc.png)
+    ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/11-HBase基础/imgs/arc.png)
 
 * 在一个RegionServer上单独启动一个HMaster
 
-	```
-	hbase-daemon.sh start master
-	```
+    ```
+    hbase-daemon.sh start master
+    ```
 
