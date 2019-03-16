@@ -75,10 +75,12 @@ version | 显示sqoop版本信息
 
 * 案例五：将mysql中所有表中的数据导入HDFS
 
-```shell
+	```shell
+	sqoop import-all-tables "-Dorg.apache.sqoop.splitter.allow_text_splitter=true" --connect jdbc:mysql://localhost:3306/jzgyl --username root --password Welcome_1
+	```
 
-```
-	
+	> 注："-Dorg.apache.sqoop.splitter.allow_text_splitter=true" 参数允许表的主键是字符串的情况下仍进行导入，导入的表默认存放在HDFS的/user/root目录下，而且还会在执行这条命令的那个目录下生成对应表的java文件。
+
 * 案例六：将HDFS中的数据导出到mysql
 
 	```shell
