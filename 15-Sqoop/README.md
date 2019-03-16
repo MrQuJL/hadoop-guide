@@ -90,18 +90,30 @@ version | 显示sqoop版本信息
 	> 注：如果mysql没有在配置文件中统一utf8编码会出现乱码。
 
 
+* 案例七：列出所有的数据库
 
+	```shell
+	sqoop list-databases --connect jdbc:mysql://localhost:3306/jzgyl --username root --password Welcome_1
+	```
 
+* 案例八：列出某个数据库中所有的表
 
+	```shell
+	sqoop list-tables --connect jdbc:mysql://localhost:3306/jzgyl --username root --password Welcome_1
+	```
 
+* 案例九：查看sqoop的版本
 
+	```shell
+	sqoop version
+	```
 
+* 案例十：将mysql表中的数据导入HBase
 
+	```shell
+	sqoop import --connect jdbc:mysql://localhost:3306/jzgyl --username root --password Welcome_1 --table cate --columns id,name,create_time,update_time --hbase-table cate --hbase-row-key id --column-family info
+	```
 
-
-
-
-
-
+	> ps：lz在执行命令的时候在控制台发现提交的mapreduce程序显示被Killed，以为任务挂掉了，但是登录yarn的网页查看却发现已经执行成功......
 
 
