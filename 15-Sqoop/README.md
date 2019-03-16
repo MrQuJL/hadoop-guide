@@ -62,6 +62,28 @@ version | 显示sqoop版本信息
 	sqoop eval --connect jdbc:mysql://localhost:3306/dbname --username root --password Welcome_1 --query 'select * from cate'
 	```
 
+* 案例四：将mysql中的数据导入到HDFS
+
+	```shell
+	sqoop import --connect jdbc:mysql://localhost:3306/dbname --username root --password Welcome_1 --table cate --target-dir /data
+	```
+
+* 案例五：将HDFS中的数据导出到mysql
+
+	```shell
+	sqoop export --connect jdbc:mysql://localhost:3306/jzgyl --username root --password Welcome_1 --table cate --export-dir /data
+	```
+
+	> 注：如果mysql没有在配置文件中统一utf8编码会出现乱码。
+
+* 案例六：
+
+
+
+
+
+
+
 
 
 
