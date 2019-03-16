@@ -40,6 +40,11 @@ merge | 将HDFS中不同目录下面的数据合在一起，并存放在指定�
 metastore | 记录sqoop job的元数据信息
 version | 显示sqoop版本信息
 
+参数 | 说明
+---|---
+-m | 使用几个map任务并发执行
+--split-by | 拆分数据的字段(数据类型最好是int类型，否则不建议设置)
+
 ### （五）案例
 
 * 案例一：将mysql中的表映射为一个java文件
@@ -68,15 +73,19 @@ version | 显示sqoop版本信息
 	sqoop import --connect jdbc:mysql://localhost:3306/dbname --username root --password Welcome_1 --table cate --target-dir /data
 	```
 
-* 案例五：将HDFS中的数据导出到mysql
+* 案例五：将mysql中所有表中的数据导入HDFS
+
+```shell
+
+```
+	
+* 案例六：将HDFS中的数据导出到mysql
 
 	```shell
-	sqoop export --connect jdbc:mysql://localhost:3306/jzgyl --username root --password Welcome_1 --table cate --export-dir /data  
+	sqoop export --connect jdbc:mysql://localhost:3306/jzgyl --username root --password Welcome_1 --table cate --export-dir /data
 	```
 
 	> 注：如果mysql没有在配置文件中统一utf8编码会出现乱码。
-
-* 案例六：
 
 
 
