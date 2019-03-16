@@ -70,8 +70,8 @@ version | 显示sqoop版本信息
 
 * 案例五：将HDFS中的数据导出到mysql
 
-	```
-	sqoop export --connect jdbc:mysql://localhost:3306/jzgyl --username root --password Welcome_1 --table cate --export-dir /data
+	```shell
+	sqoop export --connect jdbc:mysql://localhost:3306/jzgyl --username root --password Welcome_1 --table cate --export-dir /data  
 	```
 
 	> 注：如果mysql没有在配置文件中统一utf8编码会出现乱码。
