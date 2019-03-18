@@ -104,3 +104,41 @@ DB大小 | 100MB-GB | 100GB-TB
 		3. 可以使用hdfs oiv -i命令将日志（二进制）输出为文本（文本和XML）
 		
 		![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/oiv.png)
+
+* DataNode（数据节点）
+
+1. 以数据块为单位，保存数据
+
+	1. Hadoop1.0的数据块大小：64M
+	
+	2. Hadoop2.0的数据块大小：128M
+
+2. 在全分布模式下，至少两个DataNode节点
+
+3. 数据保存的目录：由hadoop.tmp.dir参数指定
+
+例如：
+
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/datanode.png)
+
+* Secondary NameNode（第二名称节点）
+
+1. 主要作用是进行日志合并
+
+2. 日志合并的过程：
+
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/mergeedits.png)
+
+* HDFS存在的问题
+
+1. NameNode单点故障，难以应用在线场景
+
+	解决方案：Hadoop1.0中，没有解决方案。Hadoop2.0中，使用Zookeeper实现NameNode的HA功能。
+
+2. NameNode压力过大，且内存受限，影响系统扩展性
+
+	解决方案：Hadoop1.0中，没有解决方案。Hadoop2.0中，使用NameNode联盟实现其水平扩展。
+
+
+
+
