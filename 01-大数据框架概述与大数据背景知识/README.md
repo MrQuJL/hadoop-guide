@@ -35,7 +35,7 @@
 
 * OLTP和OLAP的区别：
 
-/ | OLTP | OLAP
+  | OLTP | OLAP
 ---|---|---
 用户 | 操作人员，低层管理人员 | 决策人员，高层管理人员
 功能 | 日常操作处理 | 分析决策
@@ -60,6 +60,8 @@ DB大小 | 100MB-GB | 100GB-TB
 * Hadoop 于 2005 年秋天作为 Lucene的子项目 Nutch的 一部分正式引入Apache基金会。2006 年 3 月份，Map-Reduce 和 Nutch Distributed File System (NDFS) 分别被纳入称为 Hadoop 的项目中
 
 * 名字来源于Doug Cutting儿子的玩具大象。
+
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/pic.png)
 
 ## 二、Apache Hadoop的体系结构
 
