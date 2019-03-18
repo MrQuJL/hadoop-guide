@@ -73,7 +73,7 @@ DB大小 | 100MB-GB | 100GB-TB
 
 1. 维护HDFS文件系统，是HDFS的主节点。
 
-2．接受客户端的请求: 上传文件、下载文件、创建目录等等。
+2. 接受客户端的请求: 上传文件、下载文件、创建目录等等。
 
 ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/upload.png)
 
@@ -91,9 +91,9 @@ DB大小 | 100MB-GB | 100GB-TB
 
 	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/oev.png)
 
-	输出结果为：
+		输出结果为：
 	
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/result.png)
+		![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/result.png)
 
 	4. 维护文件元信息，将内存中不常用（采用LRU算法）的文件元信息保存在硬盘上（fsimage文件）
 
