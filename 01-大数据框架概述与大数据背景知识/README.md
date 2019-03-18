@@ -139,6 +139,31 @@ DB大小 | 100MB-GB | 100GB-TB
 
 	解决方案：Hadoop1.0中，没有解决方案。Hadoop2.0中，使用NameNode联盟实现其水平扩展。
 
+### （二）Yarn：分布式计算（MapReduce）
+
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/yarn.png)
+
+* ResourceManager（资源管理器）
+
+	1. 接收客户端的请求：执行任务
+	
+	2. 分配资源
+	
+	3. 分配任务
+
+* NameNode（节点管理器：运行MapReduce任务）
+
+	1. 从DataNode上获取数据，执行任务
+
+### （三）HBase的体系结构
+
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/hbase.png)
+
+
+
+
+
+
 
 
 
