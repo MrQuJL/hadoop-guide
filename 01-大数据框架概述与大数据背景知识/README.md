@@ -65,12 +65,42 @@ DB大小 | 100MB-GB | 100GB-TB
 
 ## 二、Apache Hadoop的体系结构
 
+### （一）分布式存储：HDFS
 
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/dis.png)
 
+* NameNode（名称节点）
 
+1. 维护HDFS文件系统，是HDFS的主节点。
 
+2．接受客户端的请求: 上传文件、下载文件、创建目录等等。
 
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/upload.png)
 
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/download.png)
 
+3. 记录客户端操作的日志（edits文件），保存了HDFS最新的状态.
 
+	1. Edits文件保存了自最后一次检查点之后所有针对HDFS文件系统的操		作，比如：增加文件、重命名文件、删除目录等等
 
+	2. 保存目录：$HADOOP_HOME/tmp/dfs/name/current
+
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/edits.png)
+
+	3. 可以使用hdfs oev -i命令将日志（二进制）输出为XML文件
+
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/oev.png)
+
+	输出结果为：
+	
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/result.png)
+
+	4. 维护文件元信息，将内存中不常用（采用LRU算法）的文件元信息保存在硬盘上（fsimage文件）
+
+		1. fsimage是HDFS文件系统存于硬盘中的元数据检查点，里面记录了自		最后一次检查点之前HDFS文件系统中所有目录和文件的序列化信息
+
+		2. 保存目录：$HADOOP_HOME/tmp/dfs/name/current
+
+		3. 可以使用hdfs oiv -i命令将日志（二进制）输出为文本（文本和XML）
+		
+		![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/oiv.png)
