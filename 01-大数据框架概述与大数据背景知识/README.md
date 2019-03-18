@@ -75,9 +75,9 @@ DB大小 | 100MB-GB | 100GB-TB
 
 2．接受客户端的请求: 上传文件、下载文件、创建目录等等。
 
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/upload.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/upload.png)
 
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/download.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/download.png)
 
 3. 记录客户端操作的日志（edits文件），保存了HDFS最新的状态.
 
