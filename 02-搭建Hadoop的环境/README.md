@@ -79,7 +79,7 @@ slaves | DataNode的ip地址或主机名 | qujianlei001
 
 ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-搭建Hadoop的环境/imgs/ssh.png)
 
-
+详细操作见：https://blog.csdn.net/a909301740/article/details/84147035
 
 
 
