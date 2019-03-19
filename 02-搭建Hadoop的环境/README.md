@@ -69,11 +69,11 @@ slaves | DataNode的ip地址或主机名 | qujianlei001
 
 * HDFS Console：http://192.168.157.11:50070
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-搭建Hadoop的环境/imgs/HDFSConsole.png)
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-搭建Hadoop的环境/imgs/HDFSConsole.png)
 
 * Yarn Console：http://192.168.157.11:8088
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-搭建Hadoop的环境/imgs/YARNConsole.png)
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-搭建Hadoop的环境/imgs/YARNConsole.png)
 
 
 
