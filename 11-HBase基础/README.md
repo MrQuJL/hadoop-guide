@@ -98,6 +98,8 @@
     </configuration>
     ```
 
+* hbase-env.sh 的45行，46行，47行，jdk1.8可以移除。
+
 * 启动HDFS：```start-hdfs.sh```
 
 * 启动zookeeper：```zkServer.sh start```
@@ -116,6 +118,8 @@
     
     * .META.: 记录了用户创建表的Region信息，.META.可以有多个Region
 
+	> 注：-ROOT-表在0.96版本之后被移除了，因为多了一个步骤，影响了性能。
+	
 * zookeeper中记录了-ROOT-表的位置
 
 * Client访问用户数据之前需要首先访问zookeeper，获取-ROOT-表的位置，然后访问-ROOT-表，接着访问.META.表，最后才能找到用户数据的位置去访问。
