@@ -56,4 +56,4 @@
 
 ### （三）Hadoop在淘宝的应用
 
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/03-Hadoop的应用案例分析/imgs/ali.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/03-Hadoop的应用案例分析/imgs/ali.png)
