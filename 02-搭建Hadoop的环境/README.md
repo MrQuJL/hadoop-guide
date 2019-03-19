@@ -75,6 +75,20 @@ slaves | DataNode的ip地址或主机名 | qujianlei001
 
 	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-搭建Hadoop的环境/imgs/YARNConsole.png)
 
+### （五）配置SSH免密登录
+
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-搭建Hadoop的环境/imgs/ssh.png)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
