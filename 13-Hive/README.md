@@ -109,7 +109,33 @@
 
 ##### 2. Partition Table（分区表）
 
+* Partition 对应于数据库的 Partition 列的密集索引
 
+* 在 Hive 中，表中的一个 Partition 对应于表下的一个目录，所有的 Partition 的数据都存储在对应的目录中
+
+	```sql
+	create table emp_part
+	(empno int,
+	ename string,
+	job string,
+	mgr int,
+	hiredate string,
+	sal int,
+	comm int)
+	partitioned by (deptno int)
+	row format delimited fields terminated by ',';
+	```
+
+* 往分区表中插入数据：
+
+	```sql
+	insert into table emp_part partition(deptno=10)
+	select empno,ename,job,mgr,hiredate,sal,comm from emp where deptno=10;
+	insert into table emp_part partition(deptno=20)
+	select empno,ename,job,mgr,hiredate,sal,comm from emp where deptno=20;
+	```
+
+	> insert 语句会转换成一个mapreduce程序，所以需要先启动yarn：start-yarn.sh
 
 ##### 3. External Table（外部表）
 
