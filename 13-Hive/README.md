@@ -87,9 +87,27 @@
 
 ##### 1. Inner Table（内部表）
 
+* 与数据库中的Table在概念上是类似的
+* 每一个Table在Hive中都有一个相应的目录存储数据
+* 所有的Table数据（不包括External Table）都保存在这个目录中
+* 删除表时，元数据与数据都会被删除
 
+	```sql
+	create table emp
+	(empno int,
+	ename string,
+	job string,
+	mgr int,
+	hiredate string,
+	sal int,
+	comm int,
+	deptno int)
+	row format delimited fields terminated by ',';
+	```
 
 ##### 2. Partition Table（分区表）
+
+
 
 ##### 3. External Table（外部表）
 
