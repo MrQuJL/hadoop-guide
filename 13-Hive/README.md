@@ -77,7 +77,7 @@
 
 ### （五）Hive的数据模型
 
-#### Hive的数据存储：
+#### 5.1. Hive的数据存储：
 
 * 基于HDFS
 * 没有专门的数据存储格式
@@ -85,9 +85,9 @@
 * 可以直接加载文本文件（.txt文件）
 * 创建表时，指定Hive数据的列分隔符与行分隔符
 
-#### 表：
+#### 5.2. 表：
 
-##### 1. Inner Table（内部表）
+##### 5.2.1. Inner Table（内部表）
 
 * 与数据库中的Table在概念上是类似的
 * 每一个Table在Hive中都有一个相应的目录存储数据
@@ -107,7 +107,7 @@
 	row format delimited fields terminated by ',';
 	```
 
-##### 2. Partition Table（分区表）
+##### 5.2.2. Partition Table（分区表）
 
 * Partition 对应于数据库的 Partition 列的密集索引
 
@@ -137,7 +137,7 @@
 
 	> insert 语句会转换成一个mapreduce程序，所以需要先启动yarn：start-yarn.sh
 
-##### 3. External Table（外部表）
+##### 5.2.3. External Table（外部表）
 
 * 指向已经在 HDFS 中存在的数据，可以创建 Partition
 
@@ -152,7 +152,7 @@
 	location '/students';
 	```
 
-##### 4. Bucket Table（桶表）
+##### 5.2.4. Bucket Table（桶表）
 
 * 桶表是对数据进行哈希取值，然后放到不同文件中存储
 
@@ -170,7 +170,9 @@
 	row format delimited fields terminated by ',';
 	```
 
-#### 视图（View）
+	> 注：不能直接向桶表中加载数据，需要使用insert语句插入数据
+	
+#### 5.3. 视图（View）
 
 * 视图是一种虚表，是一个逻辑概念，可以跨越多张表
 * 视图建立在已有表的基础上，视图依赖以建立的这些表称为基表
@@ -179,8 +181,75 @@
 
 ### （六）Hive的数据的导入
 
+* Hive支持两种方式的数据导入
+
+	* 使用load语句导入数据
+	* 使用sqoop导入关系型数据库中的数据
+
+* 使用load语句导入数据
+
+	* 数据文件：
+	
+		```
+		student.csv
+		1,Tom,23
+		2,Mary,24
+		3,Mike,22
+		
+		create table student(sid int, sname string, age int)
+		row format delimited fields terminated by ',';
+		```
+
+	* 导入本地数据文件：
+	
+		```sql
+		load data local inpath '/root/training/data/student.csv' into table student;
+		```
+	
+		> 注意：Hive默认分隔符是: tab键。所以需要在建表的时候，指定分隔符。
+	
+		```sql
+		create table student1
+		(sid int,sname string,age int)
+		row format delimited fields terminated by ',';
+		```
+
+	* 导入HDFS上的数据：
+
+		```sql
+		create table student2
+		(sid int,sname string,age int)
+		row format delimited fields terminated by ',';
+		```
+		
+		```sql
+		load data inpath '/input/student.csv' into table student2;
+		```
+
+* 使用sqoop导入关系型数据库中的数据
+
+	* 将关系型数据的表结构复制到hive中：
+	
+		```shell
+		sqoop create-hive-table --connect jdbc:mysql://localhost:3306/test --username root --password 123 --table student --hive-table student
+		```
+	
+		> 注：其中 --table username为mysql中的数据库test中的表   --hive-table test 为hive中新建的表名称
+	
+	* 从关系数据库导入文件到hive中：
+		
+		```shell
+		sqoop import --connect jdbc:mysql://localhost:3306/test --username root --password 123 --table student --hive-import
+		```
+	
+	* 将hive中的数据导入到mysql中：
+	
+	```shell
+	sqoop export --connect jdbc:mysql://localhost:3306/test --username root --password 123 --table uv_info --export-dir /user/hive/warehouse/uv/dt=2011-08-03
+	```
 
 ### （七）Hive的查询
+
 
 
 ### （八）Hive的客户端操作：JDBC
