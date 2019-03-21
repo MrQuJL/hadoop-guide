@@ -139,7 +139,36 @@
 
 ##### 3. External Table（外部表）
 
+* 指向已经在 HDFS 中存在的数据，可以创建 Partition
+
+* 它和内部表在元数据的组织上是相同的，而实际数据的存储则有较大的差异
+
+* 外部表 只有一个过程，加载数据和创建表同时完成，并不会移动到数据仓库目录中，只是与外部数据建立一个链接。当删除一个外部表时，仅删除该链接
+
+	```sql
+	create external table ex_student
+	(sid int, sname string, age int)
+	row format delimited terminated by ','
+	location '/students';
+	```
+
 ##### 4. Bucket Table（桶表）
+
+* 桶表是对数据进行哈希取值，然后放到不同文件中存储
+
+	```sql
+	create table emp_bucket
+	(empno int,
+	ename string,
+	job string,
+	mgr int,
+	hiredate string,
+	sal int,
+	comm int,
+	deptno int)
+	clustered by (job) into 4 buckets
+	row format delimited fields terminated by ',';
+	```
 
 #### 视图（View）
 
