@@ -244,9 +244,9 @@
 	
 	* 将hive中的数据导入到mysql中：
 	
-	```shell
-	sqoop export --connect jdbc:mysql://localhost:3306/test --username root --password 123 --table uv_info --export-dir /user/hive/warehouse/uv/dt=2011-08-03
-	```
+		```shell
+		sqoop export --connect jdbc:mysql://localhost:3306/test --username root --password 123 --table uv_info --export-dir /user/hive/warehouse/uv/dt=2011-08-03
+		```
 
 ### （七）Hive的查询
 
