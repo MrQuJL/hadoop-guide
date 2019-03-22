@@ -60,7 +60,27 @@ a1.sinks.k1.channel=c1
 #### 案例二：监听某个目录，每当目录下新增文件时，将该文件的内容打印到控制台
 
 ```shell
+#bin/flume-ng agent -n a2 -f myagent/a2.conf -c conf -Dflume.root.logger=INFO,console
+#定义agent名，source，channel，sink的名称
+a2.sources=r1
+a2.channels=c1
+a2.sinks=k1
 
+#具体定义source
+a2.sources.r1.type=spooldir
+a2.sources.r1.spoolDir=/root/logs/
+
+#具体定义channel
+a2.channels.c1.type=memory
+a2.channels.c1.capacity=1000
+a2.channels.c1.transactionCapacity=100
+
+#具体定义sink
+a2.sinks.k1.type=logger
+
+#组装source，channel，sinks
+a2.sources.r1.channels=c1
+a2.sinks.k1.channel=c1
 ```
 
 #### 案例三：监听某个目录，每当目录下新增文件时，将文件复制到HDFS上指定目录
