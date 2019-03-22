@@ -11,6 +11,12 @@ Flume是Cloudera提供的一个高可用的，高可靠的，分布式的海量�
 
 ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/16-Flume/imgs/flume-arc.png)
 
+* Source: 用于采集日志数据
+
+* Channel: 缓存日志数据
+
+* Sink: 将Channel中缓存的日志数据转移到指定地点(此处是HDFS)
+
 ### （三）安装和配置Flume
 
 * 下载Flume：http://flume.apache.org/download.html
@@ -27,18 +33,24 @@ Flume是Cloudera提供的一个高可用的，高可靠的，分布式的海量�
 
 #### 案例一：监听某个文件的末尾，将新增内容打印到控制台
 
+```shell
 
+```
 
 #### 案例二：监听某个目录，每当目录下新增文件时，将该文件的内容打印到控制台
 
+```shell
 
+```
 
 #### 案例三：监听某个目录，每当目录下新增文件时，将文件复制到HDFS上指定目录
 
 
+```shell
 
+```
 
-
+### 案例四：监听某个目录，每当目录下新增文件时，
 
 
 
