@@ -1,0 +1,46 @@
+## Flume
+
+### （一）什么是Flume？
+
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/16-Flume/imgs/flume-logo.png)
+
+Flume是Cloudera提供的一个高可用的，高可靠的，分布式的海量日志采集、聚合和传输的系统，Flume支持在日志系统中定制各类数据发送方，用于收集数据；同时，Flume提供对数据进行简单处理，并写到各种数据接受方（可定制）的能力。
+
+
+### （二）Flume的体系结构
+
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/16-Flume/imgs/flume-arc.png)
+
+### （三）安装和配置Flume
+
+* 下载Flume：http://flume.apache.org/download.html
+
+* 解压：tar -zxvf apache-flume-1.7.0-bin.tar.gz -C ~/training
+
+* 将flume-env.sh.template改名为flume-env.sh
+
+* 修改conf/flume-env.sh设置JAVA_HOME即可
+
+### （四）使用Flume采集日志数据
+
+在Flume根目录下新建一个myagent目录，在myagent目录下创建a1.conf配置文件：
+
+#### 案例一：监听某个文件的末尾，将新增内容打印到控制台
+
+
+
+#### 案例二：监听某个目录，每当目录下新增文件时，将该文件的内容打印到控制台
+
+
+
+#### 案例三：监听某个目录，每当目录下新增文件时，将文件复制到HDFS上指定目录
+
+
+
+
+
+
+
+
+
+
