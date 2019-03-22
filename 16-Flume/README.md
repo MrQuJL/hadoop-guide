@@ -85,12 +85,43 @@ a2.sinks.k1.channel=c1
 
 #### 案例三：监听某个目录，每当目录下新增文件时，将文件复制到HDFS上指定目录
 
-
 ```shell
+#bin/flume-ng agent -n a3 -f myagent/a3.conf -c conf -Dflume.root.logger=INFO,console
+#定义agent名，source，channel，sink的名称
+a3.sources=r1
+a3.channels=c1
+a3.sinks=k1
 
+#具体定义source
+a3.sources.r1.type=spooldir
+a3.sources.r1.spoolDir=/root/logs
+
+#为source定义拦截器，给消息添加时间戳
+a3.sources.r1.interceptors=i1
+a3.sources.r1.interceptors.i1.type=org.apache.flume.interceptor.TimestampInterceptor$Builder
+
+#具体定义channel
+a3.channels.c1.type=memory
+a3.channels.c1.capacity=1000
+a3.channels.c1.transactionCapacity=100
+
+#具体定义sink
+a3.sinks.k1.type=hdfs
+a3.sinks.k1.hdfs.path=hdfs://127.0.0.1:9000/flume/%Y%m%d
+a3.sinks.k1.hdfs.filePrefix=events-
+a3.sinks.k1.hdfs.fileType=DataStream
+
+#不按照条数生成文件
+a3.sinks.k1.hdfs.rollCount=0
+a3.sinks.k1.hdfs.rollSize=134217728
+a3.sinks.k1.hdfs.rollInterval=60
+
+#组装source，channel，sink
+a3.sources.r1.channels=c1
+a3.sinks.k1.channel=c1
 ```
 
-#### 案例四：监听某个目录，每当目录下新增文件时，
+#### 案例四：监听某个目录，每当目录下新增文件时，将数据推送到kafka
 
 
 
