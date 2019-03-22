@@ -29,12 +29,32 @@ Flume是Cloudera提供的一个高可用的，高可靠的，分布式的海量�
 
 ### （四）使用Flume采集日志数据
 
-在Flume根目录下新建一个myagent目录，在myagent目录下创建a1.conf配置文件：
+在Flume根目录下新建一个myagent目录，在myagent目录下创建如下的配置文件：
 
 #### 案例一：监听某个文件的末尾，将新增内容打印到控制台
 
 ```shell
+#bin/flume-ng agent -n a1 -f myagent/a1.conf -c conf -Dflume.root.logger=INFO,console
+#定义agent名，source、channel、sink的名称
+a1.sources=r1
+a1.channels=c1
+a1.sinks=k1
 
+#具体定义source
+a1.sources.r1.type=exec
+a1.sources.r1.command=tail -F /root/logs/a.log
+
+#具体定义channel
+a1.channels.c1.type=memory
+a1.channels.c1.capacity=1000
+a1.channels.c1.transactionCapacity=100
+
+#具体定义sink
+a1.sinks.k1.type=logger
+
+#组装source,channel,sink
+a1.sources.r1.chanels=c1
+a1.sinks.k1.channel=c1
 ```
 
 #### 案例二：监听某个目录，每当目录下新增文件时，将该文件的内容打印到控制台
@@ -50,7 +70,7 @@ Flume是Cloudera提供的一个高可用的，高可靠的，分布式的海量�
 
 ```
 
-### 案例四：监听某个目录，每当目录下新增文件时，
+#### 案例四：监听某个目录，每当目录下新增文件时，
 
 
 
