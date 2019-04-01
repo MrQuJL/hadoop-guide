@@ -123,7 +123,39 @@ a3.sinks.k1.channel=c1
 
 #### 案例四：监听某个目录，每当目录下新增文件时，将数据推送到kafka
 
+```shell
+#bin/flume-ng agent -n a4 -f myagent/a4.conf -c conf -Dflume.root.logger=INFO,console
+#定义a4名， source、channel、sink的名称
+a4.sources = r1
+a4.channels = c1
+a4.sinks = k1
 
+#具体定义source
+a4.sources.r1.type = spooldir
+a4.sources.r1.spoolDir = /root/logs
+
+#具体定义channel
+a4.channels.c1.type = memory
+a4.channels.c1.capacity = 10000
+a4.channels.c1.transactionCapacity = 100
+
+#设置Kafka接收器
+a4.sinks.k1.type= org.apache.flume.sink.kafka.KafkaSink
+
+#设置Kafka的broker地址和端口号
+#HDP 集群kafka broker的默认端口是6667，而不是9092
+a4.sinks.k1.brokerList=qujianlei:9092
+
+#设置Kafka的Topic
+a4.sinks.k1.topic=mytopic
+
+#设置序列化方式
+a4.sinks.k1.serializer.class=kafka.serializer.StringEncoder
+
+#组装source、channel、sink
+a4.sources.r1.channels = c1
+a4.sinks.k1.channel = c1
+```
 
 
 
