@@ -17,8 +17,8 @@
 -getmerge | 将hdfs指定目录下所有文件排序后合并到local指定的文件中，文件不存在时会自动创建，文件存在时会覆盖里面的内容 | 将HDFS上/data/input目录下的所有文件合并到本地的a.txt文件中: hdfs dfs -getmerge /data/input /root/a.txt
 -cp | 在HDFS上拷贝文件 | 
 -mv | 在HDFS上移动文件 | 
-
-
+-count | 统计hdfs对应路径下的目录个数，文件个数，文件总计大小 <br/> 显示为目录个数，文件个数，文件总计大小，输入路径 | hdfs dfs -count /data
+-du | 显示hdfs对应路径下每个文件和文件大小 | hdfs dfs -du /
 
 
 
