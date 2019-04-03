@@ -2,6 +2,8 @@
 
 ### （一）HDFS的命令行操作
 
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/04-操作HDFS/imgs/hdfs.png)
+
 #### 1. HDFS操作命令（HDFS操作命令帮助信息：hdfs dfs）
 
 命令 | 说明 | 示例

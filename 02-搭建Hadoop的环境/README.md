@@ -2,6 +2,8 @@
 
 ### （一）Hadoop安装部署的预备条件
 
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-搭建Hadoop的环境/imgs/hadoop-logo.jpg)
+
 * 安装Linux
 
 * 安装JDK
