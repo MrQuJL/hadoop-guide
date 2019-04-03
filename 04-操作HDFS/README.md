@@ -19,19 +19,15 @@
 -mv | 在HDFS上移动文件 | 
 -count | 统计hdfs对应路径下的目录个数，文件个数，文件总计大小 <br/> 显示为目录个数，文件个数，文件总计大小，输入路径 | hdfs dfs -count /data
 -du | 显示hdfs对应路径下每个文件和文件大小 | hdfs dfs -du /
-
-
-
-
-
-
-
-
+-text、-cat | 相当于Linux的cat命令 | hdfs dfs -cat /input/1.txt
+balancer | 如果管理员发现某些DataNode保存数据过多，某些DataNode保存数据相对较少，可以使用上述命令手动启动内部的均衡过程 | hdfs balancer
 
 #### 2. HDFS管理命令（HDFS管理命令帮助信息：hdfs dfsadmin）
 
-
-
+命令 | 说明 | 示例
+---|---|---
+-report | 显示HDFS的总容量，剩余容量，datanode的相关信息 | hdfs dfsadmin -report
+-safemode | HDFS的安全模式命令<enter|leave|get|wait> | hdfs dfsadmin -safemode enter|leave|get|wait
 
 ### （二）HDFS的JavaAPI
 
