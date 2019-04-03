@@ -27,7 +27,7 @@ balancer | 如果管理员发现某些DataNode保存数据过多，某些DataNod
 命令 | 说明 | 示例
 ---|---|---
 -report | 显示HDFS的总容量，剩余容量，datanode的相关信息 | hdfs dfsadmin -report
--safemode | HDFS的安全模式命令<enter|leave|get|wait> | hdfs dfsadmin -safemode enter|leave|get|wait
+-safemode | HDFS的安全模式命令```<enter|leave|get|wait>``` | ```hdfs dfsadmin -safemode enter|leave|get|wait```
 
 ### （二）HDFS的JavaAPI
 
