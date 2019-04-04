@@ -258,3 +258,19 @@
 
 ### （九）Hive的自定义函数
 
+
+### （十）Hive常见问题解决
+
+* 启动Hive后输入 ```show tables``` 命令报异常：Unable to instantiate org.apache.hadoop.hive.metastore.HiveMetaStoreClient
+
+	在hive-site.xml文件中添加如下配置：
+	```
+	<property>
+		<name>hive.metastore.schema.verification</name>
+		<value>false</value>
+	</property>
+	```
+
+
+
+
