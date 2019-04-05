@@ -271,6 +271,14 @@
     </property>
     ```
 
+* Hive如何将日期格式的字符串 "2019-04-04 21:13:20" 转换成日期类型的数据：
 
+	1. 将日期格式的字符串转换成时间戳格式：
+	
+		select unix_timestamp(action_time, 'yyyy-MM-dd HH:mm:ss') from tab;
+
+	2. 再将unix时间戳转换成具体的日期：
+	
+		select from_unixtime(unix_timestamp(action_time, 'yyyy-MM-dd HH:mm:ss'), 'yyyy-MM-dd HH:mm:ss') from tab;
 
 
