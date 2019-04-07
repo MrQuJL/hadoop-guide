@@ -281,4 +281,8 @@
 	
 		select from_unixtime(unix_timestamp(action_time, 'yyyy-MM-dd HH:mm:ss'), 'yyyy-MM-dd HH:mm:ss') from tab;
 
+* 将mysql的表复制一份到hive上时，默认创建的表的分隔符是\tab，若要修改分隔符：
 
+	```sql
+	alter table tbname set SERDEPROPERTIES('field.delim'='\t');
+	```
