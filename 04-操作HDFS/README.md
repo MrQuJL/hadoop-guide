@@ -31,6 +31,14 @@ balancer | 如果管理员发现某些DataNode保存数据过多，某些DataNod
 
 ### （二）HDFS的JavaAPI
 
+通过HDFS提供的JavaAPI，我们可以完成以下的功能：
+
+1. 
+
+
+
+
+
 ### （三）HDFS的WebConsole
 
 ### （四）HDFS的回收站
