@@ -34,27 +34,27 @@ balancer | 如果管理员发现某些DataNode保存数据过多，某些DataNod
 所需pom依赖如下：
 ```xml
 <dependencies>
-	<dependency>
-		<groupId>junit</groupId>
-		<artifactId>junit</artifactId>
-		<version>3.8.1</version>
-		<scope>test</scope>
-	</dependency>
-	<dependency>
-		<groupId>org.apache.hadoop</groupId>
-		<artifactId>hadoop-client</artifactId>
-		<version>2.7.3</version>
-	</dependency>
-	<dependency>
-		<groupId>org.apache.hadoop</groupId>
-		<artifactId>hadoop-common</artifactId>
-		<version>2.7.3</version>
-	</dependency>
-	<dependency>
-		<groupId>org.apache.hadoop</groupId>
-		<artifactId>hadoop-hdfs</artifactId>
-		<version>2.7.3</version>
-	</dependency>
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>3.8.1</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-client</artifactId>
+        <version>2.7.3</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-common</artifactId>
+        <version>2.7.3</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-hdfs</artifactId>
+        <version>2.7.3</version>
+    </dependency>
 </dependencies>
 ```
 
@@ -64,12 +64,12 @@ balancer | 如果管理员发现某些DataNode保存数据过多，某些DataNod
     ```java
     @Test
     public void testMkDir() throws Exception {
-    	Configuration conf = new Configuration();
-    	conf.set("fs.defaultFS", "hdfs://192.168.137.25:9000");
-    	FileSystem fs = FileSystem.get(conf);
-    	// 创建目录
-    	boolean flag = fs.mkdirs(new Path("/inputdata"));
-    	System.out.println(flag);
+        Configuration conf = new Configuration();
+        conf.set("fs.defaultFS", "hdfs://192.168.137.25:9000");
+        FileSystem fs = FileSystem.get(conf);
+        // 创建目录
+        boolean flag = fs.mkdirs(new Path("/inputdata"));
+        System.out.println(flag);
     }
     ```
 
