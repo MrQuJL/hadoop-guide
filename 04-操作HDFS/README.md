@@ -203,9 +203,33 @@ balancer | 如果管理员发现某些DataNode保存数据过多，某些DataNod
     ```
 
 ### （五）HDFS的快照
-
-
-
+* 一个snapshot（快照）是一个全部文件系统、或者某个目录在某一时刻的镜像
+* 快照应用在如下场景中：
+	* 防止用户的错误操作
+	* 备份
+	* 试验/测试
+	* 灾难恢复
+* HDFS的快照操作
+	* 开启快照
+    ```shell
+    hdfs dfsadmin -allowSnapshot /input
+    ```
+	* 创建快照
+    ```shell
+    hdfs dfs -createSnapshot /input backup_input_01
+    ```
+	* 查看快照
+    ```shell
+    hdfs lsSnapshottableDir
+    ```
+	* 对比快照
+    ```shell
+    hdfs snapshotDiff /input backup_input_01 backup_input_02
+    ```
+	* 恢复快照
+    ```shell
+    hdfs dfs -cp /input/.snapshot/backup_input_01/data.txt /input
+    ```
 
 ### （六）HDFS的用户权限管理
 
