@@ -178,6 +178,8 @@ balancer | 如果管理员发现某些DataNode保存数据过多，某些DataNod
 
 ### （三）HDFS的WebConsole
 
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/04-操作HDFS/imgs/console.png)
+
 ### （四）HDFS的回收站
 
 ### （五）HDFS的快照
