@@ -202,9 +202,10 @@ balancer | 如果管理员发现某些DataNode保存数据过多，某些DataNod
     hdfs dfs -cp /user/root/.Trash/Current/data.txt /input
     ```
 
-
-
 ### （五）HDFS的快照
+
+
+
 
 ### （六）HDFS的用户权限管理
 
