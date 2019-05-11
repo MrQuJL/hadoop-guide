@@ -182,6 +182,28 @@ balancer | 如果管理员发现某些DataNode保存数据过多，某些DataNod
 
 ### （四）HDFS的回收站
 
+* 默认回收站是关闭的，可以通过在core-site.xml中添加fs.trash.interval来打开配置时间阀值，例如：
+    ```xml
+    <property>
+        <name>fs.trash.interval</name>
+        <value>1440</value>
+    </property>
+    ```
+
+* 删除文件时，其实是放入回收站/user/root/.Trash/Current
+* 回收站里的文件可以快速恢复
+* 可以设置一个时间阀值，当回收站里文件的存放时间超过这个阀值，就被彻底删除，并且释放占用的数据块
+* 查看回收站：
+    ```shell
+    hdfs dfs -ls /user/root/.Trash/Current
+    ```
+* 从回收站中恢复
+    ```shell
+    hdfs dfs -cp /user/root/.Trash/Current/data.txt /input
+    ```
+
+
+
 ### （五）HDFS的快照
 
 ### （六）HDFS的用户权限管理
