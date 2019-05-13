@@ -233,6 +233,17 @@ balancer | 如果管理员发现某些DataNode保存数据过多，某些DataNod
 
 ### （六）HDFS的用户权限管理
 
+* 启动namenode服务的用户就是超级用户，该用户的组是supergroup
+    ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/04-操作HDFS/imgs/group.png)
+
+* shell 命令
+
+命令 | 说明
+---|---
+chmod[-R] mode file... | 只有文件的所有者或者超级用户才有权限改变文件模式
+chgrp[-R] group file ... | 使用chgrp命令的用户必须属于特定的组且是文件的所有者，或者用户是超级用户
+chown[-R][owner]:[group] file | 文件的所有者只能被超级用户修改
+
 ### （七）HDFS的配额管理
 
 ### （八）HDFS的安全模式
