@@ -238,13 +238,34 @@ balancer | 如果管理员发现某些DataNode保存数据过多，某些DataNod
 
 * shell 命令
 
-命令 | 说明
----|---
-chmod[-R] mode file... | 只有文件的所有者或者超级用户才有权限改变文件模式
-chgrp[-R] group file ... | 使用chgrp命令的用户必须属于特定的组且是文件的所有者，或者用户是超级用户
-chown[-R][owner]:[group] file | 文件的所有者只能被超级用户修改
+    命令 | 说明
+    ---|---
+    chmod[-R] mode file... | 只有文件的所有者或者超级用户才有权限改变文件模式
+    chgrp[-R] group file ... | 使用chgrp命令的用户必须属于特定的组且是文件的所有者，或者用户是超级用户
+    chown[-R][owner]:[group] file | 文件的所有者只能被超级用户修改
 
 ### （七）HDFS的配额管理
+
+#### 什么是配额？
+
+配额就是HDFS为每个目录分配的大小空间，新建立的目录是没有配额的，最大的配额是Long.MAX_VALUE。配额为1可以强制目录保持为空。
+
+#### 配额的类型？
+
+* 名称配额：用于设置该目录中能够存放的最多文件（目录）个数。
+* 空间配额：用于设置该目录中最大能够存放的文件大小。
+
+#### 配额的应用案例
+
+* 设置/input目录的名称配额为3：```hdfs dfsadmin -setQuota 3 /input```
+
+* 清除/input目录的名称配额：```hdfs dfsadmin -clrQuota /input```
+
+* 设置/input目录的空间配额为1M：```hdfs dfsadmin -setSpaceQuota 1048576 /input```
+
+* 清除input目录的空间配额：```hdfs dfsadmin -clrSpaceQuota /input```
+
+**注意：如果hdfs文件系统中文件个数或者大小超过了限制配额，会出现错误。**
 
 ### （八）HDFS的安全模式
 
