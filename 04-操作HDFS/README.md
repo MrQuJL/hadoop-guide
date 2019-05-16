@@ -269,9 +269,20 @@ balancer | 如果管理员发现某些DataNode保存数据过多，某些DataNod
 
 ### （八）HDFS的安全模式
 
-### （九）HDFS的底层原理
+* 什么是安全模式？
 
+    安全模式是hadoop的一种保护机制，用于保证集群中的数据块的安全性。如果HDFS处于安全模式，则表示HDFS是只读状态。
 
+* **当集群启动的时候，会首先进入安全模式**。当系统处于安全模式时会检查数据块的完整性。假设我们设置的副本数（即参数dfs.replication）是5，那么在datanode上就应该有5个副本存在，假设只存在3个副本，那么比例就是3/5=0.6。在配置文件hdfs-default.xml中定义了一个最小的副本的副本率0.999，如图：
 
+    ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/04-操作HDFS/imgs/safe.png)
 
+    我们的副本率0.6明显小于0.99，因此系统会自动的复制副本到其他的dataNode,使得副本率不小于0.999.如果系统中有8个副本，超过我们设定的5个副本，那么系统也会删除多余的3个副本。
+
+* 虽然不能进行修改文件的操作，但是可以浏览目录结构、查看文件内容。
+
+* 在命令行下是可以控制安全模式的进入、退出和查看的：
+    * 查看安全模式状态：```hdfs dfsadmin -safemode get```
+    * 进入安全模式状态：```hdfs dfsadmin -safemode enter```
+    * 离开安全模式状态：```hdfs dfsadmin -safemode leave```
 
