@@ -160,6 +160,7 @@ a4.sinks.k1.channel = c1
 ### 常见问题
 
 1. 内存不足
+
 	修改$FLUME_HOME/bin/flume-ng中JAVA_OPTS变量-Xmx的值
 
 2. 采集kafka数据或者生产kafka数据的时候默认数据大小是1M，所以使用flume采集kafka数据或向kafka送数据的时候需要向agent配置文件中添加相应的参数
