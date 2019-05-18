@@ -157,6 +157,14 @@ a4.sources.r1.channels = c1
 a4.sinks.k1.channel = c1
 ```
 
+### 常见问题
+
+1. 内存不足
+
+修改$FLUME_HOME/bin/flume-ng中JAVA_OPTS变量-Xmx的值
+
+
+
 ### 其他
 
 * 安装netcat教程：https://blog.csdn.net/z1941563559/article/details/81347981
