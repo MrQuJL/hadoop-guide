@@ -167,13 +167,66 @@ a4.sinks.k1.channel = c1
 	* 采集source：```agent.sources.r1.kafka.consumer.max.partition.fetch.bytes=10240000```
 	* 发送sink：```agent.sinks.k1.kafka.producer.max.request.size=10240000```
 
+3. 安装Flume的监控软件Ganglia时，在浏览器访问提示权限不足
 
+	* 修改```/etc/httpd/conf.d/ganglia.conf```文件为如下内容后仍然提示权限不足：
+    ```shell
+    Alias /ganglia /usr/share/ganglia
 
+    <Location /ganglia>
+      Order deny,allow
+      Deny from all
+      Allow from all
+      # Allow from 127.0.0.1
+      # Allow from ::1
+      # Allow from .example.com
+    </Location>
+    ```
 
+	* 修改```/etc/selinux/config```文件为如下内容后仍然提示权限不足：
+    ```shell
+    # This file controls the state of SELinux on the system.
+    # SELINUX= can take one of these three values:
+    #     enforcing - SELinux security policy is enforced.
+    #     permissive - SELinux prints warnings instead of enforcing.
+    #     disabled - No SELinux policy is loaded.
+    SELINUX=disabled
+    # SELINUXTYPE= can take one of these two values:
+    #     targeted - Targeted processes are protected,
+    #     mls - Multi Level Security protection.
+    SELINUXTYPE=targeted
+    ```
+
+    * 执行如下命令或者关机重启后仍然提示权限不足：
+    ```shell
+    setenforce 0
+    ```
+
+    * 执行修改目录命令，修改目录（/var/lib/ganglia）权限为777后，还是提示权限不足，此时内心已崩溃
+    ```shell
+    chmod -R 777 /var/lib/ganglia
+    ```
+
+	* 心有不甘的出去跑了3km回来之后找到了答案：
+	```/etc/httpd/conf/httpd.conf```文件修改为如下内容后成功访问：
+    ```shell
+    <Directory />
+        AllowOverride none
+        #Require all denied
+    </Directory>
+    ```
+	未修改之前是这样的，可以猜测http服务器默认拒绝了所有的外部访问：
+    ```shell
+    <Directory />
+        AllowOverride none
+        Require all denied
+    </Directory>
+    ```
+	成功的界面：
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/16-Flume/imgs/pic.png)
 
 ### 其他
 
 * 安装netcat教程：https://blog.csdn.net/z1941563559/article/details/81347981
-
 
 
