@@ -159,7 +159,7 @@ a4.sinks.k1.channel = c1
 
 ### 常见问题
 
-1. 内存不足
+1. 内存不足导致flume进程经常死掉
 
 	修改$FLUME_HOME/bin/flume-ng中JAVA_OPTS变量-Xmx的值
 
