@@ -93,10 +93,96 @@ ZooKeeper是一个分布式的，开放源码的分布式应用程序协调服�
 
 ### （六）Zookeeper应用场景
 
+* 利用zookeeper的分布式锁实现秒杀：
+    pom依赖：
+    ```xml
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-client</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>3.4.6</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>16.0.1</version>
+        </dependency>
+    </dependencies>
+    ```
 
+    主程序：
+    ```java
+    package com.qjl.kafkatest.producer;
 
+    import org.apache.curator.RetryPolicy;
+    import org.apache.curator.framework.CuratorFramework;
+    import org.apache.curator.framework.CuratorFrameworkFactory;
+    import org.apache.curator.framework.recipes.locks.InterProcessMutex;
+    import org.apache.curator.retry.ExponentialBackoffRetry;
 
+    public class TestDistributedLock {
 
+        private static int number = 10;
+
+        private static void getNumber() {
+            System.out.println("\n\n******* 开始业务方法   ************");
+            System.out.println("当前值：" + number);
+            number--;
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public static void main(String[] args) {
+            // 最多失败重连10次,每次间隔1000ms
+            RetryPolicy policy = new ExponentialBackoffRetry(1000, 10);
+            CuratorFramework cf = CuratorFrameworkFactory.builder()
+                    .connectString("qujianlei:2181")
+                    .retryPolicy(policy)
+                    .build();
+            cf.start();
+
+            final InterProcessMutex lock = new InterProcessMutex(cf, "/aaa");
+
+            for (int i = 0; i < 10; i++) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            lock.acquire();
+                            getNumber();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        } finally {
+                            try {
+                                lock.release();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }).start();;
+            }
+        }
+    }
+    ```
 
 
 
