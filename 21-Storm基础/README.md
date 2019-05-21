@@ -2,7 +2,7 @@
 
 ### （一）什么是Storm？
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/21-Storm基础/imgs/storm-logo.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/21-Storm基础/imgs/storm-log.png)
 
 Storm为分布式实时计算提供了一组通用原语，可被用于“流处理”之中，实时处理消息并更新数据库。这是管理队列及工作者集群的另一种方式。 Storm也可被用于“连续计算”（continuous computation），对数据流做连续查询，在计算时就将结果以流的形式输出给用户。它还可被用于“分布式RPC”，以并行的方式运行昂贵的运算。 
 
