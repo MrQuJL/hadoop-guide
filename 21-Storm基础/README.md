@@ -35,10 +35,11 @@ Storm处理的数据保存在内存中，源源不断 | Hadoop处理的数据保
 Storm的数据通过网络传输进来 | Hadoop的数据保存在磁盘中
 Storm与Hadoop的编程模型相似 | Storm与Hadoop的编程模型相似
 
+### （三）Storm体系结构
 
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/21-Storm基础/imgs/arc1.png)
 
-
-
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/21-Storm基础/imgs/arc2.png)
 
 
 
