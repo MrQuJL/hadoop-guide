@@ -7,7 +7,7 @@
 
 ### 第一代计算引擎：Hadoop
 
-[![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-搭建Hadoop的环境/imgs/hadoop-logo.jpg)](https://github.com/MrQuJL/hadoop-guide/tree/master/02-02-搭建Hadoop的环境)
+[![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-搭建Hadoop的环境/imgs/hadoop-logo.jpg)](https://github.com/MrQuJL/hadoop-guide/tree/master/02-搭建Hadoop的环境)
 
 
 
