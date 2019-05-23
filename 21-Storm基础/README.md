@@ -41,8 +41,11 @@ Storm与Hadoop的编程模型相似 | Storm与Hadoop的编程模型相似
 
 ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/21-Storm基础/imgs/arc2.png)
 
-
-
+* **Nimbus**：负责资源分配和任务调度
+* **Supervisor**：负责接收 nimbus 分配的任务，启动和停止属于自己管理的 worker 进程。通过配置文件设置当前 supervisor 上启动多少个 worker。
+* **Worker**：处理具体业务逻辑的进程。Worker 运行的任务类型只有两种，一种是 Spout 任务，一种是 Bolt 任务。
+* **Executor**：Storm 0.8 之后，Executor 为 Worker 进程中具体的物理线程，同一个 Spout / Bolt 的 Task 可能会共享一个物理线程，一个 Executor 中只能运行隶属于同一个 Spout / Bolt 的 Task。
+* **Task**：worker 中每一个 Spout / Bolt 的线程称为一个 task。在 Storm0.8 之后， Task 不再与物理线程对应，不同 Spout / Bolt 的 task 可能会共享一个物理线程，该线程称为 Executor。
 
 
 
