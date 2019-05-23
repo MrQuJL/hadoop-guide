@@ -6,25 +6,41 @@
 随着业务的发展，数据量的不断沉淀，不少企业都已经积攒了 TB，PB 甚至 EB 级别的数据。Spring，MySQL 那一套传统的 OLTP 系统的架构已经无法存储以及计算如此庞大的数据，Hadoop 应运而生。
 
 ### 第一代计算引擎：Hadoop
-
+------
 [![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-搭建Hadoop的环境/imgs/hadoop-logo.jpg)](https://github.com/MrQuJL/hadoop-guide/tree/master/02-搭建Hadoop的环境)
-
-
-
 
 Hadoop 通过 **HDFS** 将一个文件切分成多个数据块，分开存储在各个节点上，并且在每个节点进行冗余备份以实现高可用，解决了海量数据的存储问题；通过 **MapReduce** 将程序分发到不同的节点上，每个程序只负责处理待处理数据的的一部分，所有程序同时执行，最终每个程序的执行结果进行汇总，解决了海量数据的计算问题。
 
+#### 1. HDFS：Hadoop Distributed File System
 
 
+#### 2. MapReduce
 
 
+#### 3. Hive
+
+
+#### 4. Pig
+
+
+#### 5. Sqoop
+
+
+#### 6. Flume
+
+
+#### 7. Zookeeper
+
+#### 8. Oozie
+
+#### 9. Storm
 
 ### 第二代计算引擎：Spark
-
+------
 
 
 ### 第三代计算引擎：Flink
-
+------
 
 
 
