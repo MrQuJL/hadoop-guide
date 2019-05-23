@@ -7,7 +7,10 @@
 
 ### 第一代计算引擎：Hadoop
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-搭建Hadoop的环境/imgs/hadoop-logo.jpg)
+[![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-搭建Hadoop的环境/imgs/hadoop-logo.jpg)](https://github.com/MrQuJL/hadoop-guide/tree/master/02-02-搭建Hadoop的环境)
+
+
+
 
 Hadoop 通过 **HDFS** 将一个文件切分成多个数据块，分开存储在各个节点上，并且在每个节点进行冗余备份以实现高可用，解决了海量数据的存储问题；通过 **MapReduce** 将程序分发到不同的节点上，每个程序只负责处理待处理数据的的一部分，所有程序同时执行，最终每个程序的执行结果进行汇总，解决了海量数据的计算问题。
 
