@@ -21,6 +21,7 @@ Hadoop 通过 **HDFS** 将一个文件切分成多个数据块，分开存储在
 
 #### 2. MapReduce
 
+[![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-搭建Hadoop的环境/imgs/map.png)](https://github.com/MrQuJL/hadoop-guide/tree/master/07-MapReduce基础)
 
 
 
