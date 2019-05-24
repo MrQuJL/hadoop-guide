@@ -47,6 +47,66 @@ Storm与Hadoop的编程模型相似 | Storm与Hadoop的编程模型相似
 * **Executor**：Storm 0.8 之后，Executor 为 Worker 进程中具体的物理线程，同一个 Spout / Bolt 的 Task 可能会共享一个物理线程，一个 Executor 中只能运行隶属于同一个 Spout / Bolt 的 Task。
 * **Task**：worker 中每一个 Spout / Bolt 的线程称为一个 task。在 Storm0.8 之后， Task 不再与物理线程对应，不同 Spout / Bolt 的 task 可能会共享一个物理线程，该线程称为 Executor。
 
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/21-Storm基础/imgs/worker-process.png)
+
+### （四）Storm的运行机制
+
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/21-Storm基础/imgs/nimbus-process.png)
+
+* 整个处理流程的组织协调不用用户去关心，用户只需要去定义每一个步骤中的具体业务处理逻辑。
+* 具体执行任务的角色是 Worker，Worker执行任务时具体的行为则有我们定义的业务逻辑决定。
+
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/21-Storm基础/imgs/storm-arc.png)
+
+### （五）Storm的安装配置
+
+* 下载 Storm：http://storm.apache.org/downloads.html
+
+* 解压：```tar -zxvf apache-storm-1.0.3.tar.gz```
+
+* 修改 ```/etc/profile``` 文件，设置环境变量：
+    ```shell
+    STORM_HOME=/root/training/apache-storm-1.0.3
+    export STORM_HOME
+
+    PATH=$STORM_HOME/bin:$PATH
+    export PATH
+    ```
+
+* 编辑配置文件：$STORM_HOME/conf/storm.yaml
+
+    ```shell
+    ########### These MUST be filled in for a storm configuration
+    # 配置zookeeper的地址
+    storm.zookeeper.servers:
+        - "192.168.137.81"
+        - "192.168.137.82"
+        - "192.168.137.83"
+
+    # 配置storm主节点的地址
+    nimbus.seeds: ["192.168.137.81"]
+
+    # 配置storm存储数据的目录
+    storm.local.dir: "/root/training/apache-storm-1.0.3/tmp"
+
+    # 配置每个supervisor的worker的数目
+    supervisor.slots.ports:
+        - 6700
+        - 6701
+        - 6702
+        - 6703
+    ```
+
+	> PS：如果要搭建 Storm 的 HA，只需要在 nimbus.seeds 中设置多个 nimbus 即可。
+
+* 执行 ```scp``` 命令把安装包复制到其他节点上：
+
+    ```shell
+    scp -r apache-storm-1.0.3 root@192.168.137.82:/root/training
+    scp -r apache-storm-1.0.3 root@192.168.137.83:/root/training
+    ```
+
+### （六）启动和查看Storm
 
 
 
