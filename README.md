@@ -15,14 +15,13 @@ Hadoop 通过 **HDFS** 将一个文件切分成多个数据块，分开存储在
 
 #### 1. HDFS：Hadoop Distributed File System
 
-[![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-搭建Hadoop的环境/imgs/hdfds-logo.jpg)](https://github.com/MrQuJL/hadoop-guide/tree/master/04-%E6%93%8D%E4%BD%9CHDFS)
+[![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-搭建Hadoop的环境/imgs/hdfs-logo.jpg)](https://github.com/MrQuJL/hadoop-guide/tree/master/04-操作HDFS)
 
 不管是学习 Hadoop，Spark 还是 Flink，我们首先要学习如何安装配置使用 HDFS 分布式文件系统，这是大数据的基石。我们平常开发所使用的 MapReduce 程序，Spark 程序，Hive 底层都是操作的 HDFS 上的数据，学习 HDFS 的安装配置和使用是首要任务。
 
-
-
-
 #### 2. MapReduce
+
+
 
 
 #### 3. Hive
