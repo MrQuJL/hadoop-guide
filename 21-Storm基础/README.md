@@ -108,6 +108,34 @@ Storm与Hadoop的编程模型相似 | Storm与Hadoop的编程模型相似
 
 ### （六）启动和查看Storm
 
+* 在 nimbus.host 所属的机器上启动 nimbus 服务和 logviewer 服务
+    ```shell
+    nohup storm nimbus &
+    nohup storm logviewer &
+    ```
+
+* 在 nimbus.host 所属的机器上启动 ui 服务
+    ```shell
+    nohup storm ui &
+    ```
+
+* 在其他节点上启动 supervisor 服务和 logviewer 服务
+    ```shell
+    nohup storm supervisor &
+    nohup storm logviewer &
+    ```
+
+* 查看 storm 集群：访问 nimbus.host:/8080，即可看到 storm 的 ui 界面
+
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/21-Storm基础/imgs/storm-ui.png)
+
+
+
+
+
+
+
+
 
 
 
