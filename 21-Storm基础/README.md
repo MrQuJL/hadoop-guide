@@ -129,6 +129,222 @@ Storm与Hadoop的编程模型相似 | Storm与Hadoop的编程模型相似
 
 	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/21-Storm基础/imgs/storm-ui.png)
 
+### （七）Storm 编程模型
+
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/21-Storm基础/imgs/storm-model.png)
+
+* Topology：Storm 中运行的一个实时应用程序的名称。
+* Spout：在一个 topology 中获取数据源流的组件。同常情况下，Spout 会从外部数据源中读取数据，然后转换为 topology 内部的源数据。
+* Bolt：接收数据然后执行业务逻辑的组件，用户可以在其中执行自己想要的操作。
+* Tuple：一次消息传递的基本单元，理解为一组消息就是一个 Tuple。
+* Stream：表示数据的流向。
+* StreamGroup：数据的分组策略。
+	* Shuffle Grouping：随机分组，尽量均匀分布到下游 Bolt 中。
+	* Fields Grouping：按字段分组，按数据中 field 值进行分组；相同 field 值的 Tuple 被发送到相同的 Task。
+	* All Grouping：广播。
+	* Global Grouping：全局分组，Tuple 被分配到一个 Bolt 中的一个 Task，实现事务性的 Topology。
+	* None Grouping：不分组。
+	* Direct Grouping：直接分组，指定分组。
+
+### （八）Storm 编程案例：WordCount
+
+流式计算一般架构图：
+
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/21-Storm基础/imgs/storm-wordcount.png)
+
+* Flume 用来采集数据。
+* Kafka 用来缓存 Flume 采集的数据。
+* Storm 用来计算数据。
+* Redis 是个内存数据库，用来保存数据。
+
+* 所需 pom 依赖：
+    ```xml
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.storm</groupId>
+            <artifactId>storm-core</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+    </dependencies>
+    ```
+
+* 创建 Spout 组件采集数据，作为整个 Topology 的数据源：
+    ```java
+    package test;
+
+    import java.util.Map;
+    import java.util.Random;
+
+    import org.apache.storm.spout.SpoutOutputCollector;
+    import org.apache.storm.task.TopologyContext;
+    import org.apache.storm.topology.OutputFieldsDeclarer;
+    import org.apache.storm.topology.base.BaseRichSpout;
+    import org.apache.storm.tuple.Fields;
+    import org.apache.storm.tuple.Values;
+    import org.apache.storm.utils.Utils;
+
+    public class WordCountSpout extends BaseRichSpout {
+
+        // 模拟数据
+        private String[] data = {"I love Beijing", "I love China", "Beijing is the capital of China"};
+
+        // 用于往下一个组件发送消息
+        private SpoutOutputCollector collector;
+
+        public void open(Map conf, TopologyContext context, SpoutOutputCollector collector) {
+            // spout初始化方法
+            this.collector = collector;
+        }
+
+        // 该方法由Storm框架调用，用于接收外部数据源的数据
+        public void nextTuple() {
+            Utils.sleep(3000);
+            int random = (new Random()).nextInt(3);
+            String sentence = data[random];
+
+            // 发送数据
+            System.out.println("发送数据：" + sentence);
+            this.collector.emit(new Values(sentence));
+        }
+
+        // 声明输出数据的key
+        public void declareOutputFields(OutputFieldsDeclarer declarer) {
+            declarer.declare(new Fields("sentence"));
+
+        }
+    }
+    ```
+
+* 创建Bolt（WordCountSplitBolt）组件进行分词操作
+    ```java
+    package test;
+
+    import java.util.Map;
+
+    import org.apache.storm.task.OutputCollector;
+    import org.apache.storm.task.TopologyContext;
+    import org.apache.storm.topology.OutputFieldsDeclarer;
+    import org.apache.storm.topology.base.BaseRichBolt;
+    import org.apache.storm.tuple.Fields;
+    import org.apache.storm.tuple.Tuple;
+    import org.apache.storm.tuple.Values;
+
+    public class WordCountSplitBolt extends BaseRichBolt {
+
+        // 向下一级Bolt组件发送数据
+        private OutputCollector collector;
+
+        public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
+            this.collector = collector;
+        }
+
+        public void execute(Tuple input) {
+            String sentence = input.getStringByField("sentence");
+            // 分词
+            String[] words = sentence.split(" ");
+            for (String word : words) {
+                this.collector.emit(new Values(word, 1));
+            }
+        }
+
+        public void declareOutputFields(OutputFieldsDeclarer declarer) {
+            declarer.declare(new Fields("word", "count"));
+        }
+    }
+    ```
+
+* 创建Bolt（WordCountBoltCount）组件进行单词计数作
+    ```java
+    package test;
+
+    import java.util.HashMap;
+    import java.util.Map;
+
+    import org.apache.storm.task.OutputCollector;
+    import org.apache.storm.task.TopologyContext;
+    import org.apache.storm.topology.OutputFieldsDeclarer;
+    import org.apache.storm.topology.base.BaseRichBolt;
+    import org.apache.storm.tuple.Tuple;
+
+    public class WordCountBoltCount extends BaseRichBolt {
+
+        private Map<String, Integer> result = new HashMap<String, Integer>();
+
+        public void prepare(Map stormConf, TopologyContext context, OutputCollector collector) {
+
+        }
+
+        public void execute(Tuple input) {
+            String word = input.getStringByField("word");
+            int count = input.getIntegerByField("count");
+
+            if (result.containsKey(word)) {
+                int total = result.get(word);
+                result.put(word, total + count);
+            } else {
+                result.put(word, 1);
+            }
+            // 直接输出到屏幕
+            System.out.println("输出的结果是：" + result);
+        }
+
+        public void declareOutputFields(OutputFieldsDeclarer declarer) {
+
+        }
+    }
+    ```
+
+* 创建主程序Topology（WordCountTopology），并提交到本地运行
+    ```java
+    package test;
+
+    import org.apache.storm.Config;
+    import org.apache.storm.LocalCluster;
+    import org.apache.storm.StormSubmitter;
+    import org.apache.storm.generated.StormTopology;
+    import org.apache.storm.topology.TopologyBuilder;
+    import org.apache.storm.tuple.Fields;
+
+    public class WordCountTopology {
+
+        public static void main(String[] args) throws Exception {
+            TopologyBuilder builder = new TopologyBuilder();
+
+            // 设置任务的spout组件
+            builder.setSpout("wordcount_spout", new WordCountSpout());
+
+            // 设置任务的第一个bolt组件
+            builder.setBolt("wordcount_splitbolt", new WordCountSplitBolt()).shuffleGrouping("wordcount_spout");
+
+            // 设置任务的第二个Bolt组件
+            builder.setBolt("wordcount_count", new WordCountBoltCount()).fieldsGrouping("wordcount_splitbolt", new Fields("word"));
+
+            // 创建Topology任务
+            StormTopology wc = builder.createTopology();
+
+            Config config = new Config();
+
+            // 提交任务到本地运行
+            LocalCluster localCluster = new LocalCluster();
+            localCluster.submitTopology("mywordcount", config, wc);
+
+            // 提交任务到storm集群上运行
+    //		StormSubmitter.submitTopology(args[0], config, wc);
+        }
+    }
+    ```
+
+* 在 Eclipse 上右击运行即可（**注：要以管理员方式启动Eclipse**）。
+
+
+
+
+
+
+
+
+
+
 
 
 
