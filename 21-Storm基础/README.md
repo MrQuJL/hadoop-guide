@@ -336,16 +336,35 @@ Storm与Hadoop的编程模型相似 | Storm与Hadoop的编程模型相似
 
 * 在 Eclipse 上右击运行即可（**注：要以管理员方式启动Eclipse**）。
 
+### （九）Storm的常用命令
 
+有许多简单且有用的命令可以用来管理拓扑，它们可以提交、杀死、禁用、再平衡拓扑。
 
+1. 提交任务命令格式：storm jar [jar路径] [拓扑包名.拓扑类名] [拓扑名称]
+    ```shell
+    storm jar storm-0.0.1-SNAPSHOT.jar test.WordCountTopology MyWordCount
+    ```
 
+2. 杀死任务命令格式：storm kill [拓扑名称] -w 10
+    ```shell
+    storm kill topology-name -w 10
+    ```
+	> 执行kill命令时可以通过-w [等待秒数] 指定拓扑停用以后的等待时间，就像刹车一样。
+3. 停用任务命令格式：storm deactive [拓扑名称]
+    ```shell
+    storm deactivate topology-name
+    ```
 
+4. 启用任务命令格式：storm active [拓扑名称]
+    ```shell
+    storm activate topology-name
+    ```
 
-
-
-
-
-
+5. 重新部署任务命令格式：storm rebalance [拓扑名称]
+    ```shell
+    storm rebalance topology-name
+    ```
+	> 再平衡使你重新分配集群任务。这是个很强大的命令。比如，你向一个运行中的集群增加了节点。再平衡命令就会停用拓扑，然后在相应超时时间之后重新分配 Worker，并重启拓扑。
 
 
 
