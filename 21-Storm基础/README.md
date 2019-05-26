@@ -380,7 +380,18 @@ Storm与Hadoop的编程模型相似 | Storm与Hadoop的编程模型相似
 
 ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/21-Storm基础/imgs/process.png)
 
+### （十一）Storm集群在Zookeeper上保存的数据
 
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/21-Storm基础/imgs/storm-zk.png)
 
+### （十二）Storm集群任务提交流程
+
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/21-Storm基础/imgs/storm-submit.png)
+
+### （十三）Storm内部通信机制
+
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/21-Storm基础/imgs/storm-tcp1.png)
+
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/21-Storm基础/imgs/storm-tcp2.png)
 
 
