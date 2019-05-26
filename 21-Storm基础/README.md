@@ -366,11 +366,19 @@ Storm与Hadoop的编程模型相似 | Storm与Hadoop的编程模型相似
     ```
 	> 再平衡使你重新分配集群任务。这是个很强大的命令。比如，你向一个运行中的集群增加了节点。再平衡命令就会停用拓扑，然后在相应超时时间之后重新分配 Worker，并重启拓扑。
 
+### （十）WordCount流程分析
 
+通过查看 Storm UI 上每个组件的 events 连接，可以查看 Storm 的每个组件（spout，blot）发送的消息。但 Storm 的 event logger 的功能默认是禁用的，需要在配置文件中设置：```topology.eventlogger.executors: 1```，具体说明如下：
 
+* ```topology.eventlogger.executors: 0``` 默认禁用
+* ```topology.eventlogger.executors: 1``` 一个 topology 分配一个 Event Logger
+* ```topology.eventlogger.executors: nil``` 每个 worker 分配一个 Event Logger
 
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/21-Storm基础/imgs/event-logger.png)
 
+#### WordCount的数据流程分析
 
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/21-Storm基础/imgs/process.png)
 
 
 
