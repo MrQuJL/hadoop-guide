@@ -581,48 +581,46 @@
     ```
 
 * Driver：
-```java
-package demo.partition;
+    ```java
+    import org.apache.hadoop.conf.Configuration;
+    import org.apache.hadoop.fs.Path;
+    import org.apache.hadoop.io.LongWritable;
+    import org.apache.hadoop.io.NullWritable;
+    import org.apache.hadoop.mapreduce.Job;
+    import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+    import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+    public class PartitionMain {
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.LongWritable;
-import org.apache.hadoop.io.NullWritable;
-import org.apache.hadoop.mapreduce.Job;
-import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-public class PartitionMain {
+        public static void main(String[] args) throws Exception {
+            // 求员工工资的总额
+            Configuration conf = new Configuration();
+            Job job = Job.getInstance(conf);
 
-	public static void main(String[] args) throws Exception {
-		// 求员工工资的总额
-		Job job = new Job(new Configuration());
-		
-		//指明程序的入口
-		job.setJarByClass(PartitionMain.class);
-		
-		//指明任务中的mapper
-		job.setMapperClass(EmployeeMapper.class);
-		job.setMapOutputKeyClass(LongWritable.class);
-		job.setMapOutputValueClass(Employee.class);
-		
-		//设置分区的规则
-		job.setPartitionerClass(EmployeePartition.class);
-		job.setNumReduceTasks(3);
-		
-		job.setReducerClass(EmployeeReducer.class);
-		job.setOutputKeyClass(LongWritable.class);
-		job.setOutputValueClass(Employee.class);
-		
-		
-		//指明任务的输入路径和输出路径	---> HDFS的路径
-		FileInputFormat.addInputPath(job, new Path(args[0]));
-		FileOutputFormat.setOutputPath(job, new Path(args[1]));
+            //指明程序的入口
+            job.setJarByClass(PartitionMain.class);
 
-		//启动任务
-		job.waitForCompletion(true);
-	}
-}
-```
+            //指明任务中的mapper
+            job.setMapperClass(EmployeeMapper.class);
+            job.setMapOutputKeyClass(LongWritable.class);
+            job.setMapOutputValueClass(Employee.class);
+
+            //设置分区的规则
+            job.setPartitionerClass(EmployeePartition.class);
+            job.setNumReduceTasks(3);
+
+            job.setReducerClass(EmployeeReducer.class);
+            job.setOutputKeyClass(LongWritable.class);
+            job.setOutputValueClass(Employee.class);
+
+            //指明任务的输入路径和输出路径	---> HDFS的路径
+            FileInputFormat.addInputPath(job, new Path(args[0]));
+            FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
+            //启动任务
+            job.waitForCompletion(true);
+        }
+    }
+    ```
 
 
 
