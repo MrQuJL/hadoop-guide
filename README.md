@@ -21,10 +21,11 @@ Hadoop 通过 **HDFS** 将一个文件切分成多个数据块，分开存储在
 
 #### 2. MapReduce
 
-
 当我们已经学会如何操作底层的 HDFS 之后，就可以写一些 MapReduce 程序来读取 HDFS 上的数据进行一些业务操作。
 
 #### 3. Hive
+
+[![image](https://github.com/MrQuJL/hadoop-guide/blob/master/13-Hive/imgs/hive_logo_medium.jpg)](https://github.com/MrQuJL/hadoop-guide/tree/master/13-Hive)
 
 使用了一段时间 MapReduce 程序之后我们会发现在通过 MapReduce 框架来进行一些多表关联操作有些麻烦。Hive 应运而生。我们只需要执行一条 HQL（Hive SQL）命令，Hive 就会自动把它转化成一个 MapReduce 程序提交到 Yarn 上执行。
 
@@ -36,6 +37,8 @@ Pig 和 Hive 是类似的东西。我们也可以通过写一条 PigLatin 语句
 
 #### 5. Sqoop
 
+[![image](https://github.com/MrQuJL/hadoop-guide/blob/master/15-Sqoop/imgs/sqoop-logo.png)](https://github.com/MrQuJL/hadoop-guide/tree/master/15-Sqoop)
+
 无论是直接写 MapReduce 程序，还是用 Hive，Pig 执行查询语句，间接生成 MapReduce 程序，我们用到的 HDFS 上的数据可能是我们手动上传的本地测试数据。实际生产环境的数据可能来自我们的业务数据库，埋点，日志，Python爬虫爬取的公共平台的数据。而 MapReduce 程序读取的是 HDFS 上的数据，那我们如何把业务系统中的数据导入到 HDFS 上呢？
 
 针对关系型数据库（MySql，Oracle），我们通常选择使用 Sqoop，执行一条 Sqoop 命令将关系型数据库中的数据导入到 HDFS 上。当然，也可以将 HDFS 上的数据导出到关系型数据库中。
@@ -44,19 +47,29 @@ Pig 和 Hive 是类似的东西。我们也可以通过写一条 PigLatin 语句
 
 #### 6. Flume
 
+[![image](https://github.com/MrQuJL/hadoop-guide/blob/master/16-Flume/imgs/flume-logo.png)](https://github.com/MrQuJL/hadoop-guide/tree/master/16-Flume)
+
 在介绍 Sqoop 的时候也提到了，可以通过 Flume 将 CSV 文件采集到 HDFS。Flume 主要还是用来采集日志。Flume 通过监控某个目录，每当目录中有新的文件产生时，就将文件上传到 HDFS。
 
 #### 7. HBase
+
+[![image](https://github.com/MrQuJL/hadoop-guide/blob/master/11-HBase基础/imgs/hbase-logo.png)](https://github.com/MrQuJL/hadoop-guide/tree/master/11-HBase%E5%9F%BA%E7%A1%80)
 
 HDFS 上的数据是位于磁盘上的，直接访问磁盘效率比较低，访问内存速度比较快。为了实现海量数据的快速查询就有了 HBase，HBase 就是基于 HDFS 的 NoSQL。
 
 #### 8. Zookeeper
 
+[![image](https://github.com/MrQuJL/hadoop-guide/blob/master/17-ZooKeeper/imgs/zookeeper-logo.png)](https://github.com/MrQuJL/hadoop-guide/tree/master/17-ZooKeeper)
+
+可以实现大数据各个组件的HA（高可用），例：Hadoop，HBase，Storm，...
 
 #### 9. Oozie
 
 
 #### 10. Storm
+
+
+#### 11. JStorm
 
 
 ### 第二代计算引擎：Spark
