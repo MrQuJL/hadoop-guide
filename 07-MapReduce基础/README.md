@@ -370,14 +370,259 @@
     }
     ```
 
-### （五）使用MapReduce进行分区
+### （五）使用Partitioner进行分区
 
+* Mapper：
+    ```java
+    import java.io.IOException;
 
+    import org.apache.hadoop.io.LongWritable;
+    import org.apache.hadoop.io.NullWritable;
+    import org.apache.hadoop.io.Text;
+    import org.apache.hadoop.mapreduce.Mapper;
+    import org.apache.hadoop.mapreduce.Mapper.Context;
 
+    public class EmployeeMapper  extends Mapper<LongWritable, Text, LongWritable, Employee> {
 
+        @Override
+        protected void map(LongWritable key, Text value,Context context)
+                throws IOException, InterruptedException {
+            //7499,ALLEN,SALESMAN,7698,1981/2/20,1600,300,30
+            String str = value.toString();
+            //分词
+            String[] words = str.split(",");
 
+            Employee e = new Employee();
+            e.setEmpno(Integer.parseInt(words[0]));
+            e.setEname(words[1]);
+            e.setJob(words[2]);
+            try {
+                e.setMgr(Integer.parseInt(words[3]));
+            } catch (Exception e2) {
+                e.setMgr(0);
+            }
+            e.setHiredate(words[4]);
+            e.setSal(Integer.parseInt(words[5]));
+            try {
+                e.setComm(Integer.parseInt(words[6]));
+            } catch (Exception e2) {
+                e.setComm(0);
+            }		
+            e.setDeptno(Integer.parseInt(words[7]));
 
+            //将这个员工输出
+            context.write(new LongWritable(e.getDeptno()),e);
+        }
+    }
+    ```
 
+* Reducer：
+    ```java
+    import java.io.IOException;
+
+    import org.apache.hadoop.io.LongWritable;
+    import org.apache.hadoop.mapreduce.Reducer;
+
+    public class EmployeeReducer extends Reducer<LongWritable, Employee, LongWritable, Employee> {
+
+        @Override
+        protected void reduce(LongWritable deptno, Iterable<Employee> values,Context context)
+                throws IOException, InterruptedException {
+            for(Employee e:values){
+                context.write(deptno, e);
+            }
+        }
+
+    }
+    ```
+
+* Employee：
+    ```java
+    import java.io.DataInput;
+    import java.io.DataOutput;
+    import java.io.IOException;
+
+    import org.apache.hadoop.io.Writable;
+    import org.apache.hadoop.io.WritableComparable;
+
+    //7499,ALLEN,SALESMAN,7698,1981/2/20,1600,300,30
+    public class Employee implements Writable{
+
+        private int empno;
+        private String ename;
+        private String job;
+        private int mgr;
+        private String hiredate;
+        private int sal;
+        private int comm;
+        private int deptno;
+
+        public Employee(){
+
+        }
+
+        @Override
+        public String toString() {
+            return "Employee [empno=" + empno + ", ename=" + ename + ", job=" + job
+                    + ", mgr=" + mgr + ", hiredate=" + hiredate + ", sal=" + sal
+                    + ", comm=" + comm + ", deptno=" + deptno + "]";
+        }
+
+        @Override
+        public void readFields(DataInput in) throws IOException {
+            this.empno = in.readInt();
+            this.ename = in.readUTF();
+            this.job = in.readUTF();
+            this.mgr = in.readInt();
+            this.hiredate = in.readUTF();
+            this.sal = in.readInt();
+            this.comm = in.readInt();
+            this.deptno = in.readInt();
+        }
+
+        @Override
+        public void write(DataOutput output) throws IOException {
+            ////7499,ALLEN,SALESMAN,7698,1981/2/20,1600,300,30
+            output.writeInt(empno);
+            output.writeUTF(ename);
+            output.writeUTF(job);
+            output.writeInt(mgr);
+            output.writeUTF(hiredate);
+            output.writeInt(sal);
+            output.writeInt(comm);
+            output.writeInt(deptno);
+        }
+
+        public int getEmpno() {
+            return empno;
+        }
+
+        public void setEmpno(int empno) {
+            this.empno = empno;
+        }
+
+        public String getEname() {
+            return ename;
+        }
+
+        public void setEname(String ename) {
+            this.ename = ename;
+        }
+
+        public String getJob() {
+            return job;
+        }
+
+        public void setJob(String job) {
+            this.job = job;
+        }
+
+        public int getMgr() {
+            return mgr;
+        }
+
+        public void setMgr(int mgr) {
+            this.mgr = mgr;
+        }
+
+        public String getHiredate() {
+            return hiredate;
+        }
+
+        public void setHiredate(String hiredate) {
+            this.hiredate = hiredate;
+        }
+
+        public int getSal() {
+            return sal;
+        }
+
+        public void setSal(int sal) {
+            this.sal = sal;
+        }
+
+        public int getComm() {
+            return comm;
+        }
+
+        public void setComm(int comm) {
+            this.comm = comm;
+        }
+
+        public int getDeptno() {
+            return deptno;
+        }
+
+        public void setDeptno(int deptno) {
+            this.deptno = deptno;
+        }
+    }
+    ```
+
+* Partitioner：
+    ```java
+    import org.apache.hadoop.io.LongWritable;
+    import org.apache.hadoop.mapreduce.Partitioner;
+
+    public class EmployeePartition extends Partitioner<LongWritable, Employee> {
+
+        @Override
+        public int getPartition(LongWritable key2, Employee e, int numPartition) {
+            // 分区的规则
+            if(e.getDeptno() == 10){
+                return 1%numPartition;
+            }else if(e.getDeptno() == 20){
+                return 2%numPartition;
+            }else{
+                return 3%numPartition;
+            }
+        }
+    }
+    ```
+
+* Driver：
+```java
+package demo.partition;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.NullWritable;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+public class PartitionMain {
+
+	public static void main(String[] args) throws Exception {
+		// 求员工工资的总额
+		Job job = new Job(new Configuration());
+		
+		//指明程序的入口
+		job.setJarByClass(PartitionMain.class);
+		
+		//指明任务中的mapper
+		job.setMapperClass(EmployeeMapper.class);
+		job.setMapOutputKeyClass(LongWritable.class);
+		job.setMapOutputValueClass(Employee.class);
+		
+		//设置分区的规则
+		job.setPartitionerClass(EmployeePartition.class);
+		job.setNumReduceTasks(3);
+		
+		job.setReducerClass(EmployeeReducer.class);
+		job.setOutputKeyClass(LongWritable.class);
+		job.setOutputValueClass(Employee.class);
+		
+		
+		//指明任务的输入路径和输出路径	---> HDFS的路径
+		FileInputFormat.addInputPath(job, new Path(args[0]));
+		FileOutputFormat.setOutputPath(job, new Path(args[1]));
+
+		//启动任务
+		job.waitForCompletion(true);
+	}
+}
+```
 
 
 
