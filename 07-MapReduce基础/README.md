@@ -622,6 +622,10 @@
     }
     ```
 
+### （五）Shuffle的过程
+
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/07-MapReduce基础/imgs/mr-shuffle.png)
+
 
 
 
