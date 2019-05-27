@@ -626,6 +626,19 @@
 
 ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/07-MapReduce基础/imgs/mr-shuffle.png)
 
+### （七）MapReduce作业任务的管理
+
+* 通过 web console 监控作业的运行：
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/07-MapReduce基础/imgs/mr-console.png)
+
+* 通过 yarn application 命令来进行作业管理
+	1. 列出帮助信息：```yarn application --help```
+	2. 查看运行的 MapReduce 程序：```yarn application --list```
+	3. 查看应用状态：```yarn application -status <application_id>```
+	4. 强制杀死应用：```yarn application -kill <application_id>```
+
+
+
 
 
 
