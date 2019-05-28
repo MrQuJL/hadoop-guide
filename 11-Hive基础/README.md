@@ -2,7 +2,7 @@
 
 ### （一）什么是Hive？
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/13-Hive/imgs/hive_logo_medium.jpg)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/11-Hive基础/imgs/hive_logo_medium.jpg)
 
 * 构建在Hadoop上的数据仓库平台，为数据仓库管理提供了许多功能
 
@@ -16,7 +16,7 @@
 
 ### （二）Hive的体系结构
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/13-Hive/imgs/hivearc.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/11-Hive基础/imgs/hivearc.png)
 
 * 用户接口主要有三个：CLI，JDBC/ODBC和 WebUI
 

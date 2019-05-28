@@ -2,7 +2,7 @@
 
 ### （一）MapReduce在Yarn平台上运行过程
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/07-MapReduce基础/imgs/mr-yarn.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/06-MapReduce基础/imgs/mr-yarn.png)
 
 ### （二）第一个MapReduce程序：WordCount
 
@@ -128,7 +128,7 @@
 
 ### （三）WordCount的数据流动过程
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/07-MapReduce基础/imgs/mr-dataflow.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/06-MapReduce基础/imgs/mr-dataflow.png)
 
 ### （四）使用MapReduce进行排序
 
@@ -624,12 +624,12 @@
 
 ### （五）Shuffle的过程
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/07-MapReduce基础/imgs/mr-shuffle.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/06-MapReduce基础/imgs/mr-shuffle.png)
 
 ### （七）MapReduce作业任务的管理
 
 * 通过 web console 监控作业的运行：
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/07-MapReduce基础/imgs/mr-console.png)
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/06-MapReduce基础/imgs/mr-console.png)
 
 * 通过 yarn application 命令来进行作业管理
 	1. 列出帮助信息：```yarn application --help```

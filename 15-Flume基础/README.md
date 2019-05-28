@@ -2,14 +2,14 @@
 
 ### （一）什么是Flume？
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/16-Flume/imgs/flume-logo.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/15-Flume基础/imgs/flume-logo.png)
 
 Flume是Cloudera提供的一个高可用的，高可靠的，分布式的海量日志采集、聚合和传输的系统，Flume支持在日志系统中定制各类数据发送方，用于收集数据；同时，Flume提供对数据进行简单处理，并写到各种数据接受方（可定制）的能力。
 
 
 ### （二）Flume的体系结构
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/16-Flume/imgs/flume-arc.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/15-Flume基础/imgs/flume-arc.png)
 
 * Source: 用于采集日志数据
 
@@ -223,7 +223,7 @@ a4.sinks.k1.channel = c1
     </Directory>
     ```
 	成功的界面：
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/16-Flume/imgs/pic.png)
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/15-Flume基础/imgs/pic.png)
 
 ### 其他
 
