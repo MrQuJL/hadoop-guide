@@ -2,7 +2,7 @@
 
 ### （一）Hadoop安装部署的预备条件
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-搭建Hadoop的环境/imgs/hadoop-logo.jpg)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/03-Hadoop/imgs/hadoop-logo.jpg)
 
 * 安装Linux
 
@@ -10,7 +10,7 @@
 
 ### （二）Hadoop的目录结构
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-搭建Hadoop的环境/imgs/hadoop.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/03-Hadoop/imgs/hadoop.png)
 
 ### （三）Hadoop安装部署的三种模式
 
@@ -49,7 +49,7 @@ slaves | DataNode的ip地址或主机名 | qujianlei001
 
 如果出现以下警告信息：
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-搭建Hadoop的环境/imgs/warn.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/03-Hadoop/imgs/warn.png)
 
 只需要在以下两个文件中增加下面的环境变量，即可：
 
@@ -71,15 +71,15 @@ slaves | DataNode的ip地址或主机名 | qujianlei001
 
 * HDFS Console：http://192.168.157.11:50070
 
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-搭建Hadoop的环境/imgs/HDFSConsole.png)
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/03-Hadoop/imgs/HDFSConsole.png)
 
 * Yarn Console：http://192.168.157.11:8088
 
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-搭建Hadoop的环境/imgs/YARNConsole.png)
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/03-Hadoop/imgs/YARNConsole.png)
 
 ### （五）配置SSH免密登录
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-搭建Hadoop的环境/imgs/ssh.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/03-Hadoop/imgs/ssh.png)
 
 详细操作见：https://blog.csdn.net/a909301740/article/details/84147035
 

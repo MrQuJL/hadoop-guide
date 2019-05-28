@@ -4,15 +4,15 @@
 
 1. 传统的架构
 
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/03-Hadoop的应用案例分析/imgs/tra.png)
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-大数据应用案例分析/imgs/tra.png)
 
 2. 改良后的架构
 
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/03-Hadoop的应用案例分析/imgs/optimize.png)
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-大数据应用案例分析/imgs/optimize.png)
 
 3. 完整的架构
 
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/03-Hadoop的应用案例分析/imgs/full.png)
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-大数据应用案例分析/imgs/full.png)
 
 ### （二）日志分析
 
@@ -26,23 +26,23 @@
 
 	* 自2013-05-30起，每天生成一个数据文件，约150MB
 
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/03-Hadoop的应用案例分析/imgs/log.png)
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-大数据应用案例分析/imgs/log.png)
 
 3. 关键指标：
 
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/03-Hadoop的应用案例分析/imgs/point.png)
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-大数据应用案例分析/imgs/point.png)
 
 4. 系统架构：
 
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/03-Hadoop的应用案例分析/imgs/arc.png)
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-大数据应用案例分析/imgs/arc.png)
 
 5. 改良后的系统架构：
 
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/03-Hadoop的应用案例分析/imgs/oparc.png)
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-大数据应用案例分析/imgs/oparc.png)
 
 6. HBase表的结构：
 
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/03-Hadoop的应用案例分析/imgs/table.png)
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-大数据应用案例分析/imgs/table.png)
 
 7. 日志分析的执行过程：
 
@@ -56,4 +56,4 @@
 
 ### （三）Hadoop在淘宝的应用
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/03-Hadoop的应用案例分析/imgs/ali.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/02-大数据应用案例分析/imgs/ali.png)
