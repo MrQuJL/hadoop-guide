@@ -16,11 +16,11 @@
 
 * 电商网站的商品推荐
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/product.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据背景知识/imgs/product.png)
 
 * 基于大数据的天气预报
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/weather.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据背景知识/imgs/weather.png)
 
 ### （二）OLTP与OLAP
 
@@ -49,7 +49,7 @@ DB大小 | 100MB-GB | 100GB-TB
 
 数据仓库，英文名称为Data Warehouse，可简写为DW或DWH。数据仓库，是为企业所有级别的决策制定过程，提供所有类型数据支持的战略集合。它是单个数据存储，出于分析性报告和决策支持目的而创建。
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/datawarehouse.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据背景知识/imgs/datawarehouse.png)
 
 ### （四）Hadoop的起源 -- Luence，从Luence到nutch，从nutch到hadoop
 
@@ -61,13 +61,13 @@ DB大小 | 100MB-GB | 100GB-TB
 
 * 名字来源于Doug Cutting儿子的玩具大象。
 
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/pic.png)
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据背景知识/imgs/pic.png)
 
 ## 二、Apache Hadoop的体系结构
 
 ### （一）分布式存储：HDFS
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/dis.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据背景知识/imgs/dis.png)
 
 * NameNode（名称节点）
 
@@ -75,9 +75,9 @@ DB大小 | 100MB-GB | 100GB-TB
 
 2. 接受客户端的请求: 上传文件、下载文件、创建目录等等。
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/upload.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据背景知识/imgs/upload.png)
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/download.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据背景知识/imgs/download.png)
 
 3. 记录客户端操作的日志（edits文件），保存了HDFS最新的状态.
 
@@ -85,15 +85,15 @@ DB大小 | 100MB-GB | 100GB-TB
 
 	2. 保存目录：$HADOOP_HOME/tmp/dfs/name/current
 
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/edits.png)
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据背景知识/imgs/edits.png)
 
 	3. 可以使用hdfs oev -i命令将日志（二进制）输出为XML文件
 
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/oev.png)
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据背景知识/imgs/oev.png)
 
 	输出结果为：
 	
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/result.png)
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据背景知识/imgs/result.png)
 
 	4. 维护文件元信息，将内存中不常用（采用LRU算法）的文件元信息保存在硬盘上（fsimage文件）
 
@@ -103,7 +103,7 @@ DB大小 | 100MB-GB | 100GB-TB
 
 		3. 可以使用hdfs oiv -i命令将日志（二进制）输出为文本（文本和XML）
 		
-		![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/oiv.png)
+		![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据背景知识/imgs/oiv.png)
 
 * DataNode（数据节点）
 
@@ -119,7 +119,7 @@ DB大小 | 100MB-GB | 100GB-TB
 
 例如：
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/datanode.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据背景知识/imgs/datanode.png)
 
 * Secondary NameNode（第二名称节点）
 
@@ -127,7 +127,7 @@ DB大小 | 100MB-GB | 100GB-TB
 
 2. 日志合并的过程：
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/mergeedits.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据背景知识/imgs/mergeedits.png)
 
 * HDFS存在的问题
 
@@ -141,7 +141,7 @@ DB大小 | 100MB-GB | 100GB-TB
 
 ### （二）Yarn：分布式计算（MapReduce）
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/yarn.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据背景知识/imgs/yarn.png)
 
 * ResourceManager（资源管理器）
 
@@ -157,7 +157,7 @@ DB大小 | 100MB-GB | 100GB-TB
 
 ### （三）HBase的体系结构
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据框架概述与大数据背景知识/imgs/hbase.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据背景知识/imgs/hbase.png)
 
 
 
