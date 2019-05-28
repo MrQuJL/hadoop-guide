@@ -290,11 +290,11 @@ balancer | 如果管理员发现某些DataNode保存数据过多，某些DataNod
 
 ### （一）HDFS上传原理
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/05-HDFS上传与下载的原理/imgs/upload.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/04-HDFS基础/imgs/upload.png)
 
 ### （二）HDFS下载原理
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/05-HDFS上传与下载的原理/imgs/download.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/04-HDFS基础/imgs/download.png)
 
 ## HDFS的底层原理
 
