@@ -63,7 +63,7 @@ HDFS 上的数据是位于磁盘上的，直接访问磁盘效率比较低，访
 
 可以实现大数据各个组件的HA（高可用），例：Hadoop，HBase，Storm，...
 
-#### 9. Oozie
+#### 9. Azkaban
 
 
 #### 10. Storm
