@@ -178,7 +178,7 @@ balancer | 如果管理员发现某些DataNode保存数据过多，某些DataNod
 
 ### （三）HDFS的WebConsole
 
-![image](https://github.com/MrQuJL/hadoop-guide/blob/master/04-操作HDFS/imgs/console.png)
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/04-HDFS基础/imgs/console.png)
 
 ### （四）HDFS的回收站
 
@@ -234,7 +234,7 @@ balancer | 如果管理员发现某些DataNode保存数据过多，某些DataNod
 ### （六）HDFS的用户权限管理
 
 * 启动namenode服务的用户就是超级用户，该用户的组是supergroup
-    ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/04-操作HDFS/imgs/group.png)
+    ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/04-HDFS基础/imgs/group.png)
 
 * shell 命令
 
@@ -275,7 +275,7 @@ balancer | 如果管理员发现某些DataNode保存数据过多，某些DataNod
 
 * **当集群启动的时候，会首先进入安全模式**。当系统处于安全模式时会检查数据块的完整性。假设我们设置的副本数（即参数dfs.replication）是5，那么在datanode上就应该有5个副本存在，假设只存在3个副本，那么比例就是3/5=0.6。在配置文件hdfs-default.xml中定义了一个最小的副本的副本率0.999，如图：
 
-    ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/04-操作HDFS/imgs/safe.png)
+    ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/04-HDFS基础/imgs/safe.png)
 
     我们的副本率0.6明显小于0.99，因此系统会自动的复制副本到其他的dataNode,使得副本率不小于0.999.如果系统中有8个副本，超过我们设定的5个副本，那么系统也会删除多余的3个副本。
 
