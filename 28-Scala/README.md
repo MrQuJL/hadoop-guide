@@ -1,6 +1,7 @@
 
 ## Scala编程语言
 
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/scala-logo.jpg)
 
 ### （一）Scala语言基础
 
@@ -28,12 +29,70 @@ Scala是一种多范式的编程语言，其设计的初衷是要集成面向对
 
 #### 4. Scala的常用数据类型
 
+注意：在 Scala 中，任何数据都是对象。例如：
 
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/data-type.png)
 
+1. 数值类型：Byte，Short，Int，Long，Float，Double
 
+	* Byte：8 位有符号数字，从 -128 到 127
+	* Short：16 位有符号数据，从 -32768 到 32767
+	* Int：32 位有符号数据
+	* Long：64 位有符号数据
 
+    ```scala
+    val a:Byte = 10
+    a + 10
+    // 得到：res9:Int=20
+    // 这里的 res9 是新生成的变量的名字
+    ```
 
+	**注意：在 Scala 中，定义变量可以不指定类型，因为 Scala 会进行类型的自动推到。**
 
+2. 字符类型和字符串类型：Char 和 String
+
+	对于字符串，在 Scala 中可以进行插值操作
+
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/insert-value.png)
+
+	**注意：前面有个 s，相当于执行："My Name is" + s1**
+
+3. Unit 类型：相当于 Java 中的 void 类型
+
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/unit.png)
+
+4. Nothing 类型：一般表示在执行过程中，产生了 Exception。例如，我们定义一个函数如下：
+
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/nothing.png)
+
+#### 5. Scala变量的声明和使用
+
+* 使用 val 和 var 声明变量：
+    ```scala
+    val answer = 8 * 3 + 2
+    ```
+
+* val：定义的值实际是一个常量，要声明其值可变需用 var
+
+	**注意：可以不用显式指定变量的类型，Scala会进行自动的类型推到**
+
+#### 6. Scala的函数和方法的使用
+
+#### 7. Scala的条件表达式
+
+#### 8. Scala的循环
+
+#### 9. Scala函数的参数
+
+#### 10. Scala的Lazy值（懒值）
+
+#### 11. Scala中异常的处理
+
+#### 12. Scala中的数组
+
+#### 13. Map
+
+#### 14. Tuple（元组）
 
 
 
