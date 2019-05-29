@@ -78,6 +78,16 @@ Scala是一种多范式的编程语言，其设计的初衷是要集成面向对
 
 #### 6. Scala的函数和方法的使用
 
+* 可以使用 Scala 的预定义函数
+	例如：求两个值的最大值
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/math.png)
+
+* 也可以使用 def 关键字自定义函数，语法：
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/def.png)
+
+	示例：
+	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/def-demo.png)
+	
 #### 7. Scala的条件表达式
 
 #### 8. Scala的循环
