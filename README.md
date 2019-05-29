@@ -75,9 +75,32 @@ HDFS 上的数据是位于磁盘上的，直接访问磁盘效率比较低，访
 ### 第二代计算引擎：Spark
 ------
 
+#### Scala编程语言
+
+
+#### SparkCore
+
+
+
+#### SparkSQL
+
+
+
+
+#### SparkStreaming
+
+
+
+
+
 
 ### 第三代计算引擎：Flink
 ------
+
+
+
+
+### CDH（Cloudera’s Distribution Including Apache Hadoop）
 
 
 
