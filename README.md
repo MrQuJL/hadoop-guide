@@ -77,6 +77,7 @@ HDFS 上的数据是位于磁盘上的，直接访问磁盘效率比较低，访
 
 #### Scala编程语言
 
+[![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/scala-logo.jpg)](https://github.com/MrQuJL/hadoop-guide/tree/master/28-Scala)
 
 #### SparkCore
 
