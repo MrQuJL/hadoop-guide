@@ -125,14 +125,16 @@ Scala 中，可以使用 for 和 foreach 进行迭代
 	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/fun-param.png)
 	我们来分析一下，上面两个调用执行的过程：
 	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/fun-param-process.png)
+	
 	一份复杂一点的例子：
+	
 	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/com.png)
 
 * Scala中的函数参数：
 	* 默认参数
 	* 代名参数
 	* 可变参数
-	![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/param-type.png)
+		![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/param-type.png)
 
 
 #### 10. Scala的Lazy值（懒值）
