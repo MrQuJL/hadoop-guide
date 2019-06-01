@@ -138,8 +138,13 @@ Scala 中，可以使用 for 和 foreach 进行迭代
 		
 		![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/param-type.png)
 
-
 #### 10. Scala的Lazy值（懒值）
+
+当 val 被声明为 lazy 时，它的初始化将被推迟，直到我们首次对它取值。
+
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/lazy.png)
+
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/lazy-com.png)
 
 #### 11. Scala中异常的处理
 
