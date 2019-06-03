@@ -170,13 +170,13 @@ Scala 异常的工作机制和 Java 或者 C++ 一样。直接使用 throw 关�
 #### 12. Scala中的数组
 
 * 定长数组：使用关键字 Array
-
-```scala
-// 定长数组
-val a = new Array[Int](10)
-val b = new Array[String](5)
-val c = Array("Tom", "Mary", "Mike")
-```
+  
+  ```scala
+  // 定长数组
+  val a = new Array[Int](10)
+  val b = new Array[String](5)
+  val c = Array("Tom", "Mary", "Mike")
+  ```
 
 * 变长数组
 
