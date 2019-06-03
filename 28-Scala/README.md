@@ -179,6 +179,75 @@ Scala 异常的工作机制和 Java 或者 C++ 一样。直接使用 throw 关�
   ```
 
 * 变长数组
+  
+  ```scala
+  // 变长数组
+  val d = ArrayBuffer[Int]()
+  // 往变长数组中加入元素
+  d += 1
+  d += 2
+  d += 3
+  // 往变长数组中加入多个元素
+  d += (10, 12, 13)
+  
+  // 去掉最后两个值
+  d.trimEnd(2)
+  
+  // 将ArrayBuffer转换为Array
+  d.toArray
+  ```
+- 遍历数组：
+  
+  ```scala
+  // 遍历数组
+  var a = Array("Tom", "Mary", "Mike")
+  
+  // 使用for循环进行遍历
+  for (s <- a) println(s)
+  
+  // 对数组进行转换，新生成一个数组 yield
+  val b = for {
+      s <- a
+      s1 = s.toUpperCase
+  } yield (s1)
+  
+  // 可以使用foreach进行循环输出
+  a.foreach(println)
+  ```
+* Scala 数组的常用操作：
+  
+  ```scala
+  import scala.collection.mutable.ArrayBuffer
+  
+  val myArray = Array(1, 10, 2, 3, 5, 4)
+  
+  // 最大值
+  myArray.max
+  
+  // 最小值
+  myArray.min
+  
+  // 求和
+  myArray.sum
+  
+  // 定义一个变长数组
+  var myArray1 = ArrayBuffer(1, 10, 2, 3, 5, 4)
+  
+  // 排序
+  myArray1.sortWith(_ > _)
+  
+  
+  // 升序
+  myArray1.sortWith(_ < _)
+  ```
+
+* Scala 的多维数组：
+  
+  * 和 Java 一样，多维数组是通过数组的数组来实现的。
+  
+  * 也可以创建不规则的数组，每一行的长度各不相同。
+    
+    ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/matrix.png)
 
 
 
