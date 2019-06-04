@@ -236,7 +236,6 @@ Scala 异常的工作机制和 Java 或者 C++ 一样。直接使用 throw 关�
   // 排序
   myArray1.sortWith(_ > _)
   
-  
   // 升序
   myArray1.sortWith(_ < _)
   ```
@@ -249,15 +248,9 @@ Scala 异常的工作机制和 Java 或者 C++ 一样。直接使用 throw 关�
     
     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/matrix.png)
 
-
-
 #### 13. Map
 
-
-
 #### 14. Tuple（元组）
-
-
 
 ### （二）Scala语言的面向对象
 
@@ -266,3 +259,34 @@ Scala 异常的工作机制和 Java 或者 C++ 一样。直接使用 throw 关�
 ### （四）Scala中的集合
 
 ### （五）Scala语言的高级特性
+
+### （六）Scala语法错误集锦
+
+1. 不用.调方法引起的错误：
+   
+   ```scala
+    val dataFieldValue = dataFieldStr toInt
+    if (dataFieldValue >= startParamFieldValue && dataFieldValue <= endParamFieldValue) {
+      return true
+    } else {
+      return false
+    }
+   ```
+   
+    编译报错：
+   
+   ```scala
+    Error:(311, 7) illegal start of simple expression
+          if (dataFieldValue >= startParamFieldValue && dataFieldValue <= endParamFieldValue) {
+   ```
+   
+    正确写法：
+   
+   ```scala
+    val dataFieldValue = dataFieldStr.toInt
+    if (dataFieldValue >= startParamFieldValue && dataFieldValue <= endParamFieldValue) {
+      return true
+    } else {
+      return false
+    }
+   ```
