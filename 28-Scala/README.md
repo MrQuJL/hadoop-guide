@@ -250,7 +250,91 @@ Scala 异常的工作机制和 Java 或者 C++ 一样。直接使用 throw 关�
 
 #### 13. Map
 
+map 集合，由一个(key, value) 组成，用 -> 操作符来创建，例如：
+
+```scala
+val scores = Map("Alice" -> 10, "Bob" -> 3, "Cindy" -> 8)n
+```
+
+map 的类型分为：不可变 Map 和可变 Map
+
+```scala
+// 不可变Map
+val math = scala.collection.immutable.Map("Alice" -> 95, "Tom" -> 59)
+
+// 可变Map
+val english = scala.collection.mutable.Map("Alice" -> 80)
+val chinese = scala.collection.mutable.Map(("Alice", 80), ("Tom", 30))
+```
+
+映射的操作
+
+* 获取映射中的值
+  
+  ```scala
+  // 1. 获取Map中的值
+  // 如果不存在，会抛出异常
+  chinese("Alice")
+  chinese.get("Alice")
+  
+  if (chinese.contains("Alice")) {
+      chinese("Alice")
+  } else {
+      -1
+  }
+  
+  // 简写
+  chinese.getOrElse("Alice", -1)
+  ```
+
+* 更新映射中的值（必须是可变Map）
+  
+  ```scala
+  // 2.更新Map中的值
+  chinese("Bob") = 100
+  
+  
+  // 往Map中添加新的元素
+  chinese += "Tom" -> 85
+  // 移除Map中的元素
+  chinese -= "Bob"
+  ```
+
+* 迭代映射
+  
+  ```scala
+  // 3.迭代Map：使用for，或者foreach
+  for (s <- chinese) println(s)
+  chinese.foreach(println)
+  ```
+
 #### 14. Tuple（元组）
+
+元组是不同类型的值的聚集
+
+例如：`val t = (1, 3.14, "Friend") // 类型为Tuple3[Int, Double, java.lang.String]`
+
+这里：Tuple 是类型，3 是表示元组中有三个元素。
+
+元组的访问和遍历：
+
+```scala
+// 定义tuple，包含3个元素
+val t1 = (1, 2, "Tom")
+val t2 = new Tuple4("Marry", 3.14, 100, "Hello")
+
+// 访问tuple中的组员_1
+t2._1
+t2._2
+t2._3
+t2._4
+// t2._5 ---> error
+
+// 遍历Tuple：
+t2.productIterator.foreach(println)
+```
+
+注意：要遍历 Tuple 中的元素，需要首先生成对应的迭代器。不能直接使用 for 或者 foreach。
 
 ### （二）Scala语言的面向对象
 
