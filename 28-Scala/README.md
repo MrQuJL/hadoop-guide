@@ -292,21 +292,22 @@ val chinese = scala.collection.mutable.Map(("Alice", 80), ("Tom", 30))
   ```scala
   // 2.更新Map中的值
   chinese("Bob") = 100
-  
-  
+  ```
+
   // 往Map中添加新的元素
   chinese += "Tom" -> 85
   // 移除Map中的元素
   chinese -= "Bob"
-  ```
+
+```
 
 * 迭代映射
-  
+
   ```scala
   // 3.迭代Map：使用for，或者foreach
   for (s <- chinese) println(s)
   chinese.foreach(println)
-  ```
+```
 
 #### 14. Tuple（元组）
 
@@ -337,6 +338,93 @@ t2.productIterator.foreach(println)
 注意：要遍历 Tuple 中的元素，需要首先生成对应的迭代器。不能直接使用 for 或者 foreach。
 
 ### （二）Scala语言的面向对象
+
+1. 面向对象的基本概念
+   
+   把数据及数据的操作方法放在一起，作为一个相互依存的整体 -- 对象
+   
+   面向对象的三大特征：
+   
+   * 封装
+   
+   * 继承
+   
+   * 多态
+
+1. 类的定义
+   
+   简单类和无参方法：
+   
+   ```scala
+   class Counter {
+       private var value = 0;
+       def increment() { value += 1 }
+       def current() = value;
+   }
+   ```
+   
+   案例：注意 class 前面没有 public 关键字修饰。
+   
+   ```scala
+   // Scala中类的定义
+   class Student1 {
+       // 定义属性
+       private var stuName: String = "Tom"
+       private var stuAge: Int = 20
+       
+       // 成员方法
+       def getStuName(): String = stuName
+       def setStuName(newName: String) = this.stuName = newName
+       
+       def getStuAge(): Int = stuAge
+       def setStuAge(newAge: Int) = this.stuAge = newAge
+   }
+   ```
+   
+   如果要开发 main 方法，需要将 main 方法定义在该类的伴生对象中，即：object 对象中。
+   
+   ```scala
+   // 创建 Student1 的伴生对象
+   object Student1 {
+       def main(args: Array[String]): Unit = {
+           // 测试Student1
+           var s1 = new Student1
+              
+           // 第一次输出
+           println(s1.getStuName() + "\t" + s1.getStuAge())
+           
+           // 调用set方法
+           s1.setStuName("Mary")
+           s1.setAge(25)
+           
+           // 第二次输出
+           println(s1.getStuName() + "\t" + s1.getStuAge())
+   
+           // 第三次输出
+           println(s1.stuName + "\t" + s1.stuAge)
+           // 注意：stuName 和 stuAge 是 private 的类型的，为什么还可以直接访问呢？这就需要来讨论属性的 get 和 set 方法了
+       }
+   }
+   
+   ```
+
+2. 属性的getter和setter方法
+
+3. 内部类（嵌套类）
+
+4. 类的构造器
+
+5. Scala中的Object对象
+
+6. Scala中的apply方法
+
+7. Scala中的继承
+
+8. Scala中的trit（特征）
+
+9. 包的使用
+
+10. Scala中的文件访问
 
 ### （三）Scala语言的函数式编程
 
