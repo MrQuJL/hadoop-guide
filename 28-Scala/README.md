@@ -405,10 +405,46 @@ t2.productIterator.foreach(println)
            // 注意：stuName 和 stuAge 是 private 的类型的，为什么还可以直接访问呢？这就需要来讨论属性的 get 和 set 方法了
        }
    }
-   
    ```
 
 2. 属性的getter和setter方法
+   
+   - 当定义属性是 private 时候，scala 会自动为其生成对应的 get 和 set 方法
+     
+     `private var stuName: String = "Tom"`
+     
+     - get 方法：stuName ==> `s2.stuName()` 由于 stuName 是方法的名字，所以可以加上一个括号，当然也可以不加
+     
+     - set 方法：stuName ==> `stuName_=是方法的名字`
+   
+   . 定义属性：`private var money: Int = 1000`希望 money 只有 get 方法，没有 set 方法
+     
+     . 办法：将其定义为常量 `private val money: Int = 1000`
+   
+   . private[this]的用法：该属性只属于该对象私有，就不会生成对应的 set 和 get 方法。
+     
+     ```scala
+     class Student2 {
+         // 定义属性
+         private var stuName: String = "Tom"
+         // private[this] var stuAge: Int = 20
+         private var stuAge: Int = 20
+         private val money: Int = 1000
+     }
+     
+     // 测试
+     object Student2 {
+         def main(args: Array[String]): Unit = {
+             var s2 = new Student2
+             
+             println(s2.stuName + "\t" + s2.stuAge)
+             println(s2.stuName + "\t" + s2.stuAge + "\t" + s2.money)
+             
+             // 修改money的值 --> error
+             s2.money = 2000
+         }
+     }
+     ```
 
 3. 内部类（嵌套类）
 
