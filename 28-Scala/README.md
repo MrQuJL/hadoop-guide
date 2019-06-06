@@ -293,10 +293,13 @@ val chinese = scala.collection.mutable.Map(("Alice", 80), ("Tom", 30))
   // 2.更新Map中的值
   chinese("Bob") = 100
   ```
-
+  
   // 往Map中添加新的元素
+  
   chinese += "Tom" -> 85
+  
   // 移除Map中的元素
+  
   chinese -= "Bob"
 
 ```
@@ -351,7 +354,7 @@ t2.productIterator.foreach(println)
    
    * 多态
 
-1. 类的定义
+2. 类的定义
    
    简单类和无参方法：
    
@@ -371,11 +374,11 @@ t2.productIterator.foreach(println)
        // 定义属性
        private var stuName: String = "Tom"
        private var stuAge: Int = 20
-       
+   
        // 成员方法
        def getStuName(): String = stuName
        def setStuName(newName: String) = this.stuName = newName
-       
+   
        def getStuAge(): Int = stuAge
        def setStuAge(newAge: Int) = this.stuAge = newAge
    }
@@ -389,14 +392,14 @@ t2.productIterator.foreach(println)
        def main(args: Array[String]): Unit = {
            // 测试Student1
            var s1 = new Student1
-              
+   
            // 第一次输出
            println(s1.getStuName() + "\t" + s1.getStuAge())
-           
+   
            // 调用set方法
            s1.setStuName("Mary")
            s1.setAge(25)
-           
+   
            // 第二次输出
            println(s1.getStuName() + "\t" + s1.getStuAge())
    
@@ -407,23 +410,22 @@ t2.productIterator.foreach(println)
    }
    ```
 
-2. 属性的getter和setter方法
+3. 属性的getter和setter方法
    
    - 当定义属性是 private 时候，scala 会自动为其生成对应的 get 和 set 方法
      
      `private var stuName: String = "Tom"`
-     
      - get 方法：stuName ==> `s2.stuName()` 由于 stuName 是方法的名字，所以可以加上一个括号，当然也可以不加
      
      - set 方法：stuName ==> `stuName_=是方法的名字`
    
    . 定义属性：`private var money: Int = 1000`希望 money 只有 get 方法，没有 set 方法
-     
+   
      . 办法：将其定义为常量 `private val money: Int = 1000`
    
    . private[this]的用法：该属性只属于该对象私有，就不会生成对应的 set 和 get 方法。
-     
-     ```scala
+   
+   ```scala
      class Student2 {
          // 定义属性
          private var stuName: String = "Tom"
@@ -431,36 +433,126 @@ t2.productIterator.foreach(println)
          private var stuAge: Int = 20
          private val money: Int = 1000
      }
-     
+   
      // 测试
      object Student2 {
          def main(args: Array[String]): Unit = {
              var s2 = new Student2
-             
+   
              println(s2.stuName + "\t" + s2.stuAge)
              println(s2.stuName + "\t" + s2.stuAge + "\t" + s2.money)
-             
+   
              // 修改money的值 --> error
              s2.money = 2000
          }
      }
+   ```
+
+4. 内部类（嵌套类）
+   
+   我们可以在一个类的内部定义一个类，如下：我们在 Student 类中，再定义了一个 Course 类用于保存学生的选修课。
+   
+   ```scala
+   import scala.collection.mutable.ArrayBuffer
+   
+   // 嵌套类：内部类
+   class Student3 {
+       // 定义一个内部类，记录学生选修课的课程信息
+       class Course(val courseName: String, val credit: Int) {
+           // 定义其他方法
+       }
+       // 属性
+       private var stuName: String = "Tom"
+       private var stuAge: Int = 20
+       
+       // 定义一个ArrayBuffer记录该学生选修的所有课程
+       private var courseList = new ArrayBuffer[Course]()
+       
+       // 定义方法往学生信息中添加新的课程
+       def addNewCourse(cname: String, credit: Int) {
+           // 创建新的课程
+           var c = new Course(cname, credit)
+           // 将课程加入list
+           courseList += c
+       }
+   }
+   ```
+   
+   开发一个测试程序进行测试：
+   
+   ```scala
+   // 测试
+   object Student3 {
+       // 创建学生对象
+       var s3 = new Student3
+       
+       // 给该学生添加新的课程
+       s3.addNewCourse("Chinese", 2)
+       s3.addNewCourse("English", 3)
+       s3.addNewCourse("Math", 4)
+       
+       // 输出
+       println(s3.stuName + "\t" + s3.stuAge)
+       println("*************选修的课程*************")
+       for (s <- s3.courseList) println(s.courseName + "\t" + s.credit)
+   }
+   ```
+
+5. 类的构造器
+   
+   类的构造器分为：主构造器、辅助构造器
+   
+   * 主构造器：和类的声明结合在一起，只能有一个主构造器
+     
+     `Student4(val stuName: String, val stuAge: Int)`
+     
+     1. 定义类的主构造器：两个参数
+     
+     2. 声明了两个属性：stuName 和 stuAge 和对应的 get 和 set 方法
+        
+        ```scala
+        class Student4(val stuName: String, val stuAge: Int) {}
+        
+        object Student4 {
+            def main(args: Array[String]) {
+                // 创建Student4的一个对象，调用了主构造器
+                var s4 = new Student4("Tom", 20)
+                println(s4.stuName + "\t" + s4.stuAge)
+            }
+        }
+        ```
+   
+   . 辅助构造器：可以有多个辅助构造器，通过关键字 this 来实现
+     
+     ```scala
+     class Student4(val stuName: String, val stuAge: Int) {
+         // 定义辅助构造器
+         def this(age: Int) {
+             // 调用主构造器
+             this("no name", age)
+         }
+     }
+     
+     object Student4 {
+         def main(args: Array[String]) {
+             // 创建一个新的Student4的对象，并调用辅助构造器
+             var s42 = new Student4(25)
+             println(s42.stuName + "\t" + s42.stuAge)
+         }
+     }
      ```
 
-3. 内部类（嵌套类）
+6. Scala中的Object对象
 
-4. 类的构造器
+7. Scala中的apply方法
 
-5. Scala中的Object对象
+8. Scala中的继承
 
-6. Scala中的apply方法
+9. Scala中的trit（特征）
 
-7. Scala中的继承
+10. 包的使用
 
-8. Scala中的trit（特征）
-
-9. 包的使用
-
-10. Scala中的文件访问
+11. Scala中的文件访问
 
 ### （三）Scala语言的函数式编程
 
