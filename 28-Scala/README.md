@@ -543,8 +543,88 @@ t2.productIterator.foreach(println)
      ```
 
 6. Scala中的Object对象
+   
+   Scala 没有静态的修饰符，但 Object 对象下的成员都是静态的，若有同名的 class，将其作为它的伴生类。在 Object 中一般可以在伴生类中做一些初始化等操作。
+   
+   Object 对象的应用
+   
+   - 单例对象：
+     
+     ```scala
+     // 利用object对象实现单例模式
+     object CreditCard {
+         // 变量保存信用卡号
+         private[this] var creditCardNumber: Long = 0
+         
+         // 产生新的卡号
+         def generateNewCCNumber(): Long = {
+             creditCardNumber += 1
+             creditCardNumber
+         }
+         
+         // 测试程序
+         def main(args: Array[String]) {
+             // 产生新的卡号
+             println(CreditCard.generateNewCCNumber())
+             println(CreditCard.generateNewCCNumber())
+             println(CreditCard.generateNewCCNumber())
+             println(CreditCard.generateNewCCNumber())
+         }
+     
+     }
+     ```
+   
+   . 使用应用程序对象：
+     
+     ```scala
+     // 使用应用程序对象： 可以省略main方法
+     object HelloWorld extends App {
+         // 通过如下方式取得命令行的参数
+         if (args.length > 0) {
+             println(args(0))
+         } else {
+             println("no arguments")
+         }
+     }
+     ```
 
 7. Scala中的apply方法
+   
+   遇到如下形式的表达式时，apply 方法就会被调用：
+   
+   `Object(arg1, arg2, ... argn)`
+   
+   通常，这样一个 apply 方法返回的是伴生类的对象；其作用是为了省略 new 关键字
+   
+   ```scala
+   var myarray = Array(1, 2, 3)
+   ```
+   
+   Object 的 apply 方法举例：
+   
+   ```scala
+   // object的apply方法
+   class Student5(val stuName: String) {
+       
+   }
+   object Student5 {
+       // 定义自己的apply方法
+       def apply(stuName: String) = {
+           println("********Apply in Object**********")
+           new Student5(stuName)        
+       }
+       
+       def main(args: Array[String]) {
+           // 创建Student5的一个对象
+           var s51 = new Student5("Tom")
+           println(s51.stuName)
+           
+           // 创建Student5的一个对象
+           var s52 = Student5("Mary")
+           println(s52.stuName)
+       }
+   }
+   ```
 
 8. Scala中的继承
 
