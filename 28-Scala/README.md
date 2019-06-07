@@ -826,8 +826,19 @@ t2.productIterator.foreach(println)
         }
       }
       ```
-
-
+    
+    . 写入文本文件：
+      
+      ```scala
+      object Demo2 {
+        def main(args: Array[String]): Unit = {
+          // 写入文本文件
+          val out = new PrintWriter("d:/m.txt")
+          for (i <- 1 to 10) out.println(i)
+          out.close()
+        }
+      }
+      ```
 
 
 
