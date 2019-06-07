@@ -464,10 +464,10 @@ t2.productIterator.foreach(println)
        // 属性
        private var stuName: String = "Tom"
        private var stuAge: Int = 20
-       
+   
        // 定义一个ArrayBuffer记录该学生选修的所有课程
        private var courseList = new ArrayBuffer[Course]()
-       
+   
        // 定义方法往学生信息中添加新的课程
        def addNewCourse(cname: String, credit: Int) {
            // 创建新的课程
@@ -485,12 +485,12 @@ t2.productIterator.foreach(println)
    object Student3 {
        // 创建学生对象
        var s3 = new Student3
-       
+   
        // 给该学生添加新的课程
        s3.addNewCourse("Chinese", 2)
        s3.addNewCourse("English", 3)
        s3.addNewCourse("Math", 4)
-       
+   
        // 输出
        println(s3.stuName + "\t" + s3.stuAge)
        println("*************选修的课程*************")
@@ -523,8 +523,8 @@ t2.productIterator.foreach(println)
         ```
    
    . 辅助构造器：可以有多个辅助构造器，通过关键字 this 来实现
-     
-     ```scala
+   
+   ```scala
      class Student4(val stuName: String, val stuAge: Int) {
          // 定义辅助构造器
          def this(age: Int) {
@@ -532,7 +532,7 @@ t2.productIterator.foreach(println)
              this("no name", age)
          }
      }
-     
+   
      object Student4 {
          def main(args: Array[String]) {
              // 创建一个新的Student4的对象，并调用辅助构造器
@@ -540,7 +540,7 @@ t2.productIterator.foreach(println)
              println(s42.stuName + "\t" + s42.stuAge)
          }
      }
-     ```
+   ```
 
 6. Scala中的Object对象
    
@@ -555,13 +555,13 @@ t2.productIterator.foreach(println)
      object CreditCard {
          // 变量保存信用卡号
          private[this] var creditCardNumber: Long = 0
-         
+     
          // 产生新的卡号
          def generateNewCCNumber(): Long = {
              creditCardNumber += 1
              creditCardNumber
          }
-         
+     
          // 测试程序
          def main(args: Array[String]) {
              // 产生新的卡号
@@ -575,8 +575,8 @@ t2.productIterator.foreach(println)
      ```
    
    . 使用应用程序对象：
-     
-     ```scala
+   
+   ```scala
      // 使用应用程序对象： 可以省略main方法
      object HelloWorld extends App {
          // 通过如下方式取得命令行的参数
@@ -586,7 +586,7 @@ t2.productIterator.foreach(println)
              println("no arguments")
          }
      }
-     ```
+   ```
 
 7. Scala中的apply方法
    
@@ -605,20 +605,20 @@ t2.productIterator.foreach(println)
    ```scala
    // object的apply方法
    class Student5(val stuName: String) {
-       
+   
    }
    object Student5 {
        // 定义自己的apply方法
        def apply(stuName: String) = {
            println("********Apply in Object**********")
-           new Student5(stuName)        
+           new Student5(stuName)        
        }
-       
+   
        def main(args: Array[String]) {
            // 创建Student5的一个对象
            var s51 = new Student5("Tom")
            println(s51.stuName)
-           
+   
            // 创建Student5的一个对象
            var s52 = Student5("Mary")
            println(s52.stuName)
@@ -627,12 +627,149 @@ t2.productIterator.foreach(println)
    ```
 
 8. Scala中的继承
+   
+   Scala 和 Java 一样，使用 extends 关键字扩展类。
+   
+   - 案例一：Employee 类继承 Person 类
+     
+     ```scala
+     // 演示Scala的继承
+     // 父类
+     class Person(val name: String, val age: Int) {
+       // 定义方法
+       def sayHello(): String = "Hello " + name + " and the age is " + age
+     }
+     
+     // 子类
+     class Employee(override val name: String, override val age: Int, val salary: Int) extends Person(name, age) {
+     
+     }
+     
+     object Demo1 {
+       def main(args: Array[String]): Unit = {
+         // 创建一个Person的对象
+         val p1 = new Person("Tom", 20)
+         println(p1.sayHello())
+     
+         // 创建一个Employee的对象
+         var p2: Person = new Employee("Mike", 25, 1000)
+         println(p2.sayHello())
+       }
+     }
+     
+     ```
+   
+   - 案例二：在子类中重写父类的方法：
+     
+     ```scala
+     // 子类
+     class Employee(override val name: String, override val age: Int, val salary: Int) extends Person(name, age) {
+       override def sayHello(): String = "子类中的sayHello方法"
+     }
+     ```
+   
+   . 案例三：使用匿名子类
+     
+     ```scala
+     // 使用匿名子类来创建新的Person对象
+     var p3: Person = new Person("Jerry", 26) {
+       override def sayHello(): String = "匿名子类中的sayHello方法"
+     }
+     println(p3.sayHello())
+     ```
+   
+   . 案例四：使用抽象类。抽象类中包含抽象方法，抽象类只能用来继承。
+     
+     ```scala
+     // Scala中的抽象类
+     // 父类： 抽象类
+     abstract class Vehicle {
+       // 定义抽象方法
+       def checkType(): String
+     }
+     
+     // 子类
+     class Car extends Vehicle {
+       override def checkType(): String = "I am a car"
+     }
+     
+     class Bysical extends Vehicle {
+       override def checkType(): String = "I am a bike"
+     }
+     
+     object Demo2 {
+       def main(args: Array[String]): Unit = {
+         // 定义两个交通工具
+         var v1: Vehicle = new Car
+         println(v1.checkType())
+     
+         var v2: Vehicle = new Bysical
+         println(v2.checkType())
+     
+       }
+     }
+     ```
+   
+   . 案例五：使用抽象字段。抽象字段就是个没有初始值的字段
+     
+     ```scala
+     // 抽象的父类
+     abstract class Person {
+       // 第一个抽象的字段，并且只有get方法
+       val id: Int
+     
+       // 另一个抽象的字段，并且有get和set方法
+       var name: String
+     }
+     
+     // 子类：应该提供抽象字段的初始值，否则该子类也应该是抽象的
+     abstract class Employee extends Person {
+     //  val id: Int = 1
+       var name: String = "no name"
+     }
+     
+     // 还有一个办法：我们可以定义个主构造器，接收一个id参数，注意名字要与父类中的名字一样。
+     class Employee2(val id: Int) extends Person {
+       var name: String = "no name"
+     }
+     ```
 
 9. Scala中的trit（特征）
+   
+   trait 就是抽象类。trait 跟抽象类最大的区别：trait 支持多继承
+   
+   ```scala
+   // 第一个trait
+   trait Human {
+     val id: Int
+     val name: String
+   
+     // 方法
+     def sayHello(): String = "Hello" + name
+   }
+   
+   // 第二个trait
+   trait Actions {
+     // 抽象的方法
+     def getActionNames(): String
+   }
+   
+   // 子类
+   class Student(val id: Int, val name: String) extends Human with Actions {
+     override def getActionNames(): String = "Action is running"
+   }
+   
+   object Demo2 {
+     def main(args: Array[String]): Unit = {
+       // 创建一个student的对象
+       var s1 = new Student(1, "Tom")
+       println(s1.sayHello())
+       println(s1.getActionNames())
+     }
+   }
+   ```
 
-10. 包的使用
-
-11. Scala中的文件访问
+10. Scala中的文件访问
 
 ### （三）Scala语言的函数式编程
 
