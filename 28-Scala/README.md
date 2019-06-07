@@ -770,6 +770,66 @@ t2.productIterator.foreach(println)
    ```
 
 10. Scala中的文件访问
+    
+    * 读取行：
+      
+      ```scala
+      import scala.io
+      import scala.io.Source
+      
+      object Demo2 {
+        def main(args: Array[String]): Unit = {
+          // 读取行
+          val source = Source.fromFile("d:/a.txt")
+          // 1.将整个文件作为一个字符串
+      //    println(source.mkString)
+          // 2. 一行一行的读取
+          val lines = source.getLines()
+          for (l <- lines) println(l)
+        }
+      }
+      ```
+    
+    . 读取字符：
+      
+      ```scala
+      val source = Source.fromFile("d:/a.txt")
+      for (c <- source) println(c)
+      ```
+      
+      其实这个 source 就指向了文件中的每个字符。
+    
+    . 从 URL 或其他源读取：注意指定字符集 UTF-8：
+      
+      ```scala
+      // 从 URL 或其他源读取：http://www.baidu.com
+      val source = scala.io.Source.fromURL("http://www.baidu.com", "UTF-8")
+
+      println(source.mkString)
+      ```
+    
+    . 读取二进制文件：Scala 中并不支持直接读取二进制，但可以通过调用 Java 的 InputStream 来进行读入。
+      
+      ```scala
+      object Demo2 {
+        def main(args: Array[String]): Unit = {
+          // 读取二进制文件：Scala 并不支持直接读取二进制文件
+          var file = new File("d:/a.txt")
+          // 构造一个InputStream
+          val in = new FileInputStream(file)
+          // 构造一个buffer
+          val buffer = new Array[Byte](file.length().toInt)
+          // 读取
+          in.read(buffer)
+          // 关闭
+          in.close()
+        }
+      }
+      ```
+
+
+
+
 
 ### （三）Scala语言的函数式编程
 
