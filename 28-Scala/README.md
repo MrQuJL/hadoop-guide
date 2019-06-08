@@ -656,7 +656,6 @@ t2.productIterator.foreach(println)
          println(p2.sayHello())
        }
      }
-     
      ```
    
    - 案例二：在子类中重写父类的方法：
@@ -669,70 +668,70 @@ t2.productIterator.foreach(println)
      ```
    
    . 案例三：使用匿名子类
-     
-     ```scala
+   
+   ```scala
      // 使用匿名子类来创建新的Person对象
      var p3: Person = new Person("Jerry", 26) {
        override def sayHello(): String = "匿名子类中的sayHello方法"
      }
      println(p3.sayHello())
-     ```
+   ```
    
    . 案例四：使用抽象类。抽象类中包含抽象方法，抽象类只能用来继承。
-     
-     ```scala
+   
+   ```scala
      // Scala中的抽象类
      // 父类： 抽象类
      abstract class Vehicle {
        // 定义抽象方法
        def checkType(): String
      }
-     
+   
      // 子类
      class Car extends Vehicle {
        override def checkType(): String = "I am a car"
      }
-     
+   
      class Bysical extends Vehicle {
        override def checkType(): String = "I am a bike"
      }
-     
+   
      object Demo2 {
        def main(args: Array[String]): Unit = {
          // 定义两个交通工具
          var v1: Vehicle = new Car
          println(v1.checkType())
-     
+   
          var v2: Vehicle = new Bysical
          println(v2.checkType())
-     
+   
        }
      }
-     ```
+   ```
    
    . 案例五：使用抽象字段。抽象字段就是个没有初始值的字段
-     
-     ```scala
+   
+   ```scala
      // 抽象的父类
      abstract class Person {
        // 第一个抽象的字段，并且只有get方法
        val id: Int
-     
+   
        // 另一个抽象的字段，并且有get和set方法
        var name: String
      }
-     
+   
      // 子类：应该提供抽象字段的初始值，否则该子类也应该是抽象的
      abstract class Employee extends Person {
      //  val id: Int = 1
        var name: String = "no name"
      }
-     
+   
      // 还有一个办法：我们可以定义个主构造器，接收一个id参数，注意名字要与父类中的名字一样。
      class Employee2(val id: Int) extends Person {
        var name: String = "no name"
      }
-     ```
+   ```
 
 9. Scala中的trit（特征）
    
@@ -791,26 +790,26 @@ t2.productIterator.foreach(println)
       ```
     
     . 读取字符：
-      
-      ```scala
+    
+    ```scala
       val source = Source.fromFile("d:/a.txt")
       for (c <- source) println(c)
-      ```
-      
+    ```
+    
       其实这个 source 就指向了文件中的每个字符。
     
     . 从 URL 或其他源读取：注意指定字符集 UTF-8：
-      
-      ```scala
+    
+    ```scala
       // 从 URL 或其他源读取：http://www.baidu.com
       val source = scala.io.Source.fromURL("http://www.baidu.com", "UTF-8")
-
+    
       println(source.mkString)
-      ```
+    ```
     
     . 读取二进制文件：Scala 中并不支持直接读取二进制，但可以通过调用 Java 的 InputStream 来进行读入。
-      
-      ```scala
+    
+    ```scala
       object Demo2 {
         def main(args: Array[String]): Unit = {
           // 读取二进制文件：Scala 并不支持直接读取二进制文件
@@ -825,11 +824,11 @@ t2.productIterator.foreach(println)
           in.close()
         }
       }
-      ```
+    ```
     
     . 写入文本文件：
-      
-      ```scala
+    
+    ```scala
       object Demo2 {
         def main(args: Array[String]): Unit = {
           // 写入文本文件
@@ -838,11 +837,66 @@ t2.productIterator.foreach(println)
           out.close()
         }
       }
-      ```
-
-
+    ```
 
 ### （三）Scala语言的函数式编程
+
+1. Scala 中的函数
+   
+   在 Scala 中，函数是“头等公民”，就和数字一样。可以在变量中存放函数，即：将变量作为函数的值（值函数）。
+   
+   ```scala
+   def myFun1(name: String): String = "Hello" + name
+   println(myFun1("Tome"))
+   
+   def myFun2(): String = "Hello World"
+   
+   // 值函数：将函数作为变量的值
+   val v1 = myFun1("Tom")
+   val v2 = myFun2()
+   // 再将v2赋值给myFun1
+   println(myFun1(v2))
+   ```
+
+2. 匿名函数
+   
+   ```scala
+   // 匿名函数
+   (x: Int) => x * 3
+   // 例子：(1,2,3) --> (3,6,9)
+   Array(1,2,3).map((x: Int) => x * 3).foreach(println)
+   // 由于map方法接收一个函数参数，我们就可以把上面的匿名函数作为参数传递给map方法
+   ```
+
+3. 带函数参数的函数，即：高阶函数
+   
+   ```scala
+   import scala.math._
+   
+   // 定义高阶函数：带有函数参数的函数
+   def someAction(f: Double => Double) = f (10)
+   println(someAction(sqrt))
+   ```
+   
+   函数的参数名是 f，f 的类型是匿名函数类型，匿名函数的参数是 Double 类型，匿名函数的返回值是 Double 类型。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### （四）Scala中的集合
 
