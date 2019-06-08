@@ -880,23 +880,129 @@ t2.productIterator.foreach(println)
    
    函数的参数名是 f，f 的类型是匿名函数类型，匿名函数的参数是 Double 类型，匿名函数的返回值是 Double 类型。
 
+4. 闭包
+   
+   就是函数的嵌套，即：在一个函数定义中，包含另外一个函数的定义；并且在内函数中可以访问外函数中的变量。
+   
+   ```scala
+   def mulBy(factory: Double) = (x: Double) => x * factor
+   
+   val triple = mulBy(3)
+   val half = mulBy(0.5)
+   // 调用
+   println(triple(10) + "\t" + half(8))
+   ```
 
+5.   柯里化
+   
+   柯里化函数是把具有多个参数的函数转换为一条函数链，每个节点上是单一参数。
+   
+   ```scala
+   // 例子：以下两个 add 函数定义是等价的
+   
+   def add(x: Int, y: Int) = x + y
+   
+   def add(x: Int)(y: Int) = x + y // Scala里柯里化的语法
+   ```
+   
+   一个简单的例子：
+   
+   ```scala
+   // 一个普通的函数
+   def mulByOneTIme(x: Int, y: Int) = x * y
+   
+   // 柯里化函数
+   def mulByOneTIme1(x: Int) = (y: Int) => x * y
+   
+   // 简写的方式
+   def mulByOneTime2(x: Int)(y: Int) = x * y
+   ```
 
+6. 高阶函数示例
+   
+   ![高阶函数](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/highfun.png)
+   
+   示例1：map
+   
+   ```scala
+   // map
+   // 在列表中的每个元素上计算一个函数，并且返回一个包含相同数目元素的列表
+   val numbers = List(1,2,3,4,5,6,7,8,9,10)
+   numbers.map((i: Int) => i * 2).foreach(println)
+   ```
+   
+   示例2：foreach
+   
+   ```scala
+   val numbers = List(1,2,3,4,5,6,7,8,9,10)
 
+   // foreach
+   // foreach 和 map相似，只不过它没有返回值 foreach只是为了对参数进行作用
+   numbers.foreach(println)
+   ```
+   
+   示例3：filter
+   
+   ```scala
+   val numbers = List(1,2,3,4,5,6,7,8,9,10)
+   // filter
+   // 移除任何使得传入的函数返回false的元素
+   numbers.filter((i: Int) => i % 2 == 0).foreach(println)
+   ```
+   
+   示例4：zip（拉链操作）
+   
+   ```scala
+   // zip
+   // zip把两个列表的元素合成一个由元素对组成的列表里
+   val nList = List(1,2,3) zip List(4,5,6)
+   nList.foreach(println)
+   ```
+   
+   示例5：partition（只能分两组，返回值是一个Tuple2）
+   
+   ```scala
+   val numbers = List(1,2,3,4,5,6,7,8,9,10)
+   // partition
+   // partition根据函数参数的返回值对列表进行拆分
+   val tup = numbers.partition((i: Int) => i % 2 == 0)
+   tup._1.foreach(println)
+   println("----------")
+   tup._2.foreach(println)
+   ```
+   
+   示例6：find
+   
+   ```scala
+   val numbers = List(1,2,3,4,5,6,7,8,9,10)
+   // find
 
+   // find返回集合里第一个匹配断言函数的元素
 
+   println(numbers.find(_ % 3 == 0))
+   ```
+   
+   示例7：flatten
+   
+   ```scala
+   // flatten
+   // flatten可以把嵌套的结构展开
 
-
-
-
-
-
-
-
-
-
-
-
+   List(List(1,2,3),List(4,5,6)).flatten.foreach(println)
+   ```
+   
+   示例8：flatMap
+   
+   ```scala
+   // flatMap
+   // flatMap是一个常用的combinator，它结合了map和flatten的功能
+   var myList = List(List(1,2,3), List(4,5,6))
+   myList.flatMap(x => x.map(_*2)).foreach(println)
+   ```
+   
+   (1). 先将(1,2,3)和(4,5,6)这两个集合合并成一个集合
+   
+   (2). 再对每个元素乘以2
 
 ### （四）Scala中的集合
 
