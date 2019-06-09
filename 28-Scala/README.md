@@ -893,7 +893,7 @@ t2.productIterator.foreach(println)
    println(triple(10) + "\t" + half(8))
    ```
 
-5.   柯里化
+5. 柯里化
    
    柯里化函数是把具有多个参数的函数转换为一条函数链，每个节点上是单一参数。
    
@@ -935,7 +935,7 @@ t2.productIterator.foreach(println)
    
    ```scala
    val numbers = List(1,2,3,4,5,6,7,8,9,10)
-
+   
    // foreach
    // foreach 和 map相似，只不过它没有返回值 foreach只是为了对参数进行作用
    numbers.foreach(println)
@@ -976,9 +976,9 @@ t2.productIterator.foreach(println)
    ```scala
    val numbers = List(1,2,3,4,5,6,7,8,9,10)
    // find
-
+   
    // find返回集合里第一个匹配断言函数的元素
-
+   
    println(numbers.find(_ % 3 == 0))
    ```
    
@@ -987,7 +987,7 @@ t2.productIterator.foreach(println)
    ```scala
    // flatten
    // flatten可以把嵌套的结构展开
-
+   
    List(List(1,2,3),List(4,5,6)).flatten.foreach(println)
    ```
    
@@ -1006,7 +1006,113 @@ t2.productIterator.foreach(println)
 
 ### （四）Scala中的集合
 
+1. 可变集合和不可变集合
+   
+   * 可变集合
+   
+   * 不可变集合
+     
+     * 集合从不改变，因此可以安全地共享其引用。
+     
+     * 甚至是在一个多线程的应用程序中也没问题。
+       
+       ```scala
+       // 不可变集合
+       val math = scala.collection.immutable.Map("Alice"->80,"Bob"->78)
+       
+       // 可变的集合
+       val english = scala.collection.mutable.Map("Alice"->80)
+       ```
+       
+       集合的操作：
+       
+       ```scala
+       // 1. 获取集合中的值
+       println(english("Alice"))
+       // 2. 调用集合的contains来判断key是否存在
+       if (english.contains("Alice")) {
+         println("key存在")
+       } else {
+         println("key不存在")
+       }
+       // 3. 获取集合中的值不存在时返回一个默认值
+       println(english.getOrElse("Alice1", -1))
+       
+       // 4. 修改集合中的值
+       english("Alice") = 59
+       println(english.getOrElse("Alice", -1))
+       
+       // 5. 向集合中添加元素
+       english += "xiaoming" -> 40
+       
+       // 6. 移除集合中的元素
+       english -= "Alice"
+       ```
+
+2. 列表
+   
+   * 不可变列表（List）
+     
+     ```scala
+     // 不可变列表：List
+     // 字符串列表
+     val nameslist = List("Bob", "Mary", "Mike")
+     // 整数列表
+     val intList = List(1,2,3,4,5)
+     // 空列表
+     val nullList:List[Nothing] = List()
+     // 二维列表
+     val dim: List[List[Int]] = List(List(1,2,3),List(4,5,6))
+     ```
+     
+     不可变列表的相关操作：
+     
+     ```scala
+     println("第一个人的名字：" + nameslist.head)
+     // tail: 不是返回的最后一个元素，而是返回除去第一个元素后，剩下的元素列表
+     println(nameslist.tail)
+     println("列表是否为空：" + nameslist.isEmpty)
+     ```
+   
+   . 可变列表（LinkedList）：scala.collection.mutable
+     
+     ```scala
+     // 可变列表：LinkedList和不可变List类似，只不过我们可以修改列表中的值
+     val myList = mutable.LinkedList(1,2,3,4,5)
+     // 操作：将上面可变列表中的每个值乘以2
+     // 列名的elem
+     
+     // 定义了一个指针指向列表的开始
+     var cur = myList
+     // Nil: 代表Scala中的null
+     while (cur != Nil) {
+         // 对当前值*2
+         cur.elem = cur.elem * 2
+         // 将指针指向下一个元素
+         cur = cur.next
+     }
+     
+     // 查看结果
+     println(myList)
+     ```
+
+3. 序列
+
+4. 集（set）和集的操作
+
+5. 模式匹配
+
+6. 样本类（CaseClass）
+
+
+
 ### （五）Scala语言的高级特性
+
+
+
+
+
+
 
 ### （六）Scala语法错误集锦
 
