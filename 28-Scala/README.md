@@ -1074,7 +1074,7 @@ t2.productIterator.foreach(println)
      println("列表是否为空：" + nameslist.isEmpty)
      ```
    
-   . 可变列表（LinkedList）：scala.collection.mutable
+   . 可变列表（LinkedList）
      
      ```scala
      // 可变列表：LinkedList和不可变List类似，只不过我们可以修改列表中的值
@@ -1086,10 +1086,10 @@ t2.productIterator.foreach(println)
      var cur = myList
      // Nil: 代表Scala中的null
      while (cur != Nil) {
-         // 对当前值*2
-         cur.elem = cur.elem * 2
-         // 将指针指向下一个元素
-         cur = cur.next
+        // 对当前值*2
+        cur.elem = cur.elem * 2
+        // 将指针指向下一个元素
+        cur = cur.next
      }
      
      // 查看结果
@@ -1097,22 +1097,226 @@ t2.productIterator.foreach(println)
      ```
 
 3. 序列
+   
+   常用的序列有：Vector 和 Range
+   
+   * Vector 是 ArrayBuffer 的不可变版本，是一个带下标的序列
+     
+     ```scala
+     // Vector: 为了提高list列表随机存取的效率而引入的新的集合类型
+     // 支持快速的查找和更新
+     
+     val v = Vector(1,2,3,4,5,6)
+     
+     // 返回的是第一个满足条件的元素
+     v.find(_ > 3)
+     v.updated(2, 100)
+     ```
+   
+   . Range 表示一个整数序列
+     
+     ```scala
+     // Range: 有序的通过空格分割的 Int 序列
+     // 一下几个列子 Range 是一样
+     println("第一种写法：" + Range(0, 5))
+     println("第二种写法：" + (0 until 5))
+     println("第三种写法：" + (0 to 4))
+     
+     // 两个range可以相加
+     ('0' to '9') ++ ('A' to 'Z')
+     
+     // 可以将Range转换为List
+     1 to 5 toList
+     ```
 
 4. 集（set）和集的操作
+   
+   * 集 Set 是不重复元素的集合
+   
+   * 和列表不同，集并不保留元素插入的顺序。默认以 Hash 集实现
+     
+     示例1：创建集
+     
+     ```scala
+     // 集Set：是不重复元素的集合，默认是HashSet
+     
+     // 创建一个 Set
+     var s1 = Set(2,0,1)
+     // 往s1中添加一个重复的元素
+     s1 =  s1 + 100
+     
+     // 往s1中添加一个不重复的元素
+     s1 = s1 + 100
+     
+     // 创建一个LinkedHashSet
+     var weeksday = mutable.LinkedHashSet("星期一", "星期二", "星期三", "星期四")
+     // 创建一个排序的集
+     var s2 = mutable.SortedSet(1,2,3,10,4)
+     ```
+     
+     示例2：集的操作
+     
+     ```scala
+     // 集的操作
+     // 1. 添加
+     
+     weeksday + "星期五"
+     
+     // 2. 判断元素是否存在
+     weeksday.contains("星期二")
+     
+     // 3.判断一个集是否是另一个集的子集
+     Set("星期二", "星期四", "星期日") subsetOf(weeksday)
+     ```
 
 5. 模式匹配
+   
+   Scala 有一个强大的模式匹配机制，可以应用在很多场合：
+   
+   * switch语句
+   
+   * 类型检查
+   
+   Scala 还提供了样本类（case class），对模式匹配进行了优化
+   
+   模式匹配实例：
+   
+   * 更好的 switch
+     
+     ```scala
+     // 更好的switch
+     var sign = 0
+     var ch1 = '-'
+     ch1 match {
+         case '+' => sign = 1
+         case '-' => sign = -1
+         case _ => sign = 0
+     }
+     println(sign)
+     ```
+   
+   . Scala 的守卫
+     
+     ```scala
+     // Scala的守卫：匹配某种类型的所有值
+     var ch2 = '6'
+     var digit: Int = -1
+     ch2 match {
+         case '+' => println("这是一个+")
+         case '-' => println("这是一个-")
+         case _ if Character.isDigit(ch2) => digit = Character.digit(ch2, 10)
+         case _ => println("其他类型")
+     }
+     println("Digit: " + digit)
+     ```
+   
+   . 模式匹配中的变量
+     
+     ```scala
+     // 模式匹配中的变量
+     var str3 = "Hello World"
+     str3(7) match {
+         case '+' => println("这是一个+")
+         case '-' => println("这是一个-")
+         case ch => println("这个字符是：" + ch)
+     }
+     ```
+   
+   . 类型模式
+     
+     ```scala
+     // 类型模式
+     var v4: Any = 100
+     v4 match {
+         case x: Int => println("这是一个整数：" + x)
+         case s: String => println("这是一个字符串：" + s)
+         case _ => println("其他类型")
+     }
+     
+     ```
+   
+   . 匹配数组和列表
+     
+     ```scala
+     // 匹配数组和列表
+     var myArray = Array(1,2,3)
+     myArray match {
+         case Array(0) => println("0")
+         case Array(x,y) => println("数组包含两个元素")
+         case Array(x,y,z) => println("数组包含三个元素")
+         case Array(x, _*) => println("这是一个数组")
+     }
+     // 最后的这个表示，数组包含任意个元素，即：default的匹配
+     ```
+     
+     ```scala
+     var myList = List(1,2,3)
+     myList match {
+         case List(0) println("0")
+         case List(x,y) => println("这个列表包含两个元素")
+         case List(x,y,z) => println("这是一个列表，包含三个元素")
+         case List(x, _*) => println("这个列表包含多个元素")
+     }
+     ```
 
 6. 样本类（CaseClass）
+   
+   简单的来说，Scala 的 case class 就是在普通的类定义前加 case 这个关键字，然后你可以对这些类来模式匹配。
+   
+   case class 带来的最大好处是它们支持模式识别。
+   
+   首先，回顾一下前面的模式匹配：
+   
+   ```scala
+   // 普通的模式匹配
+   var name: String = "Tom"
+   
+   name match {
+       case "Tom" => println("Hello Tom")
+       case "Mary" => println("Hello Mary")
+       case _ => println("Others")
+   }
+   ```
+   
+   其次，如果我们想判断一个对象是否是某个类的对象，跟 Java 一样可以使用 isInstanceOf
+   
+   ```scala
+   // 判断一个对象是否是某个类的对象？isInstanceOf
+   class Fruit
+   
+   class Apple(name: String) extends Fruit
+   class Banana(name: String) extends Fruit
+   
+   // 创建对应的对象
+   var aApple: Fruit = new Apple("苹果")
+   var bBanana: Fruit = new Banana("香蕉")
+   
+   println("aApple是Fruit吗？" + aApple.isInstanceOf[Fruit])
+   println("aApple是Fruit吗？" + aApple.isInstanceOf[Apple])
+   println("aApple是Banana吗？" + aApple.isInstanceOf[Banana])
+   ```
+   
+   在 Scala 中有一种更简单的方式来判断，就是 case class
+   
+   ```scala
+   // 使用case class（样本类）进行模式匹配
+   class Vehicle
+   case class Car(name: String) extends Vehicle
+   case class Bicycle(name: String) extends Vehicle
+   
+   // 定义一个 Car 对象
+   var aCar: Vechicle = new Car("Tom的汽车")
+   aCar match {
+       case Car(name) => println("我是一辆汽车：" + name)
+       case Bicycle(name) => println("我是一辆自行车")
+       case _ => println("其他交通工具")
+   }
+   
+   ```
 
 
 
 ### （五）Scala语言的高级特性
-
-
-
-
-
-
 
 ### （六）Scala语法错误集锦
 
