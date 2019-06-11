@@ -1075,13 +1075,13 @@ t2.productIterator.foreach(println)
      ```
    
    . 可变列表（LinkedList）
-     
-     ```scala
+   
+   ```scala
      // 可变列表：LinkedList和不可变List类似，只不过我们可以修改列表中的值
      val myList = mutable.LinkedList(1,2,3,4,5)
      // 操作：将上面可变列表中的每个值乘以2
      // 列名的elem
-     
+   
      // 定义了一个指针指向列表的开始
      var cur = myList
      // Nil: 代表Scala中的null
@@ -1091,10 +1091,10 @@ t2.productIterator.foreach(println)
         // 将指针指向下一个元素
         cur = cur.next
      }
-     
+   
      // 查看结果
      println(myList)
-     ```
+   ```
 
 3. 序列
    
@@ -1114,20 +1114,20 @@ t2.productIterator.foreach(println)
      ```
    
    . Range 表示一个整数序列
-     
-     ```scala
+   
+   ```scala
      // Range: 有序的通过空格分割的 Int 序列
      // 一下几个列子 Range 是一样
      println("第一种写法：" + Range(0, 5))
      println("第二种写法：" + (0 until 5))
      println("第三种写法：" + (0 to 4))
-     
+   
      // 两个range可以相加
      ('0' to '9') ++ ('A' to 'Z')
-     
+   
      // 可以将Range转换为List
      1 to 5 toList
-     ```
+   ```
 
 4. 集（set）和集的操作
    
@@ -1196,8 +1196,8 @@ t2.productIterator.foreach(println)
      ```
    
    . Scala 的守卫
-     
-     ```scala
+   
+   ```scala
      // Scala的守卫：匹配某种类型的所有值
      var ch2 = '6'
      var digit: Int = -1
@@ -1208,11 +1208,11 @@ t2.productIterator.foreach(println)
          case _ => println("其他类型")
      }
      println("Digit: " + digit)
-     ```
+   ```
    
    . 模式匹配中的变量
-     
-     ```scala
+   
+   ```scala
      // 模式匹配中的变量
      var str3 = "Hello World"
      str3(7) match {
@@ -1220,11 +1220,11 @@ t2.productIterator.foreach(println)
          case '-' => println("这是一个-")
          case ch => println("这个字符是：" + ch)
      }
-     ```
+   ```
    
    . 类型模式
-     
-     ```scala
+   
+   ```scala
      // 类型模式
      var v4: Any = 100
      v4 match {
@@ -1232,12 +1232,11 @@ t2.productIterator.foreach(println)
          case s: String => println("这是一个字符串：" + s)
          case _ => println("其他类型")
      }
-     
-     ```
+   ```
    
    . 匹配数组和列表
-     
-     ```scala
+   
+   ```scala
      // 匹配数组和列表
      var myArray = Array(1,2,3)
      myArray match {
@@ -1247,9 +1246,9 @@ t2.productIterator.foreach(println)
          case Array(x, _*) => println("这是一个数组")
      }
      // 最后的这个表示，数组包含任意个元素，即：default的匹配
-     ```
-     
-     ```scala
+   ```
+   
+   ```scala
      var myList = List(1,2,3)
      myList match {
          case List(0) println("0")
@@ -1257,7 +1256,7 @@ t2.productIterator.foreach(println)
          case List(x,y,z) => println("这是一个列表，包含三个元素")
          case List(x, _*) => println("这个列表包含多个元素")
      }
-     ```
+   ```
 
 6. 样本类（CaseClass）
    
@@ -1311,12 +1310,126 @@ t2.productIterator.foreach(println)
        case Bicycle(name) => println("我是一辆自行车")
        case _ => println("其他交通工具")
    }
-   
    ```
 
-
-
 ### （五）Scala语言的高级特性
+
+1. 什么是泛型类
+   
+   和 Java 或者 C++ 一样，类和特质可以带类型参数。在 Scala 中，使用方括号来定义类型参数。
+   
+   ```scala
+   class GenericClass[T] {
+       // 定义一个变量
+       private var content: T = _
+       
+       // 定义变量的get和set方法
+       def set(value: T) = {content = value}
+       def get(): T = {content}
+   }
+   ```
+   
+   测试程序：
+   
+   ```scala
+   // 测试
+   object GenericClass {
+       def main(args: Array[String]) {
+           // 定义一个Int整数类型的泛型对象
+           var intGeneric = new GenericClass[Int]
+           intGeneric.set(123)
+           println("得到的值是：" + intGeneric.get())
+           
+           // 定义一个String类型的泛型类对象
+           var stringGeneric = new GenericClass[String]
+           stringGeneric.set("Hello Scala")
+           println("得到的值是：" + stringGeneric.get())
+       }
+   }
+   ```
+
+2. 什么是泛型函数
+   
+   函数和方法也可以带类型参数。和泛型类一样，我们需要把类型参数放在方法名之后。注意：这里的 ClassTag 是必须的，表示运行时的一些信息，比如类型。
+   
+   ```scala
+   import scala.reflect.ClassTag
+   
+   // 创建一个函数，可以创建一个Int类型的数组
+   def mkIntArray(elems: Int*) = Array[Int](elems:_*)
+   
+   // 创建一个函数，可以创建一个String类型的数组
+   def mkStringArray(elems: String*) = Array[String](elems:_*)
+   
+   // 问题：能否创建一个函数mkArray，即能创建Int类型的数组，也能创建String类型的数组？
+   // 泛型函数
+   def mkArray[T:ClassTag](elems:T*) = Array[T](elems:_*)
+   mkArray(1,2,3,5,8)
+   mkArray("Tom", "Marry")
+   ```
+
+3. Upper Bounds 与 Lower Bounds
+   
+   类型的上界和下界，是用来定义类型变量的范围。它们的含义如下：
+   
+   * S <: T
+     
+     这是类型上界的定义。也就是 S 必须是 T 的子类（或本身，自己也可以认为是自己的子类。）
+   
+   . U >: T
+     
+     这是类型的下界的定义。也就是 U 必须是类型 T 的父类（或本身）
+     
+     * 一个简单的例子
+       
+       ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/upbound.png)
+     
+     . 一个复杂一点的例子（上界）：
+       
+       ```scala
+       class Vehicle {
+           def drive() = {prinltn("Driving")}
+       }
+       
+       class Car extends Vehicle {
+           override def drive() = {println("Car Driving")}
+       }
+       
+       class Bicycle extends Vehicle {
+           override def drive() = {println("Bicycle Driving")}
+       }
+       
+       object ScalaUpperBounds {
+           // 定义方法
+           def takeVehicle[ T <: Vehicle](v: T) = {v.drive()}
+           
+           def main(args: Array[String]) {
+               var v: Vehicle = new Vehicle
+               takeVehicle(v)
+               
+               var c: Car = new Car
+               takeVehicle(c)
+           }
+       }
+       ```
+
+4. 视图界定（View bounds）
+
+5. 协变和逆变
+
+6. 隐式转换函数
+
+7. 隐式参数
+
+8. 隐式类
+
+
+
+
+
+
+
+
 
 ### （六）Scala语法错误集锦
 
