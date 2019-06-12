@@ -1322,7 +1322,7 @@ t2.productIterator.foreach(println)
    class GenericClass[T] {
        // 定义一个变量
        private var content: T = _
-       
+   
        // 定义变量的get和set方法
        def set(value: T) = {content = value}
        def get(): T = {content}
@@ -1339,7 +1339,7 @@ t2.productIterator.foreach(println)
            var intGeneric = new GenericClass[Int]
            intGeneric.set(123)
            println("得到的值是：" + intGeneric.get())
-           
+   
            // 定义一个String类型的泛型类对象
            var stringGeneric = new GenericClass[String]
            stringGeneric.set("Hello Scala")
@@ -1377,59 +1377,115 @@ t2.productIterator.foreach(println)
      这是类型上界的定义。也就是 S 必须是 T 的子类（或本身，自己也可以认为是自己的子类。）
    
    . U >: T
-     
+   
      这是类型的下界的定义。也就是 U 必须是类型 T 的父类（或本身）
+   
+   * 一个简单的例子
      
-     * 一个简单的例子
-       
-       ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/upbound.png)
+     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/upbound.png)
      
      . 一个复杂一点的例子（上界）：
-       
-       ```scala
-       class Vehicle {
-           def drive() = {prinltn("Driving")}
-       }
-       
-       class Car extends Vehicle {
-           override def drive() = {println("Car Driving")}
-       }
-       
-       class Bicycle extends Vehicle {
-           override def drive() = {println("Bicycle Driving")}
-       }
-       
-       object ScalaUpperBounds {
-           // 定义方法
-           def takeVehicle[ T <: Vehicle](v: T) = {v.drive()}
-           
-           def main(args: Array[String]) {
-               var v: Vehicle = new Vehicle
-               takeVehicle(v)
-               
-               var c: Car = new Car
-               takeVehicle(c)
-           }
-       }
-       ```
+     
+     ```scala
+     class Vehicle {
+         def drive() = {prinltn("Driving")}
+     }
+     
+     class Car extends Vehicle {
+         override def drive() = {println("Car Driving")}
+     }
+     
+     class Bicycle extends Vehicle {
+         override def drive() = {println("Bicycle Driving")}
+     }
+     
+     object ScalaUpperBounds {
+         // 定义方法
+         def takeVehicle[ T <: Vehicle](v: T) = {v.drive()}
+     
+         def main(args: Array[String]) {
+             var v: Vehicle = new Vehicle
+             takeVehicle(v)
+     
+             var c: Car = new Car
+             takeVehicle(c)
+         }
+     }
+     ```
 
 4. 视图界定（View bounds）
+   
+   它比 <: 适用的范围更加广泛，除了所有的子类型，还允许隐式转换过去的类型。用 <% 表示。尽量使用视图界定，来取代泛型的上界，因为适用的范围更加广泛。
+   
+   示例：
+   
+   * 上面写过的一个例子。这里由于 T 的上界是 String，当我们传递 100 和 200 的时候，就会出现类型不匹配。
+     
+     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/viewbund.png)    
+   
+   . 但是 100 和 200 是可以转换成字符串的，所以我们可以使用视图界定让 addTwoString 方法可以接受更为广泛的数据类型，即：字符串极其子类、可以转换成字符串的类型。
+     
+     注意：使用的是 <%
+     
+     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/viewbb.png)
+   
+   . 但实际运行的时候，会出现错误：
+     
+     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/viewerr.png)
+     
+     这是因为：Scala并没有定义如何将 Int 转换成 String 的规则，所以要使用视图界定，我们就必须创建转换规则。
+   
+   * 创建转换规则：
+     
+     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/changerule.png)
+   
+   * 运行成功：
+     
+     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/viewsuccess.png)
 
 5. 协变和逆变
+   
+   * 协变：
+     
+     Scala 的类或特征的泛型定义中，如果在类型参数前面加入 + 符号，就可以使类或特征变为协变了。
+     
+     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/helpc.png)
+   
+   * 逆变：
+     
+     在类或特征的定义中，在类型参数之前加上一个 - 符号，就可以定义逆变泛型类和特征了。
+     
+     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/reverc.png)
+   
+   * 总结：
+     
+     Scala 的协变：泛型变量的值可以是本身类型或者其子类的类型
+     
+     Scala 的逆变：泛型变量的值可以是本身类型或者其父类的类型
 
 6. 隐式转换函数
+   
+   所谓隐式转换函数指的是以 implicit 关键字申明的带有单个参数的函数。
+   
+   * 前面介绍视图界定的时候的一个例子：
+     
+     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/imp.png)
+   
+   * 再举一个例子：我们把 Fruit 对象转换成了 Monkey 对象
+     
+     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/monkey.png)
 
 7. 隐式参数
+   
+   使用 implicit 申明的函数参数叫做隐式参数。我们可以使用隐式参数实现隐式转换
+   
+   ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/yincan.png)
 
 8. 隐式类
-
-
-
-
-
-
-
-
+   
+   所谓隐式类：就是对类增加 implicit 限定的类，其作用主要是对类的功能加强。
+   
+   ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/add.png)
 
 ### （六）Scala语法错误集锦
 
