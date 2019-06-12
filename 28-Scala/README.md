@@ -34,7 +34,7 @@ Scala是一种多范式的编程语言，其设计的初衷是要集成面向对
 ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/data-type.png)
 
 1. 数值类型：Byte，Short，Int，Long，Float，Double
-   
+  
    * Byte：8 位有符号数字，从 -128 到 127
    * Short：16 位有符号数据，从 -32768 到 32767
    * Int：32 位有符号数据
@@ -50,7 +50,7 @@ Scala是一种多范式的编程语言，其设计的初衷是要集成面向对
      **注意：在 Scala 中，定义变量可以不指定类型，因为 Scala 会进行类型的自动推到。**
 
 2. 字符类型和字符串类型：Char 和 String
-   
+  
     对于字符串，在 Scala 中可以进行插值操作
    
     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/insert-value.png)
@@ -58,11 +58,11 @@ Scala是一种多范式的编程语言，其设计的初衷是要集成面向对
     **注意：前面有个 s，相当于执行："My Name is" + s1**
 
 3. Unit 类型：相当于 Java 中的 void 类型
-   
+  
     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/unit.png)
 
 4. Nothing 类型：一般表示在执行过程中，产生了 Exception。例如，我们定义一个函数如下：
-   
+  
     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/nothing.png)
 
 #### 5. Scala变量的声明和使用
@@ -276,33 +276,25 @@ val chinese = scala.collection.mutable.Map(("Alice", 80), ("Tom", 30))
   // 如果不存在，会抛出异常
   chinese("Alice")
   chinese.get("Alice")
-  
   if (chinese.contains("Alice")) {
       chinese("Alice")
   } else {
       -1
   }
-  
   // 简写
   chinese.getOrElse("Alice", -1)
   ```
 
 * 更新映射中的值（必须是可变Map）
-  
+
   ```scala
   // 2.更新Map中的值
   chinese("Bob") = 100
-  ```
-  
   // 往Map中添加新的元素
-  
   chinese += "Tom" -> 85
-  
   // 移除Map中的元素
-  
   chinese -= "Bob"
-
-```
+  ```
 
 * 迭代映射
 
@@ -310,7 +302,7 @@ val chinese = scala.collection.mutable.Map(("Alice", 80), ("Tom", 30))
   // 3.迭代Map：使用for，或者foreach
   for (s <- chinese) println(s)
   chinese.foreach(println)
-```
+  ```
 
 #### 14. Tuple（元组）
 
@@ -343,7 +335,7 @@ t2.productIterator.foreach(println)
 ### （二）Scala语言的面向对象
 
 1. 面向对象的基本概念
-   
+  
    把数据及数据的操作方法放在一起，作为一个相互依存的整体 -- 对象
    
    面向对象的三大特征：
@@ -355,7 +347,7 @@ t2.productIterator.foreach(println)
    * 多态
 
 2. 类的定义
-   
+  
    简单类和无参方法：
    
    ```scala
@@ -411,7 +403,7 @@ t2.productIterator.foreach(println)
    ```
 
 3. 属性的getter和setter方法
-   
+  
    - 当定义属性是 private 时候，scala 会自动为其生成对应的 get 和 set 方法
      
      `private var stuName: String = "Tom"`
@@ -419,37 +411,36 @@ t2.productIterator.foreach(println)
      
      - set 方法：stuName ==> `stuName_=是方法的名字`
    
-   . 定义属性：`private var money: Int = 1000`希望 money 只有 get 方法，没有 set 方法
+   * 定义属性：`private var money: Int = 1000`希望 money 只有 get 方法，没有 set 方法
    
-     . 办法：将其定义为常量 `private val money: Int = 1000`
+     * 办法：将其定义为常量 `private val money: Int = 1000`
    
-   . private[this]的用法：该属性只属于该对象私有，就不会生成对应的 set 和 get 方法。
-   
-   ```scala
-     class Student2 {
-         // 定义属性
-         private var stuName: String = "Tom"
-         // private[this] var stuAge: Int = 20
-         private var stuAge: Int = 20
-         private val money: Int = 1000
-     }
-   
-     // 测试
-     object Student2 {
-         def main(args: Array[String]): Unit = {
-             var s2 = new Student2
-   
-             println(s2.stuName + "\t" + s2.stuAge)
-             println(s2.stuName + "\t" + s2.stuAge + "\t" + s2.money)
-   
-             // 修改money的值 --> error
-             s2.money = 2000
-         }
-     }
-   ```
+   * private[this]的用法：该属性只属于该对象私有，就不会生成对应的 set 和 get 方法。
+        ```scala
+        class Student2 {
+            // 定义属性
+            private var stuName: String = "Tom"
+            // private[this] var stuAge: Int = 20
+            private var stuAge: Int = 20
+            private val money: Int = 1000
+        }
+
+        // 测试
+        object Student2 {
+            def main(args: Array[String]): Unit = {
+                var s2 = new Student2
+
+                println(s2.stuName + "\t" + s2.stuAge)
+                println(s2.stuName + "\t" + s2.stuAge + "\t" + s2.money)
+
+                // 修改money的值 --> error
+                s2.money = 2000
+            }
+        }
+        ```
 
 4. 内部类（嵌套类）
-   
+  
    我们可以在一个类的内部定义一个类，如下：我们在 Student 类中，再定义了一个 Course 类用于保存学生的选修课。
    
    ```scala
@@ -499,7 +490,7 @@ t2.productIterator.foreach(println)
    ```
 
 5. 类的构造器
-   
+  
    类的构造器分为：主构造器、辅助构造器
    
    * 主构造器：和类的声明结合在一起，只能有一个主构造器
@@ -509,7 +500,7 @@ t2.productIterator.foreach(println)
      1. 定义类的主构造器：两个参数
      
      2. 声明了两个属性：stuName 和 stuAge 和对应的 get 和 set 方法
-        
+       
         ```scala
         class Student4(val stuName: String, val stuAge: Int) {}
         
@@ -522,28 +513,28 @@ t2.productIterator.foreach(println)
         }
         ```
    
-   . 辅助构造器：可以有多个辅助构造器，通过关键字 this 来实现
+   * 辅助构造器：可以有多个辅助构造器，通过关键字 this 来实现
    
-   ```scala
-     class Student4(val stuName: String, val stuAge: Int) {
-         // 定义辅助构造器
-         def this(age: Int) {
-             // 调用主构造器
-             this("no name", age)
-         }
-     }
-   
-     object Student4 {
-         def main(args: Array[String]) {
-             // 创建一个新的Student4的对象，并调用辅助构造器
-             var s42 = new Student4(25)
-             println(s42.stuName + "\t" + s42.stuAge)
-         }
-     }
-   ```
+        ```scala
+          class Student4(val stuName: String, val stuAge: Int) {
+              // 定义辅助构造器
+              def this(age: Int) {
+                  // 调用主构造器
+                  this("no name", age)
+              }
+          }
+
+          object Student4 {
+              def main(args: Array[String]) {
+                  // 创建一个新的Student4的对象，并调用辅助构造器
+                  var s42 = new Student4(25)
+                  println(s42.stuName + "\t" + s42.stuAge)
+              }
+          }
+        ```
 
 6. Scala中的Object对象
-   
+  
    Scala 没有静态的修饰符，但 Object 对象下的成员都是静态的，若有同名的 class，将其作为它的伴生类。在 Object 中一般可以在伴生类中做一些初始化等操作。
    
    Object 对象的应用
@@ -574,22 +565,22 @@ t2.productIterator.foreach(println)
      }
      ```
    
-   . 使用应用程序对象：
+   * 使用应用程序对象：
    
-   ```scala
-     // 使用应用程序对象： 可以省略main方法
-     object HelloWorld extends App {
-         // 通过如下方式取得命令行的参数
-         if (args.length > 0) {
-             println(args(0))
-         } else {
-             println("no arguments")
+       ```scala
+         // 使用应用程序对象： 可以省略main方法
+         object HelloWorld extends App {
+             // 通过如下方式取得命令行的参数
+             if (args.length > 0) {
+                 println(args(0))
+             } else {
+                 println("no arguments")
+             }
          }
-     }
-   ```
+       ```
 
 7. Scala中的apply方法
-   
+  
    遇到如下形式的表达式时，apply 方法就会被调用：
    
    `Object(arg1, arg2, ... argn)`
@@ -627,7 +618,7 @@ t2.productIterator.foreach(println)
    ```
 
 8. Scala中的继承
-   
+  
    Scala 和 Java 一样，使用 extends 关键字扩展类。
    
    - 案例一：Employee 类继承 Person 类
@@ -725,7 +716,7 @@ t2.productIterator.foreach(println)
      ```
 
 9. Scala中的trit（特征）
-   
+  
    trait 就是抽象类。trait 跟抽象类最大的区别：trait 支持多继承
    
    ```scala
@@ -760,7 +751,7 @@ t2.productIterator.foreach(println)
    ```
 
 10. Scala中的文件访问
-    
+  
     * 读取行：
       
       ```scala
@@ -832,7 +823,7 @@ t2.productIterator.foreach(println)
 ### （三）Scala语言的函数式编程
 
 1. Scala 中的函数
-   
+  
    在 Scala 中，函数是“头等公民”，就和数字一样。可以在变量中存放函数，即：将变量作为函数的值（值函数）。
    
    ```scala
@@ -849,7 +840,7 @@ t2.productIterator.foreach(println)
    ```
 
 2. 匿名函数
-   
+  
    ```scala
    // 匿名函数
    (x: Int) => x * 3
@@ -859,7 +850,7 @@ t2.productIterator.foreach(println)
    ```
 
 3. 带函数参数的函数，即：高阶函数
-   
+  
    ```scala
    import scala.math._
    
@@ -871,7 +862,7 @@ t2.productIterator.foreach(println)
    函数的参数名是 f，f 的类型是匿名函数类型，匿名函数的参数是 Double 类型，匿名函数的返回值是 Double 类型。
 
 4. 闭包
-   
+  
    就是函数的嵌套，即：在一个函数定义中，包含另外一个函数的定义；并且在内函数中可以访问外函数中的变量。
    
    ```scala
@@ -884,7 +875,7 @@ t2.productIterator.foreach(println)
    ```
 
 5. 柯里化
-   
+  
    柯里化函数是把具有多个参数的函数转换为一条函数链，每个节点上是单一参数。
    
    ```scala
@@ -909,7 +900,7 @@ t2.productIterator.foreach(println)
    ```
 
 6. 高阶函数示例
-   
+  
    ![高阶函数](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/highfun.png)
    
    示例1：map
@@ -997,7 +988,7 @@ t2.productIterator.foreach(println)
 ### （四）Scala中的集合
 
 1. 可变集合和不可变集合
-   
+  
    * 可变集合
    
    * 不可变集合
@@ -1040,7 +1031,7 @@ t2.productIterator.foreach(println)
        ```
 
 2. 列表
-   
+  
    * 不可变列表（List）
      
      ```scala
@@ -1064,30 +1055,30 @@ t2.productIterator.foreach(println)
      println("列表是否为空：" + nameslist.isEmpty)
      ```
    
-   . 可变列表（LinkedList）
+   * 可变列表（LinkedList）
    
-   ```scala
-     // 可变列表：LinkedList和不可变List类似，只不过我们可以修改列表中的值
-     val myList = mutable.LinkedList(1,2,3,4,5)
-     // 操作：将上面可变列表中的每个值乘以2
-     // 列名的elem
-   
-     // 定义了一个指针指向列表的开始
-     var cur = myList
-     // Nil: 代表Scala中的null
-     while (cur != Nil) {
-        // 对当前值*2
-        cur.elem = cur.elem * 2
-        // 将指针指向下一个元素
-        cur = cur.next
-     }
-   
-     // 查看结果
-     println(myList)
-   ```
+       ```scala
+         // 可变列表：LinkedList和不可变List类似，只不过我们可以修改列表中的值
+         val myList = mutable.LinkedList(1,2,3,4,5)
+         // 操作：将上面可变列表中的每个值乘以2
+         // 列名的elem
+
+         // 定义了一个指针指向列表的开始
+         var cur = myList
+         // Nil: 代表Scala中的null
+         while (cur != Nil) {
+            // 对当前值*2
+            cur.elem = cur.elem * 2
+            // 将指针指向下一个元素
+            cur = cur.next
+         }
+
+         // 查看结果
+         println(myList)
+       ```
 
 3. 序列
-   
+  
    常用的序列有：Vector 和 Range
    
    * Vector 是 ArrayBuffer 的不可变版本，是一个带下标的序列
@@ -1103,24 +1094,24 @@ t2.productIterator.foreach(println)
      v.updated(2, 100)
      ```
    
-   . Range 表示一个整数序列
+   * Range 表示一个整数序列
    
-   ```scala
-     // Range: 有序的通过空格分割的 Int 序列
-     // 一下几个列子 Range 是一样
-     println("第一种写法：" + Range(0, 5))
-     println("第二种写法：" + (0 until 5))
-     println("第三种写法：" + (0 to 4))
-   
-     // 两个range可以相加
-     ('0' to '9') ++ ('A' to 'Z')
-   
-     // 可以将Range转换为List
-     1 to 5 toList
-   ```
+       ```scala
+         // Range: 有序的通过空格分割的 Int 序列
+         // 一下几个列子 Range 是一样
+         println("第一种写法：" + Range(0, 5))
+         println("第二种写法：" + (0 until 5))
+         println("第三种写法：" + (0 to 4))
+
+         // 两个range可以相加
+         ('0' to '9') ++ ('A' to 'Z')
+
+         // 可以将Range转换为List
+         1 to 5 toList
+       ```
 
 4. 集（set）和集的操作
-   
+  
    * 集 Set 是不重复元素的集合
    
    * 和列表不同，集并不保留元素插入的顺序。默认以 Hash 集实现
@@ -1160,7 +1151,7 @@ t2.productIterator.foreach(println)
      ```
 
 5. 模式匹配
-   
+  
    Scala 有一个强大的模式匹配机制，可以应用在很多场合：
    
    * switch语句
@@ -1185,71 +1176,71 @@ t2.productIterator.foreach(println)
      println(sign)
      ```
    
-   . Scala 的守卫
+   * Scala 的守卫
    
-   ```scala
-     // Scala的守卫：匹配某种类型的所有值
-     var ch2 = '6'
-     var digit: Int = -1
-     ch2 match {
-         case '+' => println("这是一个+")
-         case '-' => println("这是一个-")
-         case _ if Character.isDigit(ch2) => digit = Character.digit(ch2, 10)
-         case _ => println("其他类型")
-     }
-     println("Digit: " + digit)
-   ```
+       ```scala
+         // Scala的守卫：匹配某种类型的所有值
+         var ch2 = '6'
+         var digit: Int = -1
+         ch2 match {
+             case '+' => println("这是一个+")
+             case '-' => println("这是一个-")
+             case _ if Character.isDigit(ch2) => digit = Character.digit(ch2, 10)
+             case _ => println("其他类型")
+         }
+         println("Digit: " + digit)
+       ```
    
-   . 模式匹配中的变量
+   * 模式匹配中的变量
    
-   ```scala
-     // 模式匹配中的变量
-     var str3 = "Hello World"
-     str3(7) match {
-         case '+' => println("这是一个+")
-         case '-' => println("这是一个-")
-         case ch => println("这个字符是：" + ch)
-     }
-   ```
+       ```scala
+         // 模式匹配中的变量
+         var str3 = "Hello World"
+         str3(7) match {
+             case '+' => println("这是一个+")
+             case '-' => println("这是一个-")
+             case ch => println("这个字符是：" + ch)
+         }
+       ```
    
-   . 类型模式
+   * 类型模式
    
-   ```scala
-     // 类型模式
-     var v4: Any = 100
-     v4 match {
-         case x: Int => println("这是一个整数：" + x)
-         case s: String => println("这是一个字符串：" + s)
-         case _ => println("其他类型")
-     }
-   ```
+       ```scala
+         // 类型模式
+         var v4: Any = 100
+         v4 match {
+             case x: Int => println("这是一个整数：" + x)
+             case s: String => println("这是一个字符串：" + s)
+             case _ => println("其他类型")
+         }
+       ```
    
-   . 匹配数组和列表
+   * 匹配数组和列表
    
-   ```scala
-     // 匹配数组和列表
-     var myArray = Array(1,2,3)
-     myArray match {
-         case Array(0) => println("0")
-         case Array(x,y) => println("数组包含两个元素")
-         case Array(x,y,z) => println("数组包含三个元素")
-         case Array(x, _*) => println("这是一个数组")
-     }
-     // 最后的这个表示，数组包含任意个元素，即：default的匹配
-   ```
+       ```scala
+         // 匹配数组和列表
+         var myArray = Array(1,2,3)
+         myArray match {
+             case Array(0) => println("0")
+             case Array(x,y) => println("数组包含两个元素")
+             case Array(x,y,z) => println("数组包含三个元素")
+             case Array(x, _*) => println("这是一个数组")
+         }
+         // 最后的这个表示，数组包含任意个元素，即：default的匹配
+       ```
    
-   ```scala
-     var myList = List(1,2,3)
-     myList match {
-         case List(0) println("0")
-         case List(x,y) => println("这个列表包含两个元素")
-         case List(x,y,z) => println("这是一个列表，包含三个元素")
-         case List(x, _*) => println("这个列表包含多个元素")
-     }
-   ```
+       ```scala
+         var myList = List(1,2,3)
+         myList match {
+             case List(0) println("0")
+             case List(x,y) => println("这个列表包含两个元素")
+             case List(x,y,z) => println("这是一个列表，包含三个元素")
+             case List(x, _*) => println("这个列表包含多个元素")
+         }
+       ```
 
 6. 样本类（CaseClass）
-   
+  
    简单的来说，Scala 的 case class 就是在普通的类定义前加 case 这个关键字，然后你可以对这些类来模式匹配。
    
    case class 带来的最大好处是它们支持模式识别。
@@ -1305,7 +1296,7 @@ t2.productIterator.foreach(println)
 ### （五）Scala语言的高级特性
 
 1. 什么是泛型类
-   
+  
    和 Java 或者 C++ 一样，类和特质可以带类型参数。在 Scala 中，使用方括号来定义类型参数。
    
    ```scala
@@ -1339,7 +1330,7 @@ t2.productIterator.foreach(println)
    ```
 
 2. 什么是泛型函数
-   
+  
    函数和方法也可以带类型参数。和泛型类一样，我们需要把类型参数放在方法名之后。注意：这里的 ClassTag 是必须的，表示运行时的一些信息，比如类型。
    
    ```scala
@@ -1359,14 +1350,14 @@ t2.productIterator.foreach(println)
    ```
 
 3. Upper Bounds 与 Lower Bounds
-   
+  
    类型的上界和下界，是用来定义类型变量的范围。它们的含义如下：
    
    * S <: T
      
      这是类型上界的定义。也就是 S 必须是 T 的子类（或本身，自己也可以认为是自己的子类。）
    
-   . U >: T
+   * U >: T
    
      这是类型的下界的定义。也就是 U 必须是类型 T 的父类（或本身）
    
@@ -1374,37 +1365,37 @@ t2.productIterator.foreach(println)
      
      ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/upbound.png)
      
-     . 一个复杂一点的例子（上界）：
+     * 一个复杂一点的例子（上界）：
      
-     ```scala
-     class Vehicle {
-         def drive() = {prinltn("Driving")}
-     }
-     
-     class Car extends Vehicle {
-         override def drive() = {println("Car Driving")}
-     }
-     
-     class Bicycle extends Vehicle {
-         override def drive() = {println("Bicycle Driving")}
-     }
-     
-     object ScalaUpperBounds {
-         // 定义方法
-         def takeVehicle[ T <: Vehicle](v: T) = {v.drive()}
-     
-         def main(args: Array[String]) {
-             var v: Vehicle = new Vehicle
-             takeVehicle(v)
-     
-             var c: Car = new Car
-             takeVehicle(c)
+         ```scala
+         class Vehicle {
+             def drive() = {prinltn("Driving")}
          }
-     }
-     ```
+
+         class Car extends Vehicle {
+             override def drive() = {println("Car Driving")}
+         }
+
+         class Bicycle extends Vehicle {
+             override def drive() = {println("Bicycle Driving")}
+         }
+
+         object ScalaUpperBounds {
+             // 定义方法
+             def takeVehicle[ T <: Vehicle](v: T) = {v.drive()}
+
+             def main(args: Array[String]) {
+                 var v: Vehicle = new Vehicle
+                 takeVehicle(v)
+
+                 var c: Car = new Car
+                 takeVehicle(c)
+             }
+         }
+         ```
 
 4. 视图界定（View bounds）
-   
+  
    它比 <: 适用的范围更加广泛，除了所有的子类型，还允许隐式转换过去的类型。用 <% 表示。尽量使用视图界定，来取代泛型的上界，因为适用的范围更加广泛。
    
    示例：
@@ -1413,13 +1404,13 @@ t2.productIterator.foreach(println)
      
      ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/viewbund.png)    
    
-   . 但是 100 和 200 是可以转换成字符串的，所以我们可以使用视图界定让 addTwoString 方法可以接受更为广泛的数据类型，即：字符串极其子类、可以转换成字符串的类型。
+   * 但是 100 和 200 是可以转换成字符串的，所以我们可以使用视图界定让 addTwoString 方法可以接受更为广泛的数据类型，即：字符串极其子类、可以转换成字符串的类型。
    
      注意：使用的是 <%
    
      ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/viewbb.png)
    
-   . 但实际运行的时候，会出现错误：
+   * 但实际运行的时候，会出现错误：
    
      ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/viewerr.png)
    
@@ -1434,7 +1425,7 @@ t2.productIterator.foreach(println)
      ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/viewsuccess.png)
 
 5. 协变和逆变
-   
+  
    * 协变：
      
      Scala 的类或特征的泛型定义中，如果在类型参数前面加入 + 符号，就可以使类或特征变为协变了。
@@ -1454,7 +1445,7 @@ t2.productIterator.foreach(println)
      Scala 的逆变：泛型变量的值可以是本身类型或者其父类的类型
 
 6. 隐式转换函数
-   
+  
    所谓隐式转换函数指的是以 implicit 关键字申明的带有单个参数的函数。
    
    * 前面介绍视图界定的时候的一个例子：
@@ -1466,13 +1457,13 @@ t2.productIterator.foreach(println)
      ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/monkey.png)
 
 7. 隐式参数
-   
+  
    使用 implicit 申明的函数参数叫做隐式参数。我们可以使用隐式参数实现隐式转换
    
    ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/yincan.png)
 
 8. 隐式类
-   
+  
    所谓隐式类：就是对类增加 implicit 限定的类，其作用主要是对类的功能加强。
    
    ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/add.png)
@@ -1480,7 +1471,7 @@ t2.productIterator.foreach(println)
 ### （六）Scala语法错误集锦
 
 1. 不用.调方法引起的错误：
-   
+  
    ```scala
     val dataFieldValue = dataFieldStr toInt
     if (dataFieldValue >= startParamFieldValue && dataFieldValue <= endParamFieldValue) {
