@@ -666,72 +666,63 @@ t2.productIterator.foreach(println)
        override def sayHello(): String = "子类中的sayHello方法"
      }
      ```
-   
-   . 案例三：使用匿名子类
-   
-   ```scala
+   * 案例三：使用匿名子类
+     
+     ```scala
      // 使用匿名子类来创建新的Person对象
-     var p3: Person = new Person("Jerry", 26) {
-       override def sayHello(): String = "匿名子类中的sayHello方法"
-     }
-     println(p3.sayHello())
-   ```
+      var p3: Person = new Person("Jerry", 26) {
+      override def sayHello(): String = "匿名子类中的sayHello方法"
+      }
+      println(p3.sayHello())
+     ```
    
-   . 案例四：使用抽象类。抽象类中包含抽象方法，抽象类只能用来继承。
-   
-   ```scala
+   * 案例四：使用抽象类。抽象类中包含抽象方法，抽象类只能用来继承。
+     
+     ```scala
      // Scala中的抽象类
-     // 父类： 抽象类
-     abstract class Vehicle {
-       // 定义抽象方法
-       def checkType(): String
-     }
+      // 父类： 抽象类
+      abstract class Vehicle {
+      // 定义抽象方法
+      def checkType(): String
+      }
+      // 子类
+      class Car extends Vehicle {
+      override def checkType(): String = "I am a car"
+      }
+      class Bysical extends Vehicle {
+      override def checkType(): String = "I am a bike"
+      }
+      object Demo2 {
+      def main(args: Array[String]): Unit = {
+      // 定义两个交通工具
+      var v1: Vehicle = new Car
+      println(v1.checkType())
+      var v2: Vehicle = new Bysical
+      println(v2.checkType())
+      }
+      }
+     ```
    
-     // 子类
-     class Car extends Vehicle {
-       override def checkType(): String = "I am a car"
-     }
-   
-     class Bysical extends Vehicle {
-       override def checkType(): String = "I am a bike"
-     }
-   
-     object Demo2 {
-       def main(args: Array[String]): Unit = {
-         // 定义两个交通工具
-         var v1: Vehicle = new Car
-         println(v1.checkType())
-   
-         var v2: Vehicle = new Bysical
-         println(v2.checkType())
-   
-       }
-     }
-   ```
-   
-   . 案例五：使用抽象字段。抽象字段就是个没有初始值的字段
-   
-   ```scala
+   * 案例五：使用抽象字段。抽象字段就是个没有初始值的字段
+     
+     ```scala
      // 抽象的父类
-     abstract class Person {
-       // 第一个抽象的字段，并且只有get方法
-       val id: Int
-   
-       // 另一个抽象的字段，并且有get和set方法
-       var name: String
-     }
-   
-     // 子类：应该提供抽象字段的初始值，否则该子类也应该是抽象的
-     abstract class Employee extends Person {
-     //  val id: Int = 1
-       var name: String = "no name"
-     }
-   
-     // 还有一个办法：我们可以定义个主构造器，接收一个id参数，注意名字要与父类中的名字一样。
-     class Employee2(val id: Int) extends Person {
-       var name: String = "no name"
-     }
-   ```
+      abstract class Person {
+      // 第一个抽象的字段，并且只有get方法
+      val id: Int
+      // 另一个抽象的字段，并且有get和set方法
+      var name: String
+      }
+      // 子类：应该提供抽象字段的初始值，否则该子类也应该是抽象的
+      abstract class Employee extends Person {
+      // val id: Int = 1
+      var name: String = "no name"
+      }
+      // 还有一个办法：我们可以定义个主构造器，接收一个id参数，注意名字要与父类中的名字一样。
+      class Employee2(val id: Int) extends Person {
+      var name: String = "no name"
+      }
+     ```
 
 9. Scala中的trit（特征）
    
@@ -789,55 +780,54 @@ t2.productIterator.foreach(println)
       }
       ```
     
-    . 读取字符：
-    
-    ```scala
+    * 读取字符：
+      
+      ```scala
       val source = Source.fromFile("d:/a.txt")
       for (c <- source) println(c)
-    ```
+      ```
     
-      其实这个 source 就指向了文件中的每个字符。
+            其实这个 source 就指向了文件中的每个字符。
     
-    . 从 URL 或其他源读取：注意指定字符集 UTF-8：
-    
-    ```scala
+    * 从 URL 或其他源读取：注意指定字符集 UTF-8：
+      
+      ```scala
       // 从 URL 或其他源读取：http://www.baidu.com
-      val source = scala.io.Source.fromURL("http://www.baidu.com", "UTF-8")
+       val source = scala.io.Source.fromURL("http://www.baidu.com", "UTF-8")
+       println(source.mkString)
+      ```
     
-      println(source.mkString)
-    ```
-    
-    . 读取二进制文件：Scala 中并不支持直接读取二进制，但可以通过调用 Java 的 InputStream 来进行读入。
-    
-    ```scala
+    * 读取二进制文件：Scala 中并不支持直接读取二进制，但可以通过调用 Java 的 InputStream 来进行读入。
+      
+      ```scala
       object Demo2 {
-        def main(args: Array[String]): Unit = {
-          // 读取二进制文件：Scala 并不支持直接读取二进制文件
-          var file = new File("d:/a.txt")
-          // 构造一个InputStream
-          val in = new FileInputStream(file)
-          // 构造一个buffer
-          val buffer = new Array[Byte](file.length().toInt)
-          // 读取
-          in.read(buffer)
-          // 关闭
-          in.close()
-        }
+       def main(args: Array[String]): Unit = {
+         // 读取二进制文件：Scala 并不支持直接读取二进制文件
+         var file = new File("d:/a.txt")
+         // 构造一个InputStream
+         val in = new FileInputStream(file)
+         // 构造一个buffer
+         val buffer = new Array[Byte](file.length().toInt)
+         // 读取
+         in.read(buffer)
+         // 关闭
+         in.close()
+       }
       }
-    ```
+      ```
     
-    . 写入文本文件：
-    
-    ```scala
+    * 写入文本文件：
+      
+      ```scala
       object Demo2 {
-        def main(args: Array[String]): Unit = {
-          // 写入文本文件
-          val out = new PrintWriter("d:/m.txt")
-          for (i <- 1 to 10) out.println(i)
-          out.close()
-        }
+         def main(args: Array[String]): Unit = {
+           // 写入文本文件
+           val out = new PrintWriter("d:/m.txt")
+           for (i <- 1 to 10) out.println(i)
+           out.close()
+         }
       }
-    ```
+      ```
 
 ### （三）Scala语言的函数式编程
 
@@ -1421,18 +1411,18 @@ t2.productIterator.foreach(println)
    
    * 上面写过的一个例子。这里由于 T 的上界是 String，当我们传递 100 和 200 的时候，就会出现类型不匹配。
      
-     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/viewbund.png)    
+     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/viewbund.png)    
    
    . 但是 100 和 200 是可以转换成字符串的，所以我们可以使用视图界定让 addTwoString 方法可以接受更为广泛的数据类型，即：字符串极其子类、可以转换成字符串的类型。
-     
+   
      注意：使用的是 <%
-     
+   
      ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/viewbb.png)
    
    . 但实际运行的时候，会出现错误：
-     
+   
      ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/28-Scala/imgs/viewerr.png)
-     
+   
      这是因为：Scala并没有定义如何将 Int 转换成 String 的规则，所以要使用视图界定，我们就必须创建转换规则。
    
    * 创建转换规则：
