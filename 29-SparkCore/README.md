@@ -126,7 +126,7 @@
 
      4. 观察 spark83 上的输出：
 
-        ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/29-SparkCore/imgs/arc2.png)
+        ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/29-SparkCore/imgs/spark83.png)
 
      5. 在 spark82 上重启 master：
 
