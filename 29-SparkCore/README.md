@@ -272,19 +272,23 @@
 
 ### （四）Spark运行机制及原理分析
 
+1. WordCount 执行的流程分析
 
+   ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/29-SparkCore/imgs/wc.png)
 
+2. Spark 提交任务的流程
 
+   ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/29-SparkCore/imgs/proc.png)
 
 ### （五）Spark的算子
 
-
-
-
-
-
-
-
+1. RDD 基础
+2. Transformation 算子
+3. Action 算子
+4. RDD 的缓存机制
+5. RDD 的容错机制
+6. RDD 的依赖关系和 Spark 任务中的 Stage
+7. RDD 基础练习
 
 ### （六）Spark RDD的高级算子
 
