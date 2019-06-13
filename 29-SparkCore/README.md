@@ -95,6 +95,76 @@
 
 3. Saprk HA的实现
 
+   * 基于文件系统的单点恢复
+
+     主要用于开发或测试环境。当 Spark 提供目录保存 spark Application 和 worker的注册信息，并将他们的恢复状态写入该目录中，这时，一旦 master 发生故障，就可以通过重新启动Master进程 `sbin/start-master.sh`，恢复已运行的 spark Application 和 worker 的注册信息。
+
+     基于文件系统的单点恢复，主要是在 spark-env.sh 里对 SPARK_DAEMON_JAVA_OPTS 设置：
+
+     |           配置参数           |                      参考值                      |
+     | :--------------------------: | :----------------------------------------------: |
+     |  spark.deploy.recoveryMode   | 设置为 FILESYSTEM 开启单点恢复功能，默认值：NONE |
+     | spark.deploy.recoryDirectory |             Spark 保存恢复状态的目录             |
+
+     参考：
+
+     ```shell
+     export SPARK_DAEMON_JAVA_OPTS="-Dspark.deploy.recoveryMode=FILESYSTEM -Dspark.recoveryDirectory=/root/training/spark-2.1.0-bin-hadoop2.7/recovery"
+     ```
+
+     测试：
+
+     1. 在 spark82 上启动 Spark 集群
+
+     2. 在 spark83 上启动 spark shell
+
+        `MASTER=spark://spark82:7077 spark-shell`
+
+     3. 在 spark82 上停止 master
+
+        `stop-master.sh`
+
+     4. 观察 spark83 上的输出：
+
+        ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/29-SparkCore/spark83/arc2.png)
+
+     5. 在 spark82 上重启 master：
+
+        `start-master.sh`
+
+   * 基于 Zookeeper 的 standBy Masters
+
+     ZooKeeper提供了一个Leader Election机制，利用这个机制可以保证虽然集群存在多个Master，但是只有一个是Active的，其他的都是Standby。当Active的Master出现故障时，另外的一个Standby Master会被选举出来。由于集群的信息，包括Worker， Driver和Application的信息都已经持久化到ZooKeeper，因此在切换的过程中只会影响新Job的提交，对于正在进行的Job没有任何的影响。加入ZooKeeper的集群整体架构如下图所示：
+
+     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/29-SparkCore/imgs/standalone.png)
+
+     |          配置参数          |                    参考值                     |
+     | :------------------------: | :-------------------------------------------: |
+     | spark.deploy.recoveryMode  | 设置为ZOOKEEPER开启单点恢复功能，默认值：NONE |
+     | spark.deploy.zookeeper.url |              ZooKeeper集群的地址              |
+     | spark.deploy.zookeeper.dir |    Spark信息在ZK中的保存目录，默认：/spark    |
+
+     参考：
+
+     ```shell
+     export SPARK_DAEMON_JAVA_OPTS="-Dspark.deploy.recoveryMode=ZOOKEEPER -Dspark.deploy.zookeeper.url=bigdata12:2181,bigdata13:2181,bigdata14:2181 -Dspark.deploy.zookeeper.dir=/spark"
+     ```
+
+     另外：每个节点需要将原来配置全分布环境的相关设置注释掉：
+
+     ```powershell
+     这两行注释掉
+     
+     # export SPARK_MASTER_HOST=spark82
+     # export SPARK_MASTER_PORT=7077
+     ```
+
+     Zookeeper中保存的信息：
+
+     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/29-SparkCore/imgs/sz.png)
+
+     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/29-SparkCore/imgs/active-standby.png)
+
 ### （三）执行Spark Demo程序
 
 
