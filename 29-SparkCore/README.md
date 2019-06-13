@@ -283,11 +283,27 @@
 ### （五）Spark的算子
 
 1. RDD 基础
+
+   * 什么是 RDD？
+
+     RDD（Resilient Distributed Dataset）叫做弹性分布式数据集，是 Spark 中最基本的数据抽象，它代表一个不可变、可分区、里面的元素可并行计算的集合。RDD 具有数据流模型的特点：自动容错、位置感知性调度和可伸缩性。RDD 允许用户在执行多个查询时显示的将工作集缓存在内存中，后续的查询能够重用工作集，这极大地提升了查询速度。
+
+   * RDD 的属性（源码中的一段话）
+
+     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/29-SparkCore/imgs/rdd.png)
+
+     * 
+
 2. Transformation 算子
+
 3. Action 算子
+
 4. RDD 的缓存机制
+
 5. RDD 的容错机制
+
 6. RDD 的依赖关系和 Spark 任务中的 Stage
+
 7. RDD 基础练习
 
 ### （六）Spark RDD的高级算子
