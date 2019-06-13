@@ -234,7 +234,41 @@
 
 3. 在IDEA 中编写 WordCount 程序
 
+   * 所需的pom依赖：
 
+     ```xml
+     <dependency>
+     	<groupId>org.apache.spark</groupId>
+     	<artifactId>spark-core_2.11</artifactId>
+     	<version>2.1.0</version>
+     </dependency>
+     ```
+
+   * IDEA 安装 scala 插件
+
+   * 创建maven工程
+
+   * 书写源代码，并打成 jar 包，上传到 Linux
+
+   * scala 版本：
+
+     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/29-SparkCore/imgs/sca.png)
+
+     运行程序：
+
+     ```shell
+     spark-submit --master spark://spark81:7077 --class mydemo.WordCount jars/wc.jar hdfs://192.168.88.111:9000/data/data.txt hdfs://192.168.88.111:9000/output/spark/wc
+     ```
+
+   * Java 版本（直接输出在屏幕上）：
+
+     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/29-SparkCore/imgs/jav.png)
+
+     运行程序：
+
+     ```shell
+     spark-submit --master spark://spark81:7077 --class mydemo.JavaWordCount jars/wc.jar hdfs://192.168.88.111:9000/data/data.txt
+     ```
 
 ### （四）Spark运行机制及原理分析
 
