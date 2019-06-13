@@ -52,15 +52,84 @@
 
 ### （二）Spark的体系结构与安装部署
 
+1. Spark集群的体系结构
+
+   * 官方的一张图：
+
+     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/29-SparkCore/imgs/arc1.png)
+
+   * 容易理解的一张图：
+
+     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/29-SparkCore/imgs/arc2.png)
+
+2. Spark的安装与部署
+
+   * Spark 的安装部署方式有以下几种模式：
+     * Standalone
+     * Yarn
+     * Apache Mesos
+     * Amazon EC2
+
+   * Spark Standalone 伪分布的部署：
+
+     * 配置文件：`conf/spark-env.sh`
+       * export JAVA_HOME=/root/training/jdk1.7.0_75
+       * export SPARK_MASTER_HOST=spark81
+       * export SPARK_MASTER_PORT=7077
+     * 配置文件：`conf/slave`
+       * spark81
+
+   * Spark Standalone全分布的部署：
+
+     * 配置文件：`conf/spark-env.sh`
+       * export JAVA_HOME=/root/training/jdk1.7.0_75
+       * export SPARK_MASTER_HOST=spark81
+       * export SPARK_MASTER_PORT=7077
+     * 配置文件：`conf/slave`
+       * spark83
+       * spark84
+
+   * 启动 Spark 集群：`start-all.sh`
+
+     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/29-SparkCore/imgs/startall.png)
+
+3. Saprk HA的实现
+
 ### （三）执行Spark Demo程序
+
+
+
+
 
 ### （四）Spark运行机制及原理分析
 
+
+
+
+
 ### （五）Spark的算子
+
+
+
+
+
+
+
+
 
 ### （六）Spark RDD的高级算子
 
+
+
+
+
+
+
 ### （七）Spark基础编程案例
+
+
+
+
 
 ### （八）一些问题
 
