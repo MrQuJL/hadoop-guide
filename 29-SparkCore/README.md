@@ -292,7 +292,31 @@
 
      ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/29-SparkCore/imgs/rdd.png)
 
-     * 
+     * **一组分区（Partition）**，即数据集的基本组成单位。对于 RDD 来说，每个分区都会被一个计算任务处理，并决定并行计算的粒度。用户可以在创建 RDD 时指定 RDD 的分区个数，如果没有指定，那么就会采用默认值。默认值就是程序所分配到的 CPU 核的数目。
+     * **一个计算每个分区的函数。**Spark 中 RDD 的计算是以分区为单位的，每个 RDD 都会实现 compute 函数以达到这个目的。compute 函数会对迭代器进行复合，不需要保存每次计算的结果。
+     *  **RDD之间的依赖关系**。RDD的每次转换都会生成一个新的RDD，所以RDD之间就会形成类似于流水线一样的前后依赖关系。在部分分区数据丢失时，Spark可以通过这个依赖关系重新计算丢失的分区数据，而不是对RDD的所有分区进行重新计算。
+     * **一个分区器（Partitioner），即 RDD 的分片函数**。当前Spark中实现了两种类型的分片函数，一个是基于哈希的HashPartitioner，另外一个是基于范围的RangePartitioner。只有对于于key-value的RDD，才会有Partitioner，非key-value的RDD的Parititioner的值是None。Partitioner函数不但决定了RDD本身的分片数量，也决定了parent RDD Shuffle输出时的分片数量。
+     * ² **一个列表**，存储存取每个Partition的优先位置（preferred location）。对于一个HDFS文件来说，这个列表保存的就是每个Partition所在的块的位置。按照“移动数据不如移动计算”的理念，Spark在进行任务调度的时候，会尽可能地将计算任务分配到其所要处理数据块的存储位置。
+
+   * RDD 的创建方式
+
+     * 通过外部的数据文件创建，如 HDFS
+
+       ```scala
+       val rdd1 = sc.textFile("hdfs://192.168.88.111:9000/data/data.txt")
+       ```
+
+     * 通过 sc.parallelize 进行创建：
+
+       ```scala
+       val rdd1 = sc.parallelize(Array(1,2,3,4,5,6,7,8))
+       ```
+
+     * RDD 的算子（其实就是调用的函数）的类型：Transformation 算子和 Action 算子
+
+   * RDD 的基本原理
+
+     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/29-SparkCore/imgs/rddpar.png)
 
 2. Transformation 算子
 
