@@ -167,7 +167,72 @@
 
 ### （三）执行Spark Demo程序
 
+1. 执行 Spark Example 程序
 
+   * 启动 spark 集群：`sbin/start-all.sh`
+
+   * 实例程序：`$SPARK_HOME/examples/jars/spark-examples_2.11-2.1.0.jar`
+
+   * 所有示例程序：`$SPARK_HOME/examples/src/main`，有 Java，python，Scala，R语言等各种版本
+
+   * Demo：蒙特卡罗求π
+
+     ```shell
+     spark-submit --master spark://spark81:7077 org.apache.spark.examples.SparkPi examples/jars/spark-examples_2.11-2.1.0.jar 100
+     ```
+
+2. 使用 Spark Shell
+
+   spark-shell是Spark自带的交互式Shell程序，方便用户进行交互式编程，用户可以在该命令行下用scala编写spark程序。
+
+   * 启动 Spark Shell：`spark-shell`
+
+     也可以使用以下参数：
+
+     参数说明：
+
+     ```shell
+     --master spark://spark81:7077 # 指定 master 的地址
+     --executor-memory 2g # 指定每个worker可用内存为2g
+     --total-executor-cores 2 # 指定整个集群使用的cpu核数为2个
+     ```
+
+     例如：
+
+     ```shell
+     spark-shell --master spark://spark81:7077 --executor-memory 2g --total-executor-cores 2
+     ```
+
+   * 注意：
+
+     如果启动spark shell时没有指定master地址，但是也可以正常启动spark shell和执行spark shell中的程序，其实是启动了spark的local模式，该模式仅在本机启动一个进程，没有与集群建立联系。
+
+     请注意local模式和集群模式的日志区别：
+
+     ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/29-SparkCore/imgs/diff.png)
+
+   * 在 Spark Shell 中编写 WordCount 程序
+
+     程序如下：
+
+     ```scala
+     sc.textFile("hdfs://192.168.88.111:9000/data/data.txt")
+       .flatMap(_.split(" "))
+       .map((_, 1))
+       .reduceByKey(_+_)
+       .saveAsTextFile("hdfs://192.168.88.111:9000/output/spark/wc")
+     ```
+
+     说明：
+
+     * `sc` 是 SparkContext 对象，该对象是提交 spark 程序的入口
+     * `textFile("hdfs://192.168.88.111:9000/data/data.txt")` 是 hdfds 中读取数据
+     * `flatMap(_.split(" "))` 先 map 在压平
+     * `map((_, 1))` 将单词和 1 构成元组
+     * `reduceByKey(_+_) ` 按照 key 进行 reduce，并将 value 累加
+     * `saveAsTextFile("hdfs://192.168.88.111:9000/output/spark/wc") `  将结果写入到 hdfs 中 
+
+3. 在IDEA 中编写 WordCount 程序
 
 
 
