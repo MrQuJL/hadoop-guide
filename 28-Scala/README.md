@@ -1471,7 +1471,7 @@ t2.productIterator.foreach(println)
 ### （六）Scala语法错误集锦
 
 1. 不用.调方法引起的错误：
-  
+
    ```scala
     val dataFieldValue = dataFieldStr toInt
     if (dataFieldValue >= startParamFieldValue && dataFieldValue <= endParamFieldValue) {
@@ -1480,16 +1480,16 @@ t2.productIterator.foreach(println)
       return false
     }
    ```
-   
+
     编译报错：
-   
+
    ```scala
     Error:(311, 7) illegal start of simple expression
           if (dataFieldValue >= startParamFieldValue && dataFieldValue <= endParamFieldValue) {
    ```
-   
+
     正确写法：
-   
+
    ```scala
     val dataFieldValue = dataFieldStr.toInt
     if (dataFieldValue >= startParamFieldValue && dataFieldValue <= endParamFieldValue) {
@@ -1498,3 +1498,19 @@ t2.productIterator.foreach(println)
       return false
     }
    ```
+
+2. scala 循环创建数字序列的几种方式：
+
+   ```scala
+   // 0-10
+   for (i <- 0 to 10) {
+       println(i)
+   }
+   
+   // 0-9
+   for (i <- 0 until 10) {
+       println(i)
+   }
+   ```
+
+   
