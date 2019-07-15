@@ -1513,4 +1513,6 @@ t2.productIterator.foreach(println)
    }
    ```
 
-   
+3. groupByKey 和 reduceByKey 的区别？
+
+   它们都有shuffle的过程，不同的是 reduceByKey 在 shuffle 前进行了合并，减少了 IO 传输，效率高。
