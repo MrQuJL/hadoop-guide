@@ -1516,3 +1516,25 @@ t2.productIterator.foreach(println)
 3. groupByKey 和 reduceByKey 的区别？
 
    它们都有shuffle的过程，不同的是 reduceByKey 在 shuffle 前进行了合并，减少了 IO 传输，效率高。
+
+4. scala 的 ++= 作用？
+
+   ```scala
+   val d = ArrayBuffer[Int]()
+   d += 9
+   
+   val m = ArrayBuffer[Int]()
+   m += 29
+   
+   m ++= d
+   
+   println(m) // ArrayBuffer(29, 9)
+   println(d) // ArrayBuffer(9)
+   
+   m -= 9
+   
+   println(m) // ArrayBuffer(29)
+   println(d) // ArrayBuffer(9)
+   ```
+
+   把一个集合中的数据全部复制到另一个集合中。而且是复制的对象，并不仅仅是复制引用。
