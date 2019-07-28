@@ -322,33 +322,36 @@
 
    RDD 中的所有转换都是延迟加载的，也就是说，它们并不会直接计算结果。相反，它们只是记住这些应用到基础数据集（例如一个文件）上的转换动作。只有当发生一个要求返回结果给 Driver 的动作时，这些转换才会真正运行。这种设计让 Spark 更加有效率的运行。
 
-   |             算子             |                             含义                             |
-   | :--------------------------: | :----------------------------------------------------------: |
-   |          map(func)           | 返回一个新的RDD，该RDD由每一个输入元素经过func函数转换后组成 |
-   |         filter(func)         | 返回一个新的RDD，该RDD由经过func函数计算后返回值为true的输入元素组成 |
-   |        flatMap(func)         | 类似于map，但是每一个输入元素可以被映射为0个或多个输出元素（所以func 应该返回一个序列，而不是单一元素） |
-   |     mapPartitions(func)      | 类似于map，但独立地在RDD的每一个分片上运行，因此在类型为 T 的 RDD 上运行时，func 的函数类型必须是 Iterator[T] => Iterator[U] |
-   | mapPartitionsWithIndex(func) |                                                              |
-   |                              |                                                              |
-   |                              |                                                              |
-   |                              |                                                              |
-   |                              |                                                              |
-   |                              |                                                              |
-   |                              |                                                              |
-   |                              |                                                              |
-   |                              |                                                              |
-   |                              |                                                              |
-   |                              |                                                              |
-   |                              |                                                              |
-   |                              |                                                              |
-   |                              |                                                              |
-   |                              |                                                              |
-   |                              |                                                              |
-   |                              |                                                              |
-
-   
+   |                  算子                   |                             含义                             |
+   | :-------------------------------------: | :----------------------------------------------------------: |
+   |                map(func)                | 返回一个新的RDD，该RDD由每一个输入元素经过func函数转换后组成 |
+   |              filter(func)               | 返回一个新的RDD，该RDD由经过func函数计算后返回值为true的输入元素组成 |
+   |              flatMap(func)              | 类似于map，但是每一个输入元素可以被映射为0个或多个输出元素（所以func 应该返回一个序列，而不是单一元素） |
+   |           mapPartitions(func)           | 类似于map，但独立地在RDD的每一个分片上运行，因此在类型为 T 的 RDD 上运行时，func 的函数类型必须是 Iterator[T] => Iterator[U] |
+   |      mapPartitionsWithIndex(func)       | 类似于mapPartitions，但func带有一个整数参数表示分片的索引值，因此在类型为T的RDD上运行时，func的函数类型必须是(Int, Interator[T]) => Iterator[U] |
+   | sample(withReplacement, fraction, seed) | 根据fraction指定的比例对数据进行采样，可以选择是否使用随机数进行替换，seed用于指定随机数生成器种子 |
+   |         union(otherDataset)         | 对源RDD和参数RDD求并集后返回一个新的RDD |
+   | intersection(otherDataset) | 对源RDD和参数RDD求交集后返回一个新的RDD |
+   | distinct([numTasks])) | 对源RDD进行去重后返回一个新的RDD |
+   | groupByKey([numTasks]) | 在一个(K,V)的RDD上调用，返回一个(K, Iterator[V])的RDD |
+   | reduceByKey(func, [numTasks]) | 在一个(K,V)的RDD上调用，返回一个(K,V)的RDD，使用指定的reduce函数，将相同key的值聚合到一起，与groupByKey类似，reduce任务的个数可以通过第二个可选的参数来设置 |
+   | sortByKey([ascending], [numTasks]) | 在一个(K,V)的RDD上调用，K必须实现Ordered接口，返回一个按照key进行排序的(K,V)的RDD |
+   | join(otherDataset, [numTasks]) | 在类型为(K,V)和(K,W)的RDD上调用，返回一个相同key对应的所有元素对在一起的(K,(V,W))的RDD |
+   | cogroup(otherDataset, [numTasks]) | 在类型为(K,V)和(K,W)的RDD上调用，返回一个(K,(Iterable\<V>,Iterable\<W>))类型的RDD |
 
 3. Action 算子
+
+   |                     动作                      |                             含义                             |
+   | :-------------------------------------------: | :----------------------------------------------------------: |
+   |                 reduce(func)                  | 通过func函数聚集RDD中的所有元素，这个功能必须是课交换且可并联的 |
+   |                   collect()                   |        在驱动程序中，以数组的形式返回数据集的所有元素        |
+   |                    count()                    |                      返回RDD的元素个数                       |
+   |                    first()                    |                     返回RDD的第一个元素                      |
+   |                    take(n)                    |            返回一个由数据集的前n个元素组成的数组             |
+   | takeSample(*withReplacement*,*num*, [*seed*]) | 返回一个数组，该数组由从数据集中随机采样的num个元素组成，可以选择是否用随机数替换不足的部分，seed用于指定随机数生成器种子 |
+   |          saveAsTextFile(*path*)           | 将数据集的元素以textfile的形式保存到HDFS文件系统或者其他支持的文件系统，对于每个元素，Spark将会调用toString方法，将它装换为文件中的文本 |
+   |               countByKey()                | 针对(K,V)类型的RDD，返回一个(K,Int)的map，表示每一个key对应的元素个数。 |
+   |              foreach(func)              |        在数据集的每一个元素上，运行函数func进行更新。        |
 
 4. RDD 的缓存机制
 
