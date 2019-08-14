@@ -355,6 +355,16 @@
 
 4. RDD 的缓存机制
 
+   RDD通过persist方法或cache方法可以将前面的计算结果缓存，但是并不是这两个方法被调用时立即缓存，而是触发后面的action时，该RDD将会被缓存在计算节点的内存中，并供后面重用。
+
+   ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/29-SparkCore/imgs/persit.png)
+
+   通过查看源码发现cache最终也是调用了persist方法，默认的存储级别都是仅在内存存储一份，Spark的存储级别还有好多种，存储级别在object StorageLevel中定义的。
+
+   ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/29-SparkCore/imgs/storeage.png)
+
+   缓存有可能丢失，或者存储存储于内存的数据由于内存不足而被删除，RDD的缓存容错机制保证了即使缓存丢失也能保证计算的正确执行。通过基于RDD的一系列转换，丢失的数据会被重算，由于RDD的各个Partition是相对独立的，因此只需要计算丢失的部分即可，并不需要重算全部Partition。
+
 5. RDD 的容错机制
 
 6. RDD 的依赖关系和 Spark 任务中的 Stage
