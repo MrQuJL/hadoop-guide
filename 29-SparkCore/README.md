@@ -371,6 +371,19 @@
 
 6. RDD 的依赖关系和 Spark 任务中的 Stage
 
+   * RDD 的依赖关系
+
+     * RDD 和它依赖的父 RDD（s）的关系有两种不同的类型，即窄依赖（narrow dependency）和宽依赖（wide dependency）。
+
+       ![image](https://github.com/MrQuJL/hadoop-guide/blob/master/29-SparkCore/imgs/depen.png)
+
+       * 窄依赖指的是每一个父 RDD 的 partition 最多被子 RDD 的一个 partition使用。
+       * 宽依赖指的是多个子 RDD 的partition 会依赖同一个父 RDD 的 partition。
+
+   * Spark 任务中的 Stage
+
+     DAG（DirectedAcydicGraph）叫做有向无环图，原始的 RDD 通过一系列的转换就行成了 DAG，根据 RDD 之间的依赖关系的不同将 DAG 划分成不同的 Stage，对于窄依赖，partition的转换处理在 Stage 中完成计算。对于宽依赖，由于有 shuffle 的存在，只能在 partitionRDD 处理完成后，才能开始接下来的计算，因此宽依赖是划分 Stage 的依据。
+
 7. RDD 基础练习
 
 ### （六）Spark RDD的高级算子
