@@ -140,5 +140,13 @@ HDFS 上的数据是位于磁盘上的，直接访问磁盘效率比较低，访
 
 
 
+喜欢在微信端阅读文章的同学可以关注我的微信公众号（曲健磊的个人随笔）：
+
+![image](https://github.com/MrQuJL/hadoop-guide/blob/master/01-大数据背景知识/imgs/wxgzh.jpg)
+
+
+
+
+
 
 
